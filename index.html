@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090e1b">
+<title>Crypto AI Pro</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090e1b;color:#fff;font-family:Arial,sans-serif;padding:18px}
+header{display:flex;justify-content:space-between;align-items:center}
+h1{font-size:23px;color:#58d9a5}
+small{color:#9ba8bb}
+.card{background:#151e30;border:1px solid #28354b;border-radius:14px;padding:16px;margin:15px 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.value{font-size:23px;font-weight:bold;margin-top:8px}
+button{background:#58d9a5;border:0;border-radius:9px;padding:12px;color:#07140f;font-weight:bold}
+input,select{background:#0b1424;color:white;border:1px solid #34445d;border-radius:8px;padding:12px;width:100%;margin:7px 0}
+table{width:100%;text-align:left;border-collapse:collapse}
+td,th{padding:12px 5px;border-bottom:1px solid #34445d;font-size:13px}
+.buy{color:#58d9a5}.sell{color:#ff737d}
+nav{display:flex;justify-content:space-around;margin-top:25px;color:#9ba8bb}
+</style>
+</head>
+<body>
+<header>
+<div><h1>CRYPTO AI PRO</h1><small>Smart Trading Dashboard</small></div>
+<div>🟢 DEMO</div>
+</header>
+
+<div class="card">
+<small>MARKET MONITOR</small>
+<h2>Binance Futures</h2>
+<p>Analysis timeframe: 15 minutes</p>
+<p>Mode: Paper trading</p>
+</div>
+
+<div class="stats">
+<div class="card"><small>BUY SIGNALS</small><div class="value buy" id="buys">0</div></div>
+<div class="card"><small>SELL SIGNALS</small><div class="value sell" id="sells">0</div></div>
+<div class="card"><small>DAILY PNL</small><div class="value" id="pnl">$0.00</div></div>
+<div class="card"><small>WIN RATE</small><div class="value">--</div></div>
+</div>
+
+<div class="card">
+<h3>🔎 Coin Scanner</h3>
+<small>Demo watchlist – not live market signals</small>
+<table>
+<thead><tr><th>COIN</th><th>PRICE</th><th>STATUS</th></tr></thead>
+<tbody>
+<tr><td>BTC/USDT</td><td>--</td><td>WAIT</td></tr>
+<tr><td>ETH/USDT</td><td>--</td><td>WAIT</td></tr>
+<tr><td>BNB/USDT</td><td>--</td><td>WAIT</td></tr>
+<tr><td>SOL/USDT</td><td>--</td><td>WAIT</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card">
+<h3>🎯 Trade Calculator</h3>
+<label>Entry Price</label>
+<input id="entry" type="number" placeholder="Enter entry price">
+<label>Stop Loss</label>
+<input id="stop" type="number" placeholder="Enter stop loss">
+<label>Take Profit</label>
+<input id="target" type="number" placeholder="Enter take profit">
+<label>Capital (USDT)</label>
+<input id="capital" type="number" placeholder="Enter capital">
+<label>Risk (%)</label>
+<input id="risk" type="number" value="1">
+<button onclick="calculate()">Calculate Trade</button>
+<p id="result">Your trade calculation will appear here.</p>
+</div>
+
+<div class="card">
+<h3>📊 Trading Analysis</h3>
+<p>Fibonacci: Pending</p>
+<p>Smart Money Concepts: Pending</p>
+<p>Order Blocks: Pending</p>
+<p>AI Confirmation: Not connected</p>
+</div>
+
+<nav><span>🏠 Home</span><span>📈 Signals</span><span>🎯 Trades</span><span>💰 PNL</span></nav>
+<script>
+function calculate(){
+let e=Number(document.getElementById('entry').value);
+let s=Number(document.getElementById('stop').value);
+let t=Number(document.getElementById('target').value);
+let c=Number(document.getElementById('capital').value);
+let r=Number(document.getElementById('risk').value);
+if(!e||!s||!t||!c||!r||e===s){
+document.getElementById('result').textContent='Please enter valid trade details.';
+return;
+}
+let riskAmount=c*r/100;
+let quantity=riskAmount/Math.abs(e-s);
+let reward=Math.abs(t-e)*quantity;
+let rr= Math.abs(t-e)/Math.abs(e-s);
+document.getElementById('result').innerHTML=
+'Risk amount: $'+riskAmount.toFixed(2)+
+'<br>Position quantity: '+quantity.toFixed(6)+
+'<br>Potential reward: $'+reward.toFixed(2)+
+'<br>Risk / Reward: 1:'+rr.toFixed(2);
+}
+</script>
+</body>
+</html>
