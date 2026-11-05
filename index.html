@@ -3,279 +3,362 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Crypto AI Pro</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:16px;background:#0b1020;color:#eef2ff;font-family:Arial,sans-serif}
-header{padding:18px 0}
-h1{margin:0;color:#65e6bd}
-h2{font-size:18px;margin-top:24px}
+body{margin:0;padding:15px;background:#0b1020;color:#eef2ff;font-family:Arial,sans-serif}
+h1{color:#65e6bd;margin-bottom:5px}
+h2{font-size:18px}
 p{color:#aab5ce;line-height:1.5}
-.panel{background:#151e33;border:1px solid #293653;border-radius:14px;padding:14px;margin:14px 0}
-button,input{padding:11px;border-radius:8px;border:1px solid #405174;background:#0d1629;color:white}
+.panel{background:#151e33;border:1px solid #293653;border-radius:13px;padding:14px;margin:14px 0}
+.small{font-size:12px;color:#aab5ce}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+input,button{padding:11px;border-radius:8px;border:1px solid #405174;background:#0d1629;color:white}
 button{background:#176b59;border:0;font-weight:bold}
-input{max-width:100%;width:130px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{text-align:left;padding:10px 6px;border-bottom:1px solid #293653}
+input{width:130px;max-width:100%}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td,th{text-align:left;padding:9px 6px;border-bottom:1px solid #293653;white-space:nowrap}
 th{color:#aab5ce}
 .green{color:#65e6bd}.red{color:#ff7777}.yellow{color:#ffd36a}
-.small{font-size:12px;color:#aab5ce}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.signal{font-weight:bold}
+details{padding:10px 0;border-bottom:1px solid #293653}
+summary{cursor:pointer;font-weight:bold}
+.tag{display:inline-block;background:#263653;padding:5px 8px;border-radius:6px;margin:3px;font-size:12px}
 #status{color:#ffd36a}
 </style>
 </head>
 <body>
-<header>
-<h1>Crypto AI Pro</h1>
-<p>Binance Futures market scanner · 15-minute analysis</p>
-<div id="status">Connecting to Binance...</div>
-</header>
+
+<h1>Crypto AI Pro 🚀</h1>
+<p>Binance USDT Futures · Advanced 15-minute analysis</p>
+<div id="status">Connecting...</div>
 
 <div class="panel">
 <h2>Market Scanner</h2>
 <div class="row">
-<input id="search" placeholder="Search coin e.g. BTC">
+<input id="search" placeholder="Search BTC, ETH...">
 <button onclick="refreshAll()">Refresh</button>
 </div>
-<p class="small">Top 40 eligible USDT perpetual pairs, ranked by 24-hour quote volume.</p>
+<p class="small">Top 40 eligible USDT perpetual pairs by 24-hour volume.</p>
 <div style="overflow-x:auto">
 <table>
-<thead><tr><th>Coin</th><th>Price (USDT)</th><th>24h change</th></tr></thead>
+<thead><tr><th>Coin</th><th>Price</th><th>24h change</th></tr></thead>
 <tbody id="market"><tr><td colspan="3">Loading...</td></tr></tbody>
 </table>
 </div>
 </div>
 
 <div class="panel">
-<h2>15-Minute Signals</h2>
-<p class="small">Rule-based analysis of the 12 highest-volume coins. EMA 20, EMA 50 and RSI 14.</p>
+<h2>Advanced 15-Minute Signals</h2>
+<p class="small">Uses closed candles. Signal score is a technical rule score, not a probability of profit.</p>
 <div style="overflow-x:auto">
 <table>
-<thead><tr><th>Coin</th><th>Signal</th><th>Entry</th><th>Stop</th><th>Target (2R)</th><th>RSI</th></tr></thead>
-<tbody id="signals"><tr><td colspan="6">Analysis starting...</td></tr></tbody>
+<thead>
+<tr><th>Coin</th><th>Signal</th><th>Score</th><th>Entry</th><th>Stop</th><th>TP1</th><th>TP2</th><th>TP3</th></tr>
+</thead>
+<tbody id="signals"><tr><td colspan="8">Waiting for analysis...</td></tr></tbody>
 </table>
 </div>
-<p class="small">BUY/SELL means the rules detected a possible setup. WAIT means the rules did not detect one. No signal guarantees a profitable trade.</p>
+<div id="analysis"></div>
 </div>
 
 <div class="panel">
 <h2>Risk Calculator</h2>
-<p>Estimate position size using your planned loss.</p>
 <div class="row">
-<label>Entry price <input id="entry" type="number" placeholder="100"></label>
-<label>Stop price <input id="stop" type="number" placeholder="98"></label>
-<label>Risk (USDT) <input id="risk" type="number" value="5"></label>
+<label>Entry <input id="entry" type="number" placeholder="100"></label>
+<label>Stop <input id="stop" type="number" placeholder="98"></label>
+<label>Risk USDT <input id="risk" type="number" value="1"></label>
 <button onclick="calculate()">Calculate</button>
 </div>
-<p id="calcResult">Enter your values to calculate.</p>
-<p class="small">This estimate excludes fees, funding, slippage, leverage, liquidation risk and contract-specific rules. It is not an order instruction.</p>
+<p id="calcResult">Enter values to calculate.</p>
+<p class="small">Estimate only. Excludes fees, funding, slippage, leverage, liquidation and contract quantity rules.</p>
 </div>
 
 <div class="panel">
-<h2>Important</h2>
-<p>This is an experimental market-analysis dashboard. It does not place trades, connect to your Binance account, or provide personalized financial advice. Test signals on paper before considering any real-money use.</p>
+<h2>Our six analysis tools</h2>
+<div class="tag">Support & Resistance</div>
+<div class="tag">Fibonacci</div>
+<div class="tag">RSI 14</div>
+<div class="tag">BOS / CHOCH</div>
+<div class="tag">FVG</div>
+<div class="tag">Order Blocks</div>
+<p class="small">These are approximate algorithmic interpretations of price action. They do not establish institutional activity or guarantee a reversal.</p>
+</div>
+
+<div class="panel">
+<h2>Important risk warning</h2>
+<p>BUY, SELL and WAIT are experimental rule-based signals. A score is not a win probability. Test the system with paper trades before considering real money. This app does not place orders.</p>
 </div>
 
 <script>
 const API="https://fapi.binance.com";
-let eligible=new Set();
-let marketData=[];
+let eligible=new Set(),marketData=[],latestResults=[];
 
 function fmt(n){
-  if(!Number.isFinite(n)) return "—";
-  return n>=1000?n.toFixed(2):n>=1?n.toFixed(4):n.toPrecision(5);
+ if(!Number.isFinite(n))return "—";
+ if(n>=1000)return n.toFixed(2);
+ if(n>=1)return n.toFixed(4);
+ return n.toPrecision(5);
 }
-
 async function getJSON(url){
-  const r=await fetch(url);
-  if(!r.ok) throw new Error("Binance returned HTTP "+r.status);
-  return r.json();
+ const r=await fetch(url);
+ if(!r.ok)throw new Error("Binance HTTP "+r.status);
+ return r.json();
 }
-
 async function loadMarket(){
-  const [info,tickers]=await Promise.all([
-    getJSON(API+"/fapi/v1/exchangeInfo"),
-    getJSON(API+"/fapi/v1/ticker/24hr")
-  ]);
-
-  eligible=new Set(info.symbols
-    .filter(s=>s.status==="TRADING" &&
-      s.contractType==="PERPETUAL" &&
-      s.quoteAsset==="USDT")
-    .map(s=>s.symbol));
-
-  marketData=tickers
-    .filter(t=>eligible.has(t.symbol))
-    .sort((a,b)=>Number(b.quoteVolume)-Number(a.quoteVolume))
-    .slice(0,40);
-
-  renderMarket();
+ const [info,tickers]=await Promise.all([
+  getJSON(API+"/fapi/v1/exchangeInfo"),
+  getJSON(API+"/fapi/v1/ticker/24hr")
+ ]);
+ eligible=new Set(info.symbols.filter(s=>
+  s.status==="TRADING"&&s.contractType==="PERPETUAL"&&s.quoteAsset==="USDT"
+ ).map(s=>s.symbol));
+ marketData=tickers.filter(t=>eligible.has(t.symbol))
+  .sort((a,b)=>Number(b.quoteVolume)-Number(a.quoteVolume)).slice(0,40);
+ renderMarket();
 }
-
 function renderMarket(){
-  const q=document.getElementById("search").value.trim().toUpperCase();
-  const rows=marketData.filter(t=>t.symbol.includes(q));
-  const body=document.getElementById("market");
-  body.replaceChildren();
-
-  rows.forEach(t=>{
-    const tr=document.createElement("tr");
-    const coin=document.createElement("td");
-    const price=document.createElement("td");
-    const change=document.createElement("td");
-    coin.textContent=t.symbol;
-    price.textContent=fmt(Number(t.lastPrice));
-    const pct=Number(t.priceChangePercent);
-    change.textContent=pct.toFixed(2)+"%";
-    change.className=pct>=0?"green":"red";
-    tr.append(coin,price,change);
-    body.appendChild(tr);
-  });
+ const q=document.getElementById("search").value.trim().toUpperCase();
+ const body=document.getElementById("market");
+ body.replaceChildren();
+ marketData.filter(t=>t.symbol.includes(q)).forEach(t=>{
+  const tr=document.createElement("tr");
+  const a=document.createElement("td"),b=document.createElement("td"),c=document.createElement("td");
+  a.textContent=t.symbol;b.textContent=fmt(Number(t.lastPrice));
+  const pct=Number(t.priceChangePercent);
+  c.textContent=pct.toFixed(2)+"%";c.className=pct>=0?"green":"red";
+  tr.append(a,b,c);body.appendChild(tr);
+ });
 }
 document.getElementById("search").addEventListener("input",renderMarket);
 
-function ema(values,period){
-  if(values.length<period) return NaN;
-  const k=2/(period+1);
-  let result=values.slice(0,period).reduce((a,b)=>a+b,0)/period;
-  for(let i=period;i<values.length;i++){
-    result=values[i]*k+result*(1-k);
+function ema(v,p){
+ if(v.length<p)return NaN;
+ const k=2/(p+1);
+ let x=v.slice(0,p).reduce((a,b)=>a+b,0)/p;
+ for(let i=p;i<v.length;i++)x=v[i]*k+x*(1-k);
+ return x;
+}
+function rsi(v,p=14){
+ if(v.length<=p)return NaN;
+ let g=0,l=0;
+ for(let i=1;i<=p;i++){
+  const d=v[i]-v[i-1];if(d>0)g+=d;else l-=d;
+ }
+ let ag=g/p,al=l/p;
+ for(let i=p+1;i<v.length;i++){
+  const d=v[i]-v[i-1];
+  ag=(ag*(p-1)+Math.max(d,0))/p;
+  al=(al*(p-1)+Math.max(-d,0))/p;
+ }
+ return al===0?100:100-100/(1+ag/al);
+}
+function roundPrice(x){
+ return Number.isFinite(x)?x:NaN;
+}
+function analyze(c){
+ const n=c.length;
+ const o=c.map(x=>Number(x[1]));
+ const h=c.map(x=>Number(x[2]));
+ const l=c.map(x=>Number(x[3]));
+ const v=c.map(x=>Number(x[4]));
+ const last=v[n-1],e20=ema(v,20),e50=ema(v,50),r=rsi(v);
+ const priorHigh=Math.max(...h.slice(-21,-1));
+ const priorLow=Math.min(...l.slice(-21,-1));
+ const swingHigh=Math.max(...h.slice(-40));
+ const swingLow=Math.min(...l.slice(-40));
+ const support=Math.min(...l.slice(-30));
+ const resistance=Math.max(...h.slice(-30));
+
+ // Fibonacci retracement of the recent 50-candle range.
+ const fibRange=swingHigh-swingLow;
+ const fib382=swingHigh-fibRange*.382;
+ const fib500=swingHigh-fibRange*.5;
+ const fib618=swingHigh-fibRange*.618;
+ const fib786=swingHigh-fibRange*.786;
+ const near=(a,b,pct=.006)=>Math.abs(a-b)/Math.max(Math.abs(b),1e-12)<pct;
+
+ // Structure break based on previous 20 candles.
+ const bullBOS=last>priorHigh;
+ const bearBOS=last<priorLow;
+ const oldUp=v[n-6]>v[n-16];
+ const oldDown=v[n-6]<v[n-16];
+ const bullCHOCH=oldDown&&last>priorHigh;
+ const bearCHOCH=oldUp&&last<priorLow;
+
+ // Three-candle fair value gap.
+ let bullFVG=false,bearFVG=false,fvgLow=NaN,fvgHigh=NaN;
+ for(let i=Math.max(2,n-12);i<n;i++){
+  if(l[i]>h[i-2]){
+   bullFVG=true;fvgLow=h[i-2];fvgHigh=l[i];
   }
-  return result;
+  if(h[i]<l[i-2]){
+   bearFVG=true;fvgLow=h[i];fvgHigh=l[i-2];
+  }
+ }
+
+ // Approximate order block: last opposite candle before a structure break.
+ let bullOB=false,bearOB=false,obLow=NaN,obHigh=NaN;
+ if(bullBOS||bullCHOCH){
+  for(let i=n-2;i>=Math.max(0,n-12);i--){
+   if(v[i]<o[i]){
+    bullOB=true;obLow=l[i];obHigh=h[i];break;
+   }
+  }
+ }
+ if(bearBOS||bearCHOCH){
+  for(let i=n-2;i>=Math.max(0,n-12);i--){
+   if(v[i]>o[i]){
+    bearOB=true;obLow=l[i];obHigh=h[i];break;
+   }
+  }
+ }
+
+ const fibBull=[fib382,fib500,fib618,fib786].some(x=>near(last,x));
+ const fibBear=fibBull;
+ const nearSupport=near(last,support,.008);
+ const nearResistance=near(last,resistance,.008);
+
+ let bull=0,bear=0;
+ if(e20>e50)bull++;
+ if(e20<e50)bear++;
+ if(last>e20)bull++;
+ if(last<e20)bear++;
+ if(r>=50&&r<=68)bull++;
+ if(r>=32&&r<=50)bear++;
+ if(bullBOS||bullCHOCH)bull++;
+ if(bearBOS||bearCHOCH)bear++;
+ if(fibBull)bull++;
+ if(fibBear)bear++;
+ if(bullFVG)bull++;
+ if(bearFVG)bear++;
+ if(bullOB)bull++;
+ if(bearOB)bear++;
+ if(nearSupport)bull++;
+ if(nearResistance)bear++;
+
+ let signal="WAIT",stop=NaN,entry=last,score=Math.max(bull,bear);
+ // Conservative threshold. Conflicting trend/structure signals remain WAIT.
+ if(bull>=6&&e20>e50&&last>e20&&r>=50&&r<=68&&bull>bear){
+  signal="BUY";
+  stop=Math.min(swingLow, bullOB?obLow:swingLow);
+ }else if(bear>=6&&e20<e50&&last<e20&&r>=32&&r<=50&&bear>bull){
+  signal="SELL";
+  stop=Math.max(swingHigh,bearOB?obHigh:swingHigh);
+ }
+ const risk=signal==="BUY"?entry-stop:signal==="SELL"?stop-entry:NaN;
+ if(!(risk>0))signal="WAIT";
+ const tp1=signal==="BUY"?entry+1.5*risk:signal==="SELL"?entry-1.5*risk:NaN;
+ const tp2=signal==="BUY"?entry+2*risk:signal==="SELL"?entry-2*risk:NaN;
+ const tp3=signal==="BUY"?entry+3*risk:signal==="SELL"?entry-3*risk:NaN;
+
+ return {signal,score,bull,bear,entry,stop,tp1,tp2,tp3,r,
+  support,resistance,fib382,fib500,fib618,fib786,
+  structure:bullCHOCH?"Bullish CHOCH":bearCHOCH?"Bearish CHOCH":
+   bullBOS?"Bullish BOS":bearBOS?"Bearish BOS":"No confirmed break",
+  fvg:bullFVG?"Bullish FVG":bearFVG?"Bearish FVG":"No recent FVG",
+  ob:bullOB?"Bullish order block":bearOB?"Bearish order block":"No recent order block",
+  nearSupport,nearResistance,fibBull
+ };
 }
 
-function rsi(values,period=14){
-  if(values.length<=period) return NaN;
-  let gains=0,losses=0;
-  for(let i=1;i<=period;i++){
-    const d=values[i]-values[i-1];
-    if(d>0) gains+=d;
-    else losses-=d;
-  }
-  let avgGain=gains/period;
-  let avgLoss=losses/period;
-  for(let i=period+1;i<values.length;i++){
-    const d=values[i]-values[i-1];
-    avgGain=(avgGain*(period-1)+Math.max(d,0))/period;
-    avgLoss=(avgLoss*(period-1)+Math.max(-d,0))/period;
-  }
-  if(avgLoss===0) return 100;
-  return 100-(100/(1+avgGain/avgLoss));
+function addCell(tr,value,cls){
+ const td=document.createElement("td");td.textContent=value;
+ if(cls)td.className=cls;tr.appendChild(td);
 }
+function renderResults(results){
+ const body=document.getElementById("signals");
+ const detail=document.getElementById("analysis");
+ body.replaceChildren();detail.replaceChildren();
+ results.forEach(x=>{
+  const tr=document.createElement("tr");
+  addCell(tr,x.symbol);
+  addCell(tr,x.signal,x.signal==="BUY"?"green":x.signal==="SELL"?"red":"yellow");
+  addCell(tr,x.score+"/15");
+  addCell(tr,fmt(x.entry));
+  addCell(tr,x.signal==="WAIT"?"—":fmt(x.stop));
+  addCell(tr,x.signal==="WAIT"?"—":fmt(x.tp1));
+  addCell(tr,x.signal==="WAIT"?"—":fmt(x.tp2));
+  addCell(tr,x.signal==="WAIT"?"—":fmt(x.tp3));
+  body.appendChild(tr);
 
-async function analyzeCoin(symbol){
-  const candles=await getJSON(
-    API+"/fapi/v1/klines?symbol="+encodeURIComponent(symbol)+
-    "&interval=15m&limit=100"
-  );
-
-  // Exclude the latest candle because it may still be forming.
-  const closed=candles.slice(0,-1);
-  const closes=closed.map(c=>Number(c[4]));
-  const highs=closed.map(c=>Number(c[2]));
-  const lows=closed.map(c=>Number(c[3]));
-
-  const e20=ema(closes,20);
-  const e50=ema(closes,50);
-  const momentum=rsi(closes,14);
-  const last=closes[closes.length-1];
-
-  const recentLow=Math.min(...lows.slice(-10));
-  const recentHigh=Math.max(...highs.slice(-10));
-
-  let signal="WAIT",stop=NaN,target=NaN;
-  if(e20>e50 && last>e20 && momentum>=50 && momentum<=68){
-    signal="BUY";
-    stop=recentLow;
-    const risk=last-stop;
-    if(risk>0) target=last+2*risk;
-    else signal="WAIT";
-  } else if(e20<e50 && last<e20 && momentum>=32 && momentum<=50){
-    signal="SELL";
-    stop=recentHigh;
-    const risk=stop-last;
-    if(risk>0) target=last-2*risk;
-    else signal="WAIT";
-  }
-
-  return {symbol,signal,entry:last,stop,target,rsi:momentum};
-}
-
-function renderSignals(results){
-  const body=document.getElementById("signals");
-  body.replaceChildren();
-
-  results.forEach(x=>{
-    const tr=document.createElement("tr");
-    const values=[
-      x.symbol,x.signal,fmt(x.entry),
-      x.signal==="WAIT"?"—":fmt(x.stop),
-      x.signal==="WAIT"?"—":fmt(x.target),
-      Number.isFinite(x.rsi)?x.rsi.toFixed(1):"—"
-    ];
-    values.forEach((v,i)=>{
-      const td=document.createElement("td");
-      td.textContent=v;
-      if(i===1) td.className=x.signal==="BUY"?"green":x.signal==="SELL"?"red":"yellow";
-      tr.appendChild(td);
-    });
-    body.appendChild(tr);
-  });
+  const d=document.createElement("details");
+  const s=document.createElement("summary");
+  s.textContent=x.symbol+" — Analysis details";
+  const p=document.createElement("p");
+  p.textContent=
+   "RSI: "+x.r.toFixed(1)+
+   " | Bull score: "+x.bull+
+   " | Bear score: "+x.bear+
+   "\nSupport: "+fmt(x.support)+
+   " | Resistance: "+fmt(x.resistance)+
+   "\nFibonacci 38.2%: "+fmt(x.fib382)+
+   " | 50%: "+fmt(x.fib500)+
+   " | 61.8%: "+fmt(x.fib618)+
+   " | 78.6%: "+fmt(x.fib786)+
+   "\nStructure: "+x.structure+
+   "\nFVG: "+x.fvg+
+   "\nOrder block: "+x.ob+
+   "\nNear support: "+(x.nearSupport?"Yes":"No")+
+   " | Near resistance: "+(x.nearResistance?"Yes":"No")+
+   "\nFib confluence: "+(x.fibBull?"Yes":"No");
+  p.style.whiteSpace="pre-line";
+  d.append(s,p);detail.appendChild(d);
+ });
 }
 
 async function loadSignals(){
-  const top=marketData.slice(0,12);
-  const results=[];
-  const body=document.getElementById("signals");
-  body.innerHTML="<tr><td colspan='6'>Analyzing 15-minute candles...</td></tr>";
-
-  // Small batches to avoid sending too many requests at once.
-  for(let i=0;i<top.length;i+=3){
-    const batch=top.slice(i,i+3);
-    const done=await Promise.all(batch.map(async t=>{
-      try{return await analyzeCoin(t.symbol);}
-      catch(e){return {symbol:t.symbol,signal:"ERROR",entry:NaN,stop:NaN,target:NaN,rsi:NaN};}
-    }));
-    results.push(...done);
-    renderSignals(results);
-  }
+ const top=marketData.slice(0,12);
+ const results=[];
+ document.getElementById("signals").textContent="";
+ for(let i=0;i<top.length;i+=3){
+  const batch=top.slice(i,i+3);
+  const done=await Promise.all(batch.map(async t=>{
+   try{
+    const raw=await getJSON(API+"/fapi/v1/klines?symbol="+
+     encodeURIComponent(t.symbol)+"&interval=15m&limit=100");
+    // Remove the currently forming candle.
+    const closed=raw.slice(0,-1);
+    return {symbol:t.symbol,...analyze(closed)};
+   }catch(e){
+    return {symbol:t.symbol,signal:"ERROR",score:0,entry:NaN,stop:NaN,tp1:NaN,tp2:NaN,tp3:NaN};
+   }
+  }));
+  results.push(...done);
+  renderResults(results);
+ }
+ latestResults=results;
 }
 
 async function refreshAll(){
-  const status=document.getElementById("status");
-  status.textContent="Updating market data...";
-  try{
-    await loadMarket();
-    status.textContent="Market data loaded. Updating 15-minute analysis...";
-    await loadSignals();
-    status.textContent="Updated successfully. Prices and signals refresh periodically.";
-  }catch(e){
-    status.textContent="Connection error: "+e.message+". Try Refresh again.";
-  }
+ const status=document.getElementById("status");
+ status.textContent="Updating Binance data...";
+ try{
+  await loadMarket();
+  status.textContent="Market loaded. Calculating advanced signals...";
+  await loadSignals();
+  status.textContent="Updated. Analysis uses closed 15-minute candles.";
+ }catch(e){
+  status.textContent="Connection error: "+e.message+". Try Refresh.";
+ }
 }
-
 function calculate(){
-  const entry=Number(document.getElementById("entry").value);
-  const stop=Number(document.getElementById("stop").value);
-  const risk=Number(document.getElementById("risk").value);
-  const result=document.getElementById("calcResult");
-
-  if(!(entry>0) || !(stop>0) || !(risk>0) || entry===stop){
-    result.textContent="Please enter valid positive values. Entry and stop must differ.";
-    return;
-  }
-  const distance=Math.abs(entry-stop);
-  const quantity=risk/distance;
-  result.textContent="Estimated quantity: "+quantity.toFixed(6)+
-    " units. Estimated position value: "+(quantity*entry).toFixed(2)+
-    " USDT. Planned price-risk: "+risk.toFixed(2)+" USDT.";
+ const entry=Number(document.getElementById("entry").value);
+ const stop=Number(document.getElementById("stop").value);
+ const risk=Number(document.getElementById("risk").value);
+ const out=document.getElementById("calcResult");
+ if(!(entry>0)||!(stop>0)||!(risk>0)||entry===stop){
+  out.textContent="Enter valid positive values. Entry and stop must differ.";return;
+ }
+ const qty=risk/Math.abs(entry-stop);
+ out.textContent="Estimated quantity: "+qty.toFixed(6)+
+ " units | Estimated position value: "+(qty*entry).toFixed(2)+
+ " USDT | Planned price risk: "+risk.toFixed(2)+" USDT.";
 }
-
 refreshAll();
 setInterval(refreshAll,60000);
 </script>
 </body>
 </html>
+
 
