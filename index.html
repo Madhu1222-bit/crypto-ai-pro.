@@ -3,345 +3,393 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>Crypto AI Pro V2</title>
-
+<title>Crypto AI Pro V4</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;padding:16px;
- background:#0b1220;color:#eef3ff;
- font-family:Arial,sans-serif
-}
-header{text-align:center;margin:8px 0 20px}
-h1{margin:0;color:#60a5fa;font-size:27px}
-.sub{color:#94a3b8;font-size:12px;margin-top:7px}
-.panel{
- background:#131f32;border:1px solid #26364e;
- border-radius:14px;padding:14px;margin-bottom:14px
-}
-.top{
- display:flex;justify-content:space-between;
- align-items:center;gap:10px;flex-wrap:wrap
-}
-button{
- background:#2563eb;color:white;border:0;
- padding:12px 17px;border-radius:9px;
- font-weight:bold;font-size:14px
-}
+body{margin:0;padding:14px;background:#0b1220;color:#eef3ff;font-family:Arial,sans-serif}
+header{text-align:center;padding:15px 0}
+h1{margin:0;color:#60a5fa;font-size:26px}
+.sub,.small{font-size:12px;color:#94a3b8;line-height:1.6}
+.panel,.card{background:#131f32;border:1px solid #26364e;border-radius:13px;padding:14px;margin-bottom:12px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+button{background:#2563eb;color:white;border:0;border-radius:8px;padding:12px;font-weight:bold}
 button:disabled{opacity:.5}
-.status{font-size:12px;color:#94a3b8;margin-top:10px}
-.grid{
- display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:10px
-}
-.card{
- background:#131f32;border:1px solid #26364e;
- border-radius:13px;padding:13px;min-width:0
-}
-.coin{font-size:17px;font-weight:bold}
-.price{font-size:17px;margin:12px 0 5px;word-break:break-all}
-.signal{
- display:inline-block;padding:6px 10px;
- border-radius:7px;font-size:12px;font-weight:bold;
- background:#334155;color:#cbd5e1
-}
-.buy{background:#064e3b;color:#6ee7b7}
-.sell{background:#7f1d1d;color:#fca5a5}
-.wait{background:#334155;color:#cbd5e1}
-.detail{font-size:12px;color:#aebbd0;line-height:1.8;margin-top:10px}
-.detail b{color:#eef3ff}
-.good{color:#6ee7b7}
-.bad{color:#fca5a5}
-.small{font-size:11px;color:#94a3b8;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.stat{background:#0b1220;border-radius:9px;padding:12px 4px;text-align:center}
+.stat strong{display:block;font-size:21px}
+.stat span{font-size:10px;color:#94a3b8}
+.status{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
+#bar{height:5px;background:#26364e;border-radius:8px;margin-top:10px;overflow:hidden}
+#progress{height:100%;width:0;background:#3b82f6}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.card{margin:0;min-width:0;padding:12px}
+.coin{font-weight:bold;font-size:16px;word-break:break-word}
+.price{font-size:18px;margin:10px 0}
+.signal{display:inline-block;padding:6px 10px;border-radius:6px;font-weight:bold;font-size:12px}
+.BUY{background:#064e3b;color:#6ee7b7}
+.SELL{background:#7f1d1d;color:#fca5a5}
+.detail{font-size:11px;color:#b4c1d4;line-height:1.9;margin-top:9px}
+.detail b{color:white}
+.good{color:#6ee7b7!important}
+.bad{color:#fca5a5!important}
+h2{font-size:17px;margin:18px 0 10px}
+.empty{background:#131f32;border:1px dashed #394b65;padding:18px;border-radius:12px;text-align:center;color:#94a3b8;font-size:13px}
 footer{text-align:center;color:#64748b;font-size:11px;margin:20px 0}
-@media(max-width:360px){body{padding:10px}.grid{gap:7px}.card{padding:10px}}
+@media(max-width:360px){body{padding:9px}.grid{gap:6px}.card{padding:9px}}
 </style>
 </head>
-
 <body>
 
 <header>
 <h1>⚡ CRYPTO AI PRO</h1>
-<div class="sub">V2 • Binance USDT-M Futures • Low Risk Strategy</div>
+<div class="sub">V4 • LIVE ENTRY OPPORTUNITY SCANNER</div>
+<div class="small">BINANCE USDT PERPETUAL FUTURES</div>
 </header>
 
 <div class="panel">
  <div class="top">
   <div>
    <b>Market Scanner</b>
-   <div class="small">15m Entry + 1h Trend Confirmation</div>
+   <div class="small">15M entry • 1H trend confirmation</div>
   </div>
-  <button id="refresh" onclick="scan()">↻ SCAN NOW</button>
+  <button id="scanBtn" onclick="startScan()">↻ SCAN NOW</button>
  </div>
- <div class="status" id="status">Ready to scan Binance Futures...</div>
- <div class="status" id="updated">No scan completed yet</div>
+
+ <div class="status" id="status">Connecting to Binance...</div>
+ <div id="bar"><div id="progress"></div></div>
+
+ <div class="stats">
+  <div class="stat"><strong id="total">0</strong><span>SCANNED</span></div>
+  <div class="stat"><strong id="buyCount" class="good">0</strong><span>BUY</span></div>
+  <div class="stat"><strong id="sellCount" class="bad">0</strong><span>SELL</span></div>
+ </div>
+ <div class="status" id="nextScan">Next scan: calculating...</div>
+ <div class="status" id="lastScan">No completed scan yet</div>
 </div>
 
-<div class="panel">
- <div class="top">
-  <b>Signal Summary</b>
-  <span class="small">Closed candles only</span>
- </div>
- <div id="summary" class="detail">Waiting for market data...</div>
+<h2>🟢 BUY Opportunities</h2>
+<div class="grid" id="buyResults">
+ <div class="empty">Waiting for confirmed BUY setups...</div>
 </div>
 
-<div class="grid" id="coins"></div>
+<h2>🔴 SELL Opportunities</h2>
+<div class="grid" id="sellResults">
+ <div class="empty">Waiting for confirmed SELL setups...</div>
+</div>
 
-<div class="panel">
- <b>Strategy Rules</b>
+<div class="panel" style="margin-top:16px">
+ <b>Our V4 Strategy</b>
  <div class="detail">
+  • All eligible USDT perpetual contracts<br>
   • 1H EMA20 / EMA50 trend confirmation<br>
-  • 15M EMA20 / EMA50 confirmation<br>
+  • 15M EMA20 / EMA50 entry confirmation<br>
   • RSI 14 momentum filter<br>
   • Volume confirmation<br>
-  • ATR-based Stop Loss<br>
-  • Minimum 1:2 risk/reward target<br>
-  • No confirmation = WAIT
+  • ATR volatility filter<br>
+  • Stop Loss and Take Profit calculation<br>
+  • Minimum 1:2 risk/reward<br>
+  • WAIT signals hidden
  </div>
 </div>
 
 <footer>
-Educational signal scanner only. Not financial advice.
-No automatic orders. Futures trading can cause rapid losses.
+Educational scanner only. No guaranteed profits.<br>
+No API keys or automatic trading. Always verify entry prices.
 </footer>
 
 <script>
-const SYMBOLS = [
- "ETHUSDT","SOLUSDT","ZECUSDT","XRPUSDT",
- "HYPEUSDT","BNBUSDT","ADAUSDT","WLDUSDT",
- "AAVEUSDT","ELSAUSDT"
-];
+const BASE="https://fapi.binance.com";
+const INTERVAL=15*60*1000;
 
-const API = "https://fapi.binance.com/fapi/v1/klines";
-let scanning = false;
+let results=[];
+let busy=false;
+let totalPairs=0;
+let nextTimer=null;
 
-function ema(values, period){
- let k=2/(period+1);
- let result = values[0];
- for(let i=1;i<values.length;i++){
-  result=values[i]*k+result*(1-k);
+async function getJSON(url,attempt=0){
+ const r=await fetch(url);
+ if((r.status===429||r.status===418)&&attempt<3){
+  await new Promise(resolve=>setTimeout(resolve,2000*(attempt+1)));
+  return getJSON(url,attempt+1);
  }
- return result;
+ if(!r.ok)throw new Error("API "+r.status);
+ return r.json();
 }
 
-function rsi(values, period=14){
- let gains=0,losses=0;
- for(let i=values.length-period;i<values.length;i++){
-  let change=values[i]-values[i-1];
-  if(change>0) gains+=change;
-  else losses-=change;
- }
- let avgGain=gains/period;
- let avgLoss=losses/period;
- if(avgLoss===0) return 100;
- let rs=avgGain/avgLoss;
- return 100-(100/(1+rs));
+function ema(a,p){
+ if(a.length<p)throw new Error("Insufficient candles");
+ const k=2/(p+1);
+ let v=a.slice(0,p).reduce((x,y)=>x+y,0)/p;
+ for(let i=p;i<a.length;i++)v=a[i]*k+v*(1-k);
+ return v;
 }
 
-function atr(candles, period=14){
- let ranges=[];
- for(let i=1;i<candles.length;i++){
-  let c=candles[i],p=candles[i-1];
-  ranges.push(Math.max(
-   c.h-c.l,
-   Math.abs(c.h-p.c),
-   Math.abs(c.l-p.c)
+function rsi(a,p=14){
+ let gain=0,loss=0;
+ for(let i=a.length-p;i<a.length;i++){
+  const d=a[i]-a[i-1];
+  if(d>0)gain+=d;
+  else loss-=d;
+ }
+ if(loss===0)return 100;
+ return 100-100/(1+(gain/p)/(loss/p));
+}
+
+function atr(a,p=14){
+ let tr=[];
+ for(let i=1;i<a.length;i++){
+  tr.push(Math.max(
+   a[i].h-a[i].l,
+   Math.abs(a[i].h-a[i-1].c),
+   Math.abs(a[i].l-a[i-1].c)
   ));
  }
- return ranges.slice(-period).reduce((a,b)=>a+b,0)/period;
+ return tr.slice(-p).reduce((x,y)=>x+y,0)/p;
 }
 
-async function getCandles(symbol, interval){
- const url=`${API}?symbol=${symbol}&interval=${interval}&limit=100`;
- const response=await fetch(url);
- if(!response.ok) throw new Error("Market data unavailable");
- const raw=await response.json();
+async function candles(symbol,interval){
+ const raw=await getJSON(
+  BASE+"/fapi/v1/klines?symbol="+symbol+
+  "&interval="+interval+"&limit=100"
+ );
  if(!Array.isArray(raw)||raw.length<60)
-  throw new Error("Insufficient candles");
+  throw new Error("Insufficient data");
 
- // Remove the currently forming candle
+ // Exclude the currently forming candle
  return raw.slice(0,-1).map(x=>({
-  time:x[0],
-  o:Number(x[1]),
-  h:Number(x[2]),
-  l:Number(x[3]),
-  c:Number(x[4]),
-  v:Number(x[5])
+  o:+x[1],h:+x[2],l:+x[3],
+  c:+x[4],v:+x[5]
  }));
 }
 
-function analyze(fifteen, hourly){
- const closes=fifteen.map(x=>x.c);
- const hcloses=hourly.map(x=>x.c);
+function analyze(m15,h1){
+ const c=m15.map(x=>x.c);
+ const h=h1.map(x=>x.c);
 
- const price=closes.at(-1);
- const previous=closes.at(-2);
- const e20=ema(closes.slice(-60),20);
- const e50=ema(closes.slice(-80),50);
- const h20=ema(hcloses.slice(-60),20);
- const h50=ema(hcloses.slice(-80),50);
- const momentum=rsi(closes,14);
- const volatility=atr(fifteen,14);
+ const price=c[c.length-1];
+ const candle=m15[m15.length-1];
 
- const current=fifteen.at(-1);
- const averageVolume=fifteen.slice(-21,-1)
-  .reduce((sum,x)=>sum+x.v,0)/20;
- const volumeRatio=current.v/averageVolume;
- const atrPercent=(volatility/price)*100;
+ const e20=ema(c,20);
+ const e50=ema(c,50);
+ const he20=ema(h,20);
+ const he50=ema(h,50);
 
- const bullishTrend=h20>h50;
- const bearishTrend=h20<h50;
- const bullishEntry=e20>e50 && price>e20 &&
-  current.c>current.o && price>previous;
- const bearishEntry=e20<e50 && price<e20 &&
-  current.c<current.o && price<previous;
+ const momentum=rsi(c,14);
+ const volatility=atr(m15,14);
+ const atrPercent=100*volatility/price;
+
+ const averageVolume=m15.slice(-21,-1)
+  .reduce((s,x)=>s+x.v,0)/20;
+ const volumeRatio=averageVolume>0?
+  candle.v/averageVolume:0;
+
+ const bullTrend=he20>he50 && h[h.length-1]>he20;
+ const bearTrend=he20<he50 && h[h.length-1]<he20;
+
+ const bullEntry=e20>e50 &&
+  price>e20 && candle.c>candle.o;
+
+ const bearEntry=e20<e50 &&
+  price<e20 && candle.c<candle.o;
 
  const volumeOK=volumeRatio>=1.15;
  const volatilityOK=atrPercent>=0.10 && atrPercent<=4;
 
+ const bullRSI=momentum>=52 && momentum<=68;
+ const bearRSI=momentum>=32 && momentum<=48;
+
+ let buyScore=0,sellScore=0;
+
+ if(bullTrend)buyScore+=25;
+ if(bullEntry)buyScore+=25;
+ if(bullRSI)buyScore+=20;
+ if(volumeOK)buyScore+=15;
+ if(volatilityOK)buyScore+=15;
+
+ if(bearTrend)sellScore+=25;
+ if(bearEntry)sellScore+=25;
+ if(bearRSI)sellScore+=20;
+ if(volumeOK)sellScore+=15;
+ if(volatilityOK)sellScore+=15;
+
  let signal="WAIT";
- let reason="Waiting for stronger confirmation";
+ let score=Math.max(buyScore,sellScore);
  let entry=null,sl=null,tp=null;
 
- if(bullishTrend && bullishEntry &&
-    momentum>=52 && momentum<=68 &&
-    volumeOK && volatilityOK){
-
+ if(buyScore>=85 && bullTrend && bullEntry &&
+    bullRSI && volumeOK && volatilityOK){
   signal="BUY";
-  reason="1H bullish + 15M momentum confirmed";
+  score=buyScore;
   entry=price;
-  sl=entry-(1.5*volatility);
-  tp=entry+(3*volatility);
+  sl=entry-1.5*volatility;
+  tp=entry+3*volatility;
+ }
 
- }else if(bearishTrend && bearishEntry &&
-    momentum>=32 && momentum<=48 &&
-    volumeOK && volatilityOK){
-
+ else if(sellScore>=85 && bearTrend && bearEntry &&
+    bearRSI && volumeOK && volatilityOK){
   signal="SELL";
-  reason="1H bearish + 15M momentum confirmed";
+  score=sellScore;
   entry=price;
-  sl=entry+(1.5*volatility);
-  tp=entry-(3*volatility);
+  sl=entry+1.5*volatility;
+  tp=entry-3*volatility;
  }
 
  return {
-  signal,reason,price,entry,sl,tp,
-  rsi:momentum,
-  volume:volumeRatio,
-  atr:atrPercent,
-  trend:bullishTrend?"BULLISH":
-        bearishTrend?"BEARISH":"MIXED"
+  signal,score,price,entry,sl,tp,
+  rsi:momentum,volume:volumeRatio,
+  atr:atrPercent
  };
 }
 
 function fmt(n){
- if(n===null||n===undefined) return "—";
+ if(n===null||n===undefined)return "—";
  return Number(n).toLocaleString("en-US",{
   maximumFractionDigits:6
  });
 }
 
-function render(symbol,data){
- const card=document.createElement("div");
- card.className="card";
-
- if(data.error){
-  card.innerHTML=`
-   <div class="coin">${symbol}</div>
-   <div style="margin-top:12px" class="signal wait">UNAVAILABLE</div>
-   <div class="detail">${data.error}</div>`;
-  return card;
- }
-
- const cls=data.signal.toLowerCase();
- card.innerHTML=`
-  <div class="coin">${symbol.replace("USDT","")} / USDT</div>
-  <div class="price">${fmt(data.price)}</div>
-  <span class="signal ${cls}">${data.signal}</span>
-
+function makeCard(item){
+ const d=item.data;
+ return `
+ <div class="card">
+  <div class="coin">${item.symbol}</div>
+  <div class="price">${fmt(d.price)}</div>
+  <span class="signal ${d.signal}">${d.signal}</span>
   <div class="detail">
-   Trend: <b>${data.trend}</b><br>
-   RSI: <b>${fmt(data.rsi)}</b><br>
-   Volume: <b>${fmt(data.volume)}x</b><br>
-   ATR: <b>${fmt(data.atr)}%</b><br>
+   Signal strength: <b>${d.score}/100</b><br>
+   RSI: <b>${fmt(d.rsi)}</b><br>
+   Volume: <b>${fmt(d.volume)}x</b><br>
+   ATR: <b>${fmt(d.atr)}%</b>
    <hr style="border-color:#26364e">
-   Entry: <b>${fmt(data.entry)}</b><br>
-   Stop Loss: <b class="bad">${fmt(data.sl)}</b><br>
-   Take Profit: <b class="good">${fmt(data.tp)}</b><br>
-   <span class="small">${data.reason}</span>
-  </div>`;
- return card;
+   Entry: <b>${fmt(d.entry)}</b><br>
+   Stop Loss: <b class="bad">${fmt(d.sl)}</b><br>
+   Take Profit: <b class="good">${fmt(d.tp)}</b>
+  </div>
+ </div>`;
 }
 
-async function scan(){
- if(scanning)return;
- scanning=true;
- const button=document.getElementById("refresh");
- button.disabled=true;
- button.textContent="SCANNING...";
- document.getElementById("status").textContent=
-  "Getting Binance Futures market data...";
+function showResults(){
+ const buys=results.filter(x=>!x.error&&x.data.signal==="BUY");
+ const sells=results.filter(x=>!x.error&&x.data.signal==="SELL");
 
- const container=document.getElementById("coins");
- container.innerHTML="";
- let results=[];
+ document.getElementById("buyCount").textContent=buys.length;
+ document.getElementById("sellCount").textContent=sells.length;
+
+ document.getElementById("buyResults").innerHTML=
+  buys.length?buys.map(makeCard).join(""):
+  '<div class="empty">No confirmed BUY opportunities right now.</div>';
+
+ document.getElementById("sellResults").innerHTML=
+  sells.length?sells.map(makeCard).join(""):
+  '<div class="empty">No confirmed SELL opportunities right now.</div>';
+}
+
+async function scanOne(symbol){
+ try{
+  const [m15,h1]=await Promise.all([
+   candles(symbol,"15m"),
+   candles(symbol,"1h")
+  ]);
+  const data=analyze(m15,h1);
+  if(data.signal==="WAIT")return null;
+  return {symbol,data};
+ }catch(e){
+  return {symbol,error:true};
+ }
+}
+
+async function startScan(){
+ if(busy)return;
+ busy=true;
+
+ const btn=document.getElementById("scanBtn");
+ btn.disabled=true;
+ btn.textContent="SCANNING...";
+ results=[];
+
+ document.getElementById("buyResults").innerHTML=
+  '<div class="empty">Scanning...</div>';
+ document.getElementById("sellResults").innerHTML=
+  '<div class="empty">Scanning...</div>';
+ document.getElementById("progress").style.width="0%";
 
  try{
-  for(let i=0;i<SYMBOLS.length;i++){
-   const symbol=SYMBOLS[i];
-   document.getElementById("status").textContent=
-    `Analyzing ${symbol} (${i+1}/${SYMBOLS.length})...`;
+  document.getElementById("status").textContent=
+   "Discovering Binance Futures contracts...";
 
-   try{
-    const [m15,h1]=await Promise.all([
-     getCandles(symbol,"15m"),
-     getCandles(symbol,"1h")
-    ]);
-    const data=analyze(m15,h1);
-    results.push({symbol,data});
-   }catch(error){
-    results.push({
-     symbol,
-     data:{error:error.message}
-    });
+  const info=await getJSON(BASE+"/fapi/v1/exchangeInfo");
+
+  const symbols=info.symbols.filter(s=>
+   s.status==="TRADING" &&
+   s.contractType==="PERPETUAL" &&
+   s.quoteAsset==="USDT"
+  ).map(s=>s.symbol);
+
+  totalPairs=symbols.length;
+  document.getElementById("total").textContent=totalPairs;
+
+  let index=0,done=0,errors=0;
+  const workers=Array.from({length:5},async()=>{
+   while(index<symbols.length){
+    const symbol=symbols[index++];
+    const result=await scanOne(symbol);
+    done++;
+
+    if(result){
+     if(result.error)errors++;
+     else results.push(result);
+    }
+
+    document.getElementById("progress").style.width=
+     (100*done/symbols.length)+"%";
+
+    document.getElementById("status").textContent=
+     "Analyzed "+done+" / "+symbols.length+
+     " contracts • Errors: "+errors;
    }
+  });
 
-   container.appendChild(
-    render(symbol,results[results.length-1].data)
-   );
-  }
+  await Promise.all(workers);
 
-  const valid=results.filter(x=>!x.data.error);
-  const buys=valid.filter(x=>x.data.signal==="BUY").length;
-  const sells=valid.filter(x=>x.data.signal==="SELL").length;
-  const waits=valid.filter(x=>x.data.signal==="WAIT").length;
-  const unavailable=results.length-valid.length;
+  results.sort((a,b)=>b.data.score-a.data.score);
+  showResults();
 
-  document.getElementById("summary").innerHTML=`
-   <span class="good">BUY: ${buys}</span> &nbsp; 
-   <span class="bad">SELL: ${sells}</span> &nbsp;
-   WAIT: ${waits}<br>
-   Unavailable: ${unavailable} / ${SYMBOLS.length}
-  `;
+  document.getElementById("lastScan").textContent=
+   "Last completed scan: "+new Date().toLocaleString();
 
   document.getElementById("status").textContent=
-   "Scan completed. Check each signal before considering a trade.";
-  document.getElementById("updated").textContent=
-   "Last update: "+new Date().toLocaleString();
+   "Scan complete. "+results.length+
+   " confirmed setups found. "+errors+" data errors.";
 
- }catch(error){
+ }catch(e){
   document.getElementById("status").textContent=
-   "Connection problem. Please try again.";
+   "Connection error: "+e.message;
  }finally{
-  scanning=false;
-  button.disabled=false;
-  button.textContent="↻ SCAN NOW";
+  busy=false;
+  btn.disabled=false;
+  btn.textContent="↻ SCAN NOW";
  }
 }
 
-scan();
+function scheduleNextScan(){
+ if(nextTimer)clearTimeout(nextTimer);
+
+ const now=Date.now();
+ const next=(Math.floor(now/INTERVAL)+1)*INTERVAL+3000;
+ const delay=next-now;
+
+ document.getElementById("nextScan").textContent=
+  "Next scheduled scan: "+new Date(next).toLocaleTimeString();
+
+ nextTimer=setTimeout(async()=>{
+  if(!busy)await startScan();
+  scheduleNextScan();
+ },delay);
+}
+
+startScan().then(scheduleNextScan);
 </script>
 </body>
 </html>
