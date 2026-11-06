@@ -5,29 +5,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>Crypto AI Pro V4</title>
+<title>Crypto AI Pro V5</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:14px;background:#0b1220;color:#eef3ff;font-family:Arial,sans-serif}
+body{
+ margin:0;padding:14px;background:#0b1220;
+ color:#eef3ff;font-family:Arial,sans-serif
+}
 header{text-align:center;padding:15px 0}
 h1{margin:0;color:#60a5fa;font-size:26px}
 .sub,.small{font-size:12px;color:#94a3b8;line-height:1.6}
-.panel,.card{background:#131f32;border:1px solid #26364e;border-radius:13px;padding:14px;margin-bottom:12px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-button{background:#2563eb;color:white;border:0;border-radius:8px;padding:12px;font-weight:bold}
+.panel,.card{
+ background:#131f32;border:1px solid #26364e;
+ border-radius:13px;padding:14px;margin-bottom:12px
+}
+.top{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;flex-wrap:wrap
+}
+button{
+ background:#2563eb;color:white;border:0;
+ border-radius:8px;padding:12px;font-weight:bold
+}
 button:disabled{opacity:.5}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
-.stat{background:#0b1220;border-radius:9px;padding:12px 4px;text-align:center}
+.stats{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:8px;margin-top:14px
+}
+.stat{
+ background:#0b1220;border-radius:9px;
+ padding:12px 4px;text-align:center
+}
 .stat strong{display:block;font-size:21px}
 .stat span{font-size:10px;color:#94a3b8}
 .status{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
 #bar{height:5px;background:#26364e;border-radius:8px;margin-top:10px;overflow:hidden}
 #progress{height:100%;width:0;background:#3b82f6}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:9px
+}
 .card{margin:0;min-width:0;padding:12px}
 .coin{font-weight:bold;font-size:16px;word-break:break-word}
 .price{font-size:18px;margin:10px 0}
-.signal{display:inline-block;padding:6px 10px;border-radius:6px;font-weight:bold;font-size:12px}
+.signal{
+ display:inline-block;padding:6px 10px;
+ border-radius:6px;font-weight:bold;font-size:12px
+}
 .BUY{background:#064e3b;color:#6ee7b7}
 .SELL{background:#7f1d1d;color:#fca5a5}
 .detail{font-size:11px;color:#b4c1d4;line-height:1.9;margin-top:9px}
@@ -35,24 +60,33 @@ button:disabled{opacity:.5}
 .good{color:#6ee7b7!important}
 .bad{color:#fca5a5!important}
 h2{font-size:17px;margin:18px 0 10px}
-.empty{background:#131f32;border:1px dashed #394b65;padding:18px;border-radius:12px;text-align:center;color:#94a3b8;font-size:13px}
-footer{text-align:center;color:#64748b;font-size:11px;margin:20px 0}
-@media(max-width:360px){body{padding:9px}.grid{gap:6px}.card{padding:9px}}
+.empty{
+ background:#131f32;border:1px dashed #394b65;
+ padding:18px;border-radius:12px;text-align:center;
+ color:#94a3b8;font-size:13px
+}
+footer{text-align:center;color:#64748b;font-size:11px;margin:20px 0;line-height:1.8}
+@media(max-width:360px){
+ body{padding:9px}
+ .grid{gap:6px}
+ .card{padding:9px}
+}
 </style>
 </head>
+
 <body>
 
 <header>
 <h1>⚡ CRYPTO AI PRO</h1>
-<div class="sub">V4 • LIVE ENTRY OPPORTUNITY SCANNER</div>
+<div class="sub">V5 • FIBONACCI DUAL ENTRY SYSTEM</div>
 <div class="small">BINANCE USDT PERPETUAL FUTURES</div>
 </header>
 
 <div class="panel">
  <div class="top">
   <div>
-   <b>Market Scanner</b>
-   <div class="small">15M entry • 1H trend confirmation</div>
+   <b>Fibonacci Market Scanner</b>
+   <div class="small">15M Entry • 1H Trend Confirmation</div>
   </div>
   <button id="scanBtn" onclick="startScan()">↻ SCAN NOW</button>
  </div>
@@ -61,10 +95,20 @@ footer{text-align:center;color:#64748b;font-size:11px;margin:20px 0}
  <div id="bar"><div id="progress"></div></div>
 
  <div class="stats">
-  <div class="stat"><strong id="total">0</strong><span>SCANNED</span></div>
-  <div class="stat"><strong id="buyCount" class="good">0</strong><span>BUY</span></div>
-  <div class="stat"><strong id="sellCount" class="bad">0</strong><span>SELL</span></div>
+  <div class="stat">
+   <strong id="total">0</strong>
+   <span>SCANNED</span>
+  </div>
+  <div class="stat">
+   <strong id="buyCount" class="good">0</strong>
+   <span>BUY</span>
+  </div>
+  <div class="stat">
+   <strong id="sellCount" class="bad">0</strong>
+   <span>SELL</span>
+  </div>
  </div>
+
  <div class="status" id="nextScan">Next scan: calculating...</div>
  <div class="status" id="lastScan">No completed scan yet</div>
 </div>
@@ -80,23 +124,28 @@ footer{text-align:center;color:#64748b;font-size:11px;margin:20px 0}
 </div>
 
 <div class="panel" style="margin-top:16px">
- <b>Our V4 Strategy</b>
+ <b>Our V5 Fibonacci Strategy</b>
  <div class="detail">
   • All eligible USDT perpetual contracts<br>
-  • 1H EMA20 / EMA50 trend confirmation<br>
-  • 15M EMA20 / EMA50 entry confirmation<br>
-  • RSI 14 momentum filter<br>
-  • Volume confirmation<br>
-  • ATR volatility filter<br>
-  • Stop Loss and Take Profit calculation<br>
-  • Minimum 1:2 risk/reward<br>
-  • WAIT signals hidden
+  • Fibonacci 0.618 entry zone<br>
+  • Fibonacci 0.786 entry zone<br>
+  • 1H Fibonacci trend confirmation<br>
+  • 15M candle confirmation<br>
+  • Price reversal / wick rejection confirmation<br>
+  • Fibonacci 1.272 Take Profit<br>
+  • Fibonacci 1.618 Take Profit<br>
+  • ATR-based protective Stop Loss<br>
+  • Minimum 1:2 risk/reward to TP1<br>
+  • BUY and SELL opportunities<br>
+  • WAIT signals hidden<br>
+  • Automatic 15-minute scanning
  </div>
 </div>
 
 <footer>
 Educational scanner only. No guaranteed profits.<br>
-No API keys or automatic trading. Always verify entry prices.
+No API keys or automatic trading orders.<br>
+Paper-test all signals before live trading.
 </footer>
 
 <script>
@@ -105,40 +154,45 @@ const INTERVAL=15*60*1000;
 
 let results=[];
 let busy=false;
-let totalPairs=0;
 let nextTimer=null;
+let totalPairs=0;
 
 async function getJSON(url,attempt=0){
- const r=await fetch(url);
- if((r.status===429||r.status===418)&&attempt<3){
-  await new Promise(resolve=>setTimeout(resolve,2000*(attempt+1)));
+ const response=await fetch(url);
+
+ if((response.status===429||response.status===418)&&attempt<3){
+  await new Promise(r=>setTimeout(r,3000*(attempt+1)));
   return getJSON(url,attempt+1);
  }
- if(!r.ok)throw new Error("API "+r.status);
- return r.json();
+
+ if(!response.ok)throw new Error("Binance API "+response.status);
+
+ return response.json();
 }
 
-function ema(a,p){
- if(a.length<p)throw new Error("Insufficient candles");
- const k=2/(p+1);
- let v=a.slice(0,p).reduce((x,y)=>x+y,0)/p;
- for(let i=p;i<a.length;i++)v=a[i]*k+v*(1-k);
- return v;
+// Get completed candles only
+async function candles(symbol,interval){
+ const raw=await getJSON(
+  BASE+"/fapi/v1/klines?symbol="+symbol+
+  "&interval="+interval+"&limit=100"
+ );
+
+ if(!Array.isArray(raw)||raw.length<60)
+  throw new Error("Insufficient candles");
+
+ return raw.slice(0,-1).map(x=>({
+  o:+x[1],
+  h:+x[2],
+  l:+x[3],
+  c:+x[4],
+  v:+x[5]
+ }));
 }
 
-function rsi(a,p=14){
- let gain=0,loss=0;
- for(let i=a.length-p;i<a.length;i++){
-  const d=a[i]-a[i-1];
-  if(d>0)gain+=d;
-  else loss-=d;
- }
- if(loss===0)return 100;
- return 100-100/(1+(gain/p)/(loss/p));
-}
-
+// ATR used only for protective stop calculation
 function atr(a,p=14){
- let tr=[];
+ const tr=[];
+
  for(let i=1;i<a.length;i++){
   tr.push(Math.max(
    a[i].h-a[i].l,
@@ -146,194 +200,364 @@ function atr(a,p=14){
    Math.abs(a[i].l-a[i-1].c)
   ));
  }
+
  return tr.slice(-p).reduce((x,y)=>x+y,0)/p;
 }
 
-async function candles(symbol,interval){
- const raw=await getJSON(
-  BASE+"/fapi/v1/klines?symbol="+symbol+
-  "&interval="+interval+"&limit=100"
- );
- if(!Array.isArray(raw)||raw.length<60)
-  throw new Error("Insufficient data");
+// Confirmed swing points
+function findPivots(a,radius=2){
+ const pivots=[];
 
- // Exclude the currently forming candle
- return raw.slice(0,-1).map(x=>({
-  o:+x[1],h:+x[2],l:+x[3],
-  c:+x[4],v:+x[5]
- }));
+ for(let i=radius;i<a.length-radius;i++){
+  let isHigh=true;
+  let isLow=true;
+
+  for(let j=1;j<=radius;j++){
+   if(a[i].h<=a[i-j].h||a[i].h<=a[i+j].h)
+    isHigh=false;
+
+   if(a[i].l>=a[i-j].l||a[i].l>=a[i+j].l)
+    isLow=false;
+  }
+
+  if(isHigh)pivots.push({
+   type:"HIGH",price:a[i].h,index:i
+  });
+
+  if(isLow)pivots.push({
+   type:"LOW",price:a[i].l,index:i
+  });
+ }
+
+ return pivots;
+}
+
+// Latest confirmed Fibonacci impulse
+function findImpulse(a){
+ const pivots=findPivots(a,2);
+ if(pivots.length<2)return null;
+
+ const last=pivots[pivots.length-1];
+ const previous=pivots[pivots.length-2];
+
+ if(last.type==="HIGH"&&previous.type==="LOW"){
+  if(last.price<=previous.price)return null;
+
+  return {
+   direction:"BUY",
+   low:previous.price,
+   high:last.price,
+   startIndex:previous.index,
+   endIndex:last.index
+  };
+ }
+
+ if(last.type==="LOW"&&previous.type==="HIGH"){
+  if(last.price>=previous.price)return null;
+
+  return {
+   direction:"SELL",
+   high:previous.price,
+   low:last.price,
+   startIndex:previous.index,
+   endIndex:last.index
+  };
+ }
+
+ return null;
 }
 
 function analyze(m15,h1){
- const c=m15.map(x=>x.c);
- const h=h1.map(x=>x.c);
 
- const price=c[c.length-1];
  const candle=m15[m15.length-1];
+ const previous=m15[m15.length-2];
+ const price=candle.c;
 
- const e20=ema(c,20);
- const e50=ema(c,50);
- const he20=ema(h,20);
- const he50=ema(h,50);
-
- const momentum=rsi(c,14);
  const volatility=atr(m15,14);
  const atrPercent=100*volatility/price;
 
- const averageVolume=m15.slice(-21,-1)
-  .reduce((s,x)=>s+x.v,0)/20;
- const volumeRatio=averageVolume>0?
-  candle.v/averageVolume:0;
+ if(!Number.isFinite(volatility)||volatility<=0)
+  return {signal:"WAIT"};
 
- const bullTrend=he20>he50 && h[h.length-1]>he20;
- const bearTrend=he20<he50 && h[h.length-1]<he20;
+ if(atrPercent<0.10||atrPercent>4)
+  return {signal:"WAIT"};
 
- const bullEntry=e20>e50 &&
-  price>e20 && candle.c>candle.o;
+ // 1H trend
+ const impulse1h=findImpulse(h1);
 
- const bearEntry=e20<e50 &&
-  price<e20 && candle.c<candle.o;
+ if(!impulse1h)return {signal:"WAIT"};
 
- const volumeOK=volumeRatio>=1.15;
- const volatilityOK=atrPercent>=0.10 && atrPercent<=4;
+ const range1h=impulse1h.high-impulse1h.low;
+ const midpoint1h=impulse1h.low+range1h*0.5;
+ const h1Price=h1[h1.length-1].c;
 
- const bullRSI=momentum>=52 && momentum<=68;
- const bearRSI=momentum>=32 && momentum<=48;
+ let trend="NONE";
 
- let buyScore=0,sellScore=0;
+ if(impulse1h.direction==="BUY"&&h1Price>midpoint1h)
+  trend="BUY";
 
- if(bullTrend)buyScore+=25;
- if(bullEntry)buyScore+=25;
- if(bullRSI)buyScore+=20;
- if(volumeOK)buyScore+=15;
- if(volatilityOK)buyScore+=15;
+ if(impulse1h.direction==="SELL"&&h1Price<midpoint1h)
+  trend="SELL";
 
- if(bearTrend)sellScore+=25;
- if(bearEntry)sellScore+=25;
- if(bearRSI)sellScore+=20;
- if(volumeOK)sellScore+=15;
- if(volatilityOK)sellScore+=15;
+ if(trend==="NONE")return {signal:"WAIT"};
 
- let signal="WAIT";
- let score=Math.max(buyScore,sellScore);
- let entry=null,sl=null,tp=null;
+ // 15M impulse
+ const impulse15=findImpulse(m15);
 
- if(buyScore>=85 && bullTrend && bullEntry &&
-    bullRSI && volumeOK && volatilityOK){
-  signal="BUY";
-  score=buyScore;
-  entry=price;
-  sl=entry-1.5*volatility;
-  tp=entry+3*volatility;
+ if(!impulse15||impulse15.direction!==trend)
+  return {signal:"WAIT"};
+
+ const range=impulse15.high-impulse15.low;
+
+ if(range<=0)return {signal:"WAIT"};
+
+ // Candle confirmation
+ const body=Math.abs(candle.c-candle.o);
+ const candleRange=candle.h-candle.l;
+
+ if(candleRange<=0)return {signal:"WAIT"};
+
+ const lowerWick=
+  Math.min(candle.o,candle.c)-candle.l;
+
+ const upperWick=
+  candle.h-Math.max(candle.o,candle.c);
+
+ const bullishCandle=
+  candle.c>candle.o&&
+  candle.c>previous.c;
+
+ const bearishCandle=
+  candle.c<candle.o&&
+  candle.c<previous.c;
+
+ // Reversal confirmation
+ const bullishReversal=
+  lowerWick>=Math.max(body*0.8,volatility*0.03)&&
+  candle.c>candle.l+candleRange*0.60;
+
+ const bearishReversal=
+  upperWick>=Math.max(body*0.8,volatility*0.03)&&
+  candle.c<candle.h-candleRange*0.60;
+
+ // BUY setup
+ if(trend==="BUY"){
+
+  const fib618=impulse15.high-range*0.618;
+  const fib786=impulse15.high-range*0.786;
+
+  const zoneLow=fib786;
+  const zoneHigh=fib618;
+
+  const inZone=
+   price>=zoneLow&&price<=zoneHigh;
+
+  if(inZone&&bullishCandle&&bullishReversal){
+
+   const entry=price;
+   const sl=impulse15.low-volatility*0.15;
+
+   const tp1=impulse15.high+range*0.272;
+   const tp2=impulse15.high+range*0.618;
+
+   const risk=entry-sl;
+   const reward=tp1-entry;
+   const rr=reward/risk;
+
+   if(risk>0&&rr>=2){
+
+    return {
+     signal:"BUY",
+     score:100,
+     price,entry,sl,tp1,tp2,
+     fib618,fib786,
+     zoneLow,zoneHigh,
+     rr,atr:atrPercent,
+     confirmation:"Candle + reversal confirmed"
+    };
+   }
+  }
  }
 
- else if(sellScore>=85 && bearTrend && bearEntry &&
-    bearRSI && volumeOK && volatilityOK){
-  signal="SELL";
-  score=sellScore;
-  entry=price;
-  sl=entry+1.5*volatility;
-  tp=entry-3*volatility;
+ // SELL setup
+ if(trend==="SELL"){
+
+  const fib618=impulse15.low+range*0.618;
+  const fib786=impulse15.low+range*0.786;
+
+  const zoneLow=fib618;
+  const zoneHigh=fib786;
+
+  const inZone=
+   price>=zoneLow&&price<=zoneHigh;
+
+  if(inZone&&bearishCandle&&bearishReversal){
+
+   const entry=price;
+   const sl=impulse15.high+volatility*0.15;
+
+   const tp1=impulse15.low-range*0.272;
+   const tp2=impulse15.low-range*0.618;
+
+   const risk=sl-entry;
+   const reward=entry-tp1;
+   const rr=reward/risk;
+
+   if(risk>0&&rr>=2){
+
+    return {
+     signal:"SELL",
+     score:100,
+     price,entry,sl,tp1,tp2,
+     fib618,fib786,
+     zoneLow,zoneHigh,
+     rr,atr:atrPercent,
+     confirmation:"Candle + reversal confirmed"
+    };
+   }
+  }
  }
 
- return {
-  signal,score,price,entry,sl,tp,
-  rsi:momentum,volume:volumeRatio,
-  atr:atrPercent
- };
+ return {signal:"WAIT",price};
 }
 
 function fmt(n){
- if(n===null||n===undefined)return "—";
+ if(n===null||n===undefined||!Number.isFinite(Number(n)))
+  return "—";
+
  return Number(n).toLocaleString("en-US",{
-  maximumFractionDigits:6
+  maximumFractionDigits:8
  });
 }
 
 function makeCard(item){
+
  const d=item.data;
+
  return `
  <div class="card">
   <div class="coin">${item.symbol}</div>
+
   <div class="price">${fmt(d.price)}</div>
+
   <span class="signal ${d.signal}">${d.signal}</span>
+
   <div class="detail">
-   Signal strength: <b>${d.score}/100</b><br>
-   RSI: <b>${fmt(d.rsi)}</b><br>
-   Volume: <b>${fmt(d.volume)}x</b><br>
-   ATR: <b>${fmt(d.atr)}%</b>
+   Setup: <b>Fibonacci confirmed</b><br>
+   Confirmation: <b class="good">Both confirmed</b><br>
+   Risk / Reward: <b class="good">1:${fmt(d.rr)}</b>
+
    <hr style="border-color:#26364e">
+
+   Fib 0.618: <b>${fmt(d.fib618)}</b><br>
+   Fib 0.786: <b>${fmt(d.fib786)}</b><br>
+   Entry zone: <b>${fmt(d.zoneLow)} – ${fmt(d.zoneHigh)}</b>
+
+   <hr style="border-color:#26364e">
+
    Entry: <b>${fmt(d.entry)}</b><br>
    Stop Loss: <b class="bad">${fmt(d.sl)}</b><br>
-   Take Profit: <b class="good">${fmt(d.tp)}</b>
+   TP1 (1.272): <b class="good">${fmt(d.tp1)}</b><br>
+   TP2 (1.618): <b class="good">${fmt(d.tp2)}</b><br>
+   ATR: <b>${fmt(d.atr)}%</b>
   </div>
  </div>`;
 }
 
 function showResults(){
- const buys=results.filter(x=>!x.error&&x.data.signal==="BUY");
- const sells=results.filter(x=>!x.error&&x.data.signal==="SELL");
+
+ const buys=results.filter(
+  x=>!x.error&&x.data.signal==="BUY"
+ );
+
+ const sells=results.filter(
+  x=>!x.error&&x.data.signal==="SELL"
+ );
 
  document.getElementById("buyCount").textContent=buys.length;
  document.getElementById("sellCount").textContent=sells.length;
 
  document.getElementById("buyResults").innerHTML=
   buys.length?buys.map(makeCard).join(""):
-  '<div class="empty">No confirmed BUY opportunities right now.</div>';
+  '<div class="empty">No confirmed Fibonacci BUY setups.</div>';
 
  document.getElementById("sellResults").innerHTML=
   sells.length?sells.map(makeCard).join(""):
-  '<div class="empty">No confirmed SELL opportunities right now.</div>';
+  '<div class="empty">No confirmed Fibonacci SELL setups.</div>';
 }
 
 async function scanOne(symbol){
+
  try{
   const [m15,h1]=await Promise.all([
    candles(symbol,"15m"),
    candles(symbol,"1h")
   ]);
+
   const data=analyze(m15,h1);
+
   if(data.signal==="WAIT")return null;
+
   return {symbol,data};
+
  }catch(e){
   return {symbol,error:true};
  }
 }
 
 async function startScan(){
+
  if(busy)return;
+
  busy=true;
 
  const btn=document.getElementById("scanBtn");
  btn.disabled=true;
  btn.textContent="SCANNING...";
+
  results=[];
 
+ document.getElementById("buyCount").textContent="0";
+ document.getElementById("sellCount").textContent="0";
+
  document.getElementById("buyResults").innerHTML=
-  '<div class="empty">Scanning...</div>';
+  '<div class="empty">Scanning BUY setups...</div>';
+
  document.getElementById("sellResults").innerHTML=
-  '<div class="empty">Scanning...</div>';
+  '<div class="empty">Scanning SELL setups...</div>';
+
  document.getElementById("progress").style.width="0%";
 
  try{
-  document.getElementById("status").textContent=
-   "Discovering Binance Futures contracts...";
 
-  const info=await getJSON(BASE+"/fapi/v1/exchangeInfo");
+  document.getElementById("status").textContent=
+   "Loading Binance Futures contracts...";
+
+  const info=await getJSON(
+   BASE+"/fapi/v1/exchangeInfo"
+  );
 
   const symbols=info.symbols.filter(s=>
-   s.status==="TRADING" &&
-   s.contractType==="PERPETUAL" &&
+   s.status==="TRADING"&&
+   s.contractType==="PERPETUAL"&&
    s.quoteAsset==="USDT"
   ).map(s=>s.symbol);
 
   totalPairs=symbols.length;
+
   document.getElementById("total").textContent=totalPairs;
 
-  let index=0,done=0,errors=0;
+  let index=0;
+  let done=0;
+  let errors=0;
+
+  // Controlled concurrency to reduce API pressure
   const workers=Array.from({length:5},async()=>{
+
    while(index<symbols.length){
+
     const symbol=symbols[index++];
+
     const result=await scanOne(symbol);
     done++;
 
@@ -346,27 +570,32 @@ async function startScan(){
      (100*done/symbols.length)+"%";
 
     document.getElementById("status").textContent=
-     "Analyzed "+done+" / "+symbols.length+
-     " contracts • Errors: "+errors;
+     "Fibonacci analysis: "+done+"/"+symbols.length+
+     " • Data errors: "+errors;
    }
   });
 
   await Promise.all(workers);
 
-  results.sort((a,b)=>b.data.score-a.data.score);
+  results.sort((a,b)=>b.data.rr-a.data.rr);
+
   showResults();
 
   document.getElementById("lastScan").textContent=
    "Last completed scan: "+new Date().toLocaleString();
 
   document.getElementById("status").textContent=
-   "Scan complete. "+results.length+
-   " confirmed setups found. "+errors+" data errors.";
+   "Scan complete • "+done+" analyzed • "+
+   results.length+" confirmed setups • "+
+   errors+" data errors.";
 
  }catch(e){
+
   document.getElementById("status").textContent=
    "Connection error: "+e.message;
+
  }finally{
+
   busy=false;
   btn.disabled=false;
   btn.textContent="↻ SCAN NOW";
@@ -374,22 +603,30 @@ async function startScan(){
 }
 
 function scheduleNextScan(){
+
  if(nextTimer)clearTimeout(nextTimer);
 
  const now=Date.now();
- const next=(Math.floor(now/INTERVAL)+1)*INTERVAL+3000;
- const delay=next-now;
+
+ const next=
+  (Math.floor(now/INTERVAL)+1)*INTERVAL+3000;
 
  document.getElementById("nextScan").textContent=
-  "Next scheduled scan: "+new Date(next).toLocaleTimeString();
+  "Next scheduled scan: "+
+  new Date(next).toLocaleTimeString();
 
  nextTimer=setTimeout(async()=>{
+
   if(!busy)await startScan();
+
   scheduleNextScan();
- },delay);
+
+ },next-now);
 }
 
+// Start application
 startScan().then(scheduleNextScan);
 </script>
+
 </body>
 </html>
