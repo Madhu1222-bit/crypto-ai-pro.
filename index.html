@@ -1,376 +1,492 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
 <title>Crypto AI Pro</title>
 <style>
-:root{font-family:Arial,sans-serif;color:#eaf0ff;background:#101522}
-*{box-sizing:border-box}
-body{margin:0;padding:16px;background:#101522}
-header{padding:18px;background:#1b263a;border-radius:14px;margin-bottom:14px}
-h1{margin:0 0 7px;color:#65d6ff;font-size:25px}
-h2{font-size:18px;margin:0 0 12px;color:#65d6ff}
-p{color:#b9c5d8}
-.card{background:#1b263a;padding:15px;border-radius:13px;margin:13px 0}
-.status{color:#ffd166;font-size:13px}
-input,select,button{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #46546d;background:#111a2a;color:white;font-size:15px}
-button{background:#1676c5;border:0;font-weight:bold;cursor:pointer}
-button.danger{background:#b53d4b}
-button.secondary{background:#46546d}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td,th{padding:9px 5px;border-bottom:1px solid #39465c;text-align:left}
-th{color:#9db7d7}
-.green{color:#50e0a0}.red{color:#ff7777}.yellow{color:#ffd166}
-.small{font-size:12px;color:#aab8ce}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.metric{background:#111a2a;padding:10px;border-radius:8px;overflow-wrap:anywhere}
-.metric b{display:block;margin-top:5px}
-.signal{font-size:21px;font-weight:bold;margin:8px 0}
-hr{border:0;border-top:1px solid #39465c;margin:14px 0}
+:root{color-scheme:dark;font-family:Arial,sans-serif;background:#0b1220;color:#edf3ff}
+*{box-sizing:border-box}body{margin:0;padding:14px;max-width:1100px;margin:auto}
+header,.panel{background:#151f32;border:1px solid #2a3955;border-radius:14px;padding:15px;margin:12px 0}
+h1{margin:0;color:#65e6bd;font-size:25px}h2{font-size:18px;margin:4px 0 12px;color:#85d9ff}
+p{color:#b8c5da;line-height:1.45}.muted,.small{font-size:12px;color:#aab8cf}
+#status{font-size:13px;color:#ffd36a;margin-top:8px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+.field{flex:1;min-width:125px}label{display:block;font-size:12px;color:#b8c5da}
+input,select,button{width:100%;padding:11px;margin-top:5px;border:1px solid #405174;border-radius:8px;background:#0d1729;color:#fff;font-size:14px}
+button{background:#176b59;border:0;font-weight:bold;cursor:pointer}button.secondary{background:#405174}button.danger{background:#a83c4b}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:490px}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid #2b3952}th{color:#aab8cf}
+.green{color:#65e6bd}.red{color:#ff8585}.yellow{color:#ffd36a}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.metric{background:#0d1729;border-radius:9px;padding:10px;overflow-wrap:anywhere;font-size:12px;color:#afbdd2}
+.metric b{display:block;color:#fff;font-size:14px;margin-top:5px}
+.signal{font-size:23px;font-weight:bold;margin:8px 0}
+.scroll{overflow-x:auto}.notice{border-left:3px solid #e3b95d;padding:8px 10px;background:#241f17;border-radius:5px}
+hr{border:0;border-top:1px solid #30405c;margin:14px 0}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
 <body>
-
 <header>
 <h1>🚀 Crypto AI Pro</h1>
-<p>Binance Futures • 15-minute analysis • Paper trading</p>
-<div id="connection" class="status">Connecting to Binance...</div>
-<div class="small">Market data is public. No Binance API key is required.</div>
+<p>Binance USDT perpetuals · 15-minute analysis · paper trading only</p>
+<div id="status">Connecting to Binance public market data…</div>
+<div class="small">No API key required. This page does not place real orders.</div>
 </header>
 
-<section class="card">
-<h2>📊 Futures Market Scanner</h2>
-<input id="search" placeholder="Search coin e.g. BTCUSDT" oninput="renderMarket()">
-<div class="small">Top USDT perpetual contracts by 24-hour quote volume</div>
-<div style="overflow-x:auto">
-<table>
-<thead><tr><th>Coin</th><th>Price</th><th>24h %</th><th>Volume</th></tr></thead>
-<tbody id="market"><tr><td colspan="4">Loading market...</td></tr></tbody>
-</table>
+<section class="panel">
+<h2>Market scanner</h2>
+<div class="row">
+<div class="field"><label for="search">Search market</label><input id="search" placeholder="BTCUSDT"></div>
+<div class="field"><label for="coinSelect">Analyse coin</label><select id="coinSelect"><option>BTCUSDT</option></select></div>
+<div class="field"><button id="refreshBtn">Refresh data</button></div>
 </div>
+<p class="small">Top 40 eligible USDT perpetual contracts ranked by 24-hour quote volume. Prices and signals refresh periodically.</p>
+<div class="scroll"><table><thead><tr><th>Coin</th><th>Last price</th><th>24h change</th><th>Quote volume</th></tr></thead><tbody id="market"><tr><td colspan="4">Loading…</td></tr></tbody></table></div>
 </section>
 
-<section class="card">
-<h2>🔎 Coin Analysis</h2>
-<label class="small">Choose a coin</label>
-<select id="coinSelect" onchange="analyseSelected()">
-<option value="BTCUSDT">BTCUSDT</option>
-</select>
-<button onclick="analyseSelected()">Refresh Analysis</button>
-<div id="analysis"><p>Waiting for market data...</p></div>
+<section class="panel">
+<h2>15-minute multi-factor analysis</h2>
+<div id="analysis"><p>Waiting for candle data…</p></div>
+<p class="small">Signals are experimental rules, not predictions or recommendations. A score is not a probability of winning.</p>
 </section>
 
-<section class="card">
-<h2>🧮 Risk Calculator</h2>
-<div class="grid">
-<div><label class="small">Account balance (USDT)</label><input id="balance" type="number" value="5" min="0"></div>
-<div><label class="small">Risk per trade (%)</label><input id="riskPct" type="number" value="1" min="0.1" max="5" step="0.1"></div>
-<div><label class="small">Entry price</label><input id="calcEntry" type="number" placeholder="Entry"></div>
-<div><label class="small">Stop-loss price</label><input id="calcStop" type="number" placeholder="Stop loss"></div>
+<section class="panel">
+<h2>Position risk calculator</h2>
+<div class="row">
+<div class="field"><label>Account balance (USDT)</label><input id="balance" type="number" min="0" step="any" value="5"></div>
+<div class="field"><label>Risk (%)</label><input id="riskPct" type="number" min="0.1" max="5" step="0.1" value="0.5"></div>
+<div class="field"><label>Entry price</label><input id="calcEntry" type="number" min="0" step="any" placeholder="Entry"></div>
+<div class="field"><label>Stop price</label><input id="calcStop" type="number" min="0" step="any" placeholder="Stop"></div>
 </div>
-<button onclick="calculateRisk()">Calculate Position Size</button>
-<div id="riskResult" class="small"></div>
+<button id="calcBtn">Calculate position size</button>
+<div id="riskResult" class="small">Enter values to calculate the approximate size.</div>
+<p class="small">This is a price-risk estimate. It excludes funding, slippage, liquidation, contract filters and exact exchange fees. It does not account for leverage safety.</p>
 </section>
 
-<section class="card">
-<h2>📝 Paper Trading</h2>
-<p class="small">Practice only. This does not send orders to Binance.</p>
-<label class="small">Coin</label>
-<input id="tradeCoin" value="BTCUSDT">
-<label class="small">Direction</label>
-<select id="direction"><option value="LONG">LONG / BUY</option><option value="SHORT">SHORT / SELL</option></select>
-<div class="grid">
-<div><label class="small">Entry price</label><input id="tradeEntry" type="number" step="any" placeholder="Entry"></div>
-<div><label class="small">Quantity (coin)</label><input id="tradeQty" type="number" step="any" placeholder="Quantity"></div>
-<div><label class="small">Stop loss</label><input id="tradeSL" type="number" step="any" placeholder="Stop loss"></div>
-<div><label class="small">Take profit</label><input id="tradeTP" type="number" step="any" placeholder="Take profit"></div>
+<section class="panel">
+<h2>Paper trading</h2>
+<p class="small">Practice tracker only. Monitoring runs while this page stays open. It is not an exchange stop-loss or take-profit order.</p>
+<div class="row">
+<div class="field"><label>Symbol</label><input id="tradeCoin" value="BTCUSDT"></div>
+<div class="field"><label>Direction</label><select id="direction"><option value="LONG">LONG / BUY</option><option value="SHORT">SHORT / SELL</option></select></div>
+<div class="field"><label>Entry price</label><input id="tradeEntry" type="number" step="any"></div>
+<div class="field"><label>Quantity (coin)</label><input id="tradeQty" type="number" step="any"></div>
 </div>
-<label class="small">Estimated fee per side (%)</label>
-<input id="feePct" type="number" value="0.05" step="0.01" min="0">
-<button onclick="openPaperTrade()">Open Paper Trade</button>
-<div id="openTrade"></div>
+<div class="row">
+<div class="field"><label>Stop loss</label><input id="tradeSL" type="number" step="any"></div>
+<div class="field"><label>Take profit</label><input id="tradeTP" type="number" step="any"></div>
+<div class="field"><label>Fee per side (%)</label><input id="feePct" type="number" min="0" step="any" value="0.05"></div>
+<div class="field"><button id="openTradeBtn">Open paper trade</button></div>
+</div>
+<div id="openTrade"><p class="small">No open paper trade.</p></div>
 <hr>
-<h2>💰 Profit & Loss History</h2>
-<div id="pnlSummary"></div>
+<h2>Performance summary</h2>
+<div id="pnlSummary" class="grid"></div>
 <div id="history"></div>
+<button id="clearHistoryBtn" class="secondary">Clear paper-trade history</button>
+<p class="small">Records are stored only in this browser's local storage. Clearing browser data or changing devices may remove/not transfer them.</p>
 </section>
 
-<section class="card">
-<h2>⚠️ Trading Safety</h2>
-<p class="small">Signals are educational estimates. RSI, EMA, Fibonacci, structure breaks, FVG and order blocks are not reliable by themselves. Scores are not win probabilities. Always check the chart and risk before any decision.</p>
-<p class="small">This dashboard does not execute real trades. Paper trade monitoring runs only while this page is open. Funding, slippage and exact exchange fees are not included in the P&L estimate.</p>
+<section class="panel">
+<h2>Important safety notes</h2>
+<p class="notice">A 90% win rate and 90% account return cannot be guaranteed. We must measure performance honestly after testing; do not increase leverage or risk to chase a target.</p>
+<p class="small">BOS, CHOCH, FVG, order-block and Fibonacci labels below are simplified chart heuristics. They do not prove institutional activity. Backtest and paper-trade before considering real funds.</p>
 </section>
 
-<script>
+<script> 
+"use strict";
 const API="https://fapi.binance.com";
-let marketData=[];
-let prices={};
-let analysisBusy=false;
-let paperTrades=JSON.parse(localStorage.getItem("cryptoPaperTrades")||"[]");
+const $=id=>document.getElementById(id);
+let marketData=[],busy=false,trades=[];
+try{
+ trades=JSON.parse(localStorage.getItem("capPaperTrades")||"[]");
+ if(!Array.isArray(trades))trades=[];
+}catch(e){trades=[];}
 
-const el=id=>document.getElementById(id);
-const fmt=(n,d=5)=>Number.isFinite(Number(n))?Number(n).toLocaleString("en-US",{maximumFractionDigits:d}):"-";
-const safe=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const nfmt=(v,d=6)=>Number.isFinite(Number(v))
+ ?Number(v).toLocaleString("en-US",{maximumFractionDigits:d}):"—";
+
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
 
 async function getJSON(url){
  const r=await fetch(url);
- if(!r.ok)throw new Error("Binance returned HTTP "+r.status);
+ if(!r.ok)throw new Error("HTTP "+r.status);
  return r.json();
+}
+function persist(){
+ try{localStorage.setItem("capPaperTrades",JSON.stringify(trades));}
+ catch(e){$("status").textContent="Browser storage error.";}
+}
+function ema(a,p){
+ if(a.length<p)return NaN;
+ let x=a.slice(0,p).reduce((s,v)=>s+v,0)/p,k=2/(p+1);
+ for(let i=p;i<a.length;i++)x=a[i]*k+x*(1-k);
+ return x;
+}
+function rsi(a,p=14){
+ if(a.length<=p)return NaN;
+ let g=0,l=0;
+ for(let i=1;i<=p;i++){
+  let d=a[i]-a[i-1];
+  if(d>0)g+=d;else l-=d;
+ }
+ g/=p;l/=p;
+ for(let i=p+1;i<a.length;i++){
+  let d=a[i]-a[i-1];
+  g=(g*(p-1)+Math.max(d,0))/p;
+  l=(l*(p-1)+Math.max(-d,0))/p;
+ }
+ return l===0?100:100-100/(1+g/l);
 }
 
 async function loadMarket(){
- try{
-  const [info,tickers]=await Promise.all([
-   getJSON(API+"/fapi/v1/exchangeInfo"),
-   getJSON(API+"/fapi/v1/ticker/24hr")
-  ]);
-  const allowed=new Set(info.symbols.filter(s=>s.contractType==="PERPETUAL"&&s.quoteAsset==="USDT"&&s.status==="TRADING").map(s=>s.symbol));
-  marketData=tickers.filter(t=>allowed.has(t.symbol)).sort((a,b)=>Number(b.quoteVolume)-Number(a.quoteVolume));
-  marketData.forEach(t=>prices[t.symbol]=Number(t.lastPrice));
-  el("connection").textContent="🟢 Connected • Updated "+new Date().toLocaleTimeString();
-  renderMarket();
-  updateCoinOptions();
-  if(!el("analysis").dataset.loaded)analyseSelected();
- }catch(e){
-  el("connection").textContent="🔴 Connection problem: "+e.message;
- }
+ const [info,tickers]=await Promise.all([
+  getJSON(API+"/fapi/v1/exchangeInfo"),
+  getJSON(API+"/fapi/v1/ticker/24hr")
+ ]);
+ const allowed=new Set(info.symbols.filter(s=>
+  s.status==="TRADING"&&s.contractType==="PERPETUAL"&&s.quoteAsset==="USDT"
+ ).map(s=>s.symbol));
+ marketData=tickers.filter(t=>allowed.has(t.symbol))
+  .sort((a,b)=>+b.quoteVolume- +a.quoteVolume).slice(0,40);
+ renderMarket();
+ updateCoinOptions();
 }
-
 function renderMarket(){
- const q=el("search").value.trim().toUpperCase();
- const rows=marketData.filter(t=>t.symbol.includes(q)).slice(0,40);
- el("market").innerHTML=rows.map(t=>{
-  const change=Number(t.priceChangePercent);
-  return `<tr onclick="selectCoin('${safe(t.symbol)}')">
-  <td><b>${safe(t.symbol)}</b></td>
-  <td>${fmt(t.lastPrice,8)}</td>
-  <td class="${change>=0?"green":"red"}">${fmt(change,2)}%</td>
-  <td>${fmt(Number(t.quoteVolume)/1000000,2)}M</td></tr>`;
- }).join("")||'<tr><td colspan="4">No matching coins</td></tr>';
+ const q=$("search").value.trim().toUpperCase();
+ const rows=marketData.filter(t=>t.symbol.includes(q));
+ $("market").innerHTML=rows.map(t=>{
+  let p=+t.priceChangePercent;
+  return `<tr data-symbol="${esc(t.symbol)}">
+   <td><b>${esc(t.symbol)}</b></td>
+   <td>${nfmt(t.lastPrice,8)}</td>
+   <td class="${p>=0?"green":"red"}">${nfmt(p,2)}%</td>
+   <td>${nfmt(+t.quoteVolume/1e6,2)}M</td>
+  </tr>`;
+ }).join("")||'<tr><td colspan="4">No matching contracts</td></tr>';
 }
-
 function updateCoinOptions(){
- const select=el("coinSelect"),old=select.value;
- const coins=marketData.slice(0,40).map(t=>t.symbol);
- if(!coins.includes(old))coins.unshift(old||"BTCUSDT");
- select.innerHTML=coins.map(c=>`<option value="${safe(c)}">${safe(c)}</option>`).join("");
- select.value=coins.includes(old)?old:coins[0];
+ let old=$("coinSelect").value;
+ let syms=marketData.map(x=>x.symbol);
+ if(old&&!syms.includes(old))syms.unshift(old);
+ $("coinSelect").innerHTML=syms.map(s=>
+  `<option value="${esc(s)}">${esc(s)}</option>`
+ ).join("");
+ if(syms.includes(old))$("coinSelect").value=old;
 }
 
-function selectCoin(symbol){
- el("coinSelect").value=symbol;
- el("tradeCoin").value=symbol;
- analyseSelected();
- window.scrollTo({top:el("analysis").getBoundingClientRect().top+window.scrollY-20,behavior:"smooth"});
-}
+async function analyse(symbol){
+ const raw=await getJSON(API+"/fapi/v1/klines?symbol="+
+  encodeURIComponent(symbol)+"&interval=15m&limit=120");
+ const c=raw.slice(0,-1).map(k=>({
+  o:+k[1],h:+k[2],l:+k[3],cl:+k[4]
+ }));
+ if(c.length<60)throw new Error("Not enough closed candles");
 
-function ema(values,period){
- if(values.length<period)return NaN;
- let result=values.slice(0,period).reduce((a,b)=>a+b,0)/period;
- const k=2/(period+1);
- for(let i=period;i<values.length;i++)result=values[i]*k+result*(1-k);
- return result;
-}
+ const close=c.map(x=>x.cl),last=c[c.length-1];
+ const prev=c.slice(-21,-1);
+ const e20=ema(close,20),e50=ema(close,50),r=rsi(close);
+ const highs=c.slice(-30).map(x=>x.h);
+ const lows=c.slice(-30).map(x=>x.l);
+ const resistance=Math.max(...highs),support=Math.min(...lows);
+ const range=resistance-support;
+ const prevHigh=Math.max(...prev.map(x=>x.h));
+ const prevLow=Math.min(...prev.map(x=>x.l));
+ const bosUp=last.cl>prevHigh,bosDown=last.cl<prevLow;
+ const trendUp=e20>e50,trendDown=e20<e50;
 
-function rsi(values,period=14){
- if(values.length<=period)return 50;
- let gains=0,losses=0;
- for(let i=values.length-period;i<values.length;i++){
-  const diff=values[i]-values[i-1];
-  if(diff>0)gains+=diff;else losses-=diff;
+ const bullishFVG=c.slice(-15).some((x,i,a)=>
+  i>=2&&x.l>a[i-2].h
+ );
+ const bearishFVG=c.slice(-15).some((x,i,a)=>
+  i>=2&&x.h<a[i-2].l
+ );
+
+ let ob="Not detected";
+ if(bosUp){
+  let x=c.slice(-12,-1).reverse().find(v=>v.cl<v.o);
+  if(x)ob="Possible bullish zone "+nfmt(x.l,8)+"–"+nfmt(x.h,8);
  }
- if(losses===0)return 100;
- return 100-(100/(1+gains/losses));
-}
+ if(bosDown){
+  let x=c.slice(-12,-1).reverse().find(v=>v.cl>v.o);
+  if(x)ob="Possible bearish zone "+nfmt(x.l,8)+"–"+nfmt(x.h,8);
+ }
 
-async function analyseSelected(){
- if(analysisBusy)return;
- analysisBusy=true;
- const symbol=el("coinSelect").value;
- el("analysis").innerHTML="<p>Loading 15-minute candles for "+safe(symbol)+"...</p>";
- try{
-  const raw=await getJSON(API+"/fapi/v1/klines?symbol="+encodeURIComponent(symbol)+"&interval=15m&limit=100");
-  const candles=raw.slice(0,-1).map(k=>({time:k[0],open:+k[1],high:+k[2],low:+k[3],close:+k[4]}));
-  if(candles.length<55)throw new Error("Not enough candle data");
-  const closes=candles.map(c=>c.close);
-  const last=candles[candles.length-1],previous=candles.slice(-21,-1);
-  const e20=ema(closes,20),e50=ema(closes,50),r=rsi(closes);
-  const resistance=Math.max(...candles.slice(-30).map(c=>c.high));
-  const support=Math.min(...candles.slice(-30).map(c=>c.low));
-  const range=resistance-support;
-  const fibs=range>0?[
-   ["38.2%",resistance-range*.382],
-   ["50%",resistance-range*.5],
-   ["61.8%",resistance-range*.618],
-   ["78.6%",resistance-range*.786]
-  ]:[];
-  const previousHigh=Math.max(...previous.map(c=>c.high));
-  const previousLow=Math.min(...previous.map(c=>c.low));
-  const bosUp=last.close>previousHigh;
-  const bosDown=last.close<previousLow;
-  const trendUp=e20>e50,trendDown=e20<e50;
-  const bullishFVG=candles.slice(-12).some((c,i,a)=>i>=2&&c.low>a[i-2].high);
-  const bearishFVG=candles.slice(-12).some((c,i,a)=>i>=2&&c.high<a[i-2].low);
-  const nearSupport=range>0&&last.close<support+range*.15;
-  const nearResistance=range>0&&last.close>resistance-range*.15;
-  const bull=(trendUp?1:0)+(last.close>e20?1:0)+(r>50&&r<68?1:0)+(bosUp?1:0)+(bullishFVG?1:0);
-  const bear=(trendDown?1:0)+(last.close<e20?1:0)+(r<50&&r>32?1:0)+(bosDown?1:0)+(bearishFVG?1:0);
-  let signal="WAIT",entry=last.close,stop=0,tp1=0,tp2=0,tp3=0;
-  if(bull>=4&&bull>bear){
-   signal="BUY";stop=support;const risk=entry-stop;
-   if(risk>0){tp1=entry+risk*1.5;tp2=entry+risk*2;tp3=entry+risk*3;}
-   else signal="WAIT";
-  }else if(bear>=4&&bear>bull){
-   signal="SELL";stop=resistance;const risk=stop-entry;
-   if(risk>0){tp1=entry-risk*1.5;tp2=entry-risk*2;tp3=entry-risk*3;}
-   else signal="WAIT";
+ const fib=range>0?[
+  ["38.2%",resistance-range*.382],
+  ["50%",resistance-range*.5],
+  ["61.8%",resistance-range*.618],
+  ["78.6%",resistance-range*.786]
+ ]:[];
+ const nearFib=fib.some(x=>
+  Math.abs(last.cl-x[1])/last.cl<.003
+ );
+
+ const bull=(trendUp?1:0)+(last.cl>e20?1:0)+
+  (r>=50&&r<=68?1:0)+(bosUp?1:0)+
+  (bullishFVG?1:0)+(nearFib&&trendUp?1:0);
+
+ const bear=(trendDown?1:0)+(last.cl<e20?1:0)+
+  (r>=32&&r<=50?1:0)+(bosDown?1:0)+
+  (bearishFVG?1:0)+(nearFib&&trendDown?1:0);
+
+ let signal="WAIT",sl=NaN,tps=[];
+ if(bull>=5&&bull>bear){
+  let candidate=Math.min(...c.slice(-10).map(x=>x.l));
+  if(candidate<last.cl){
+   signal="BUY";sl=candidate;
+   let risk=last.cl-sl;
+   tps=[1.5,2,3].map(x=>last.cl+risk*x);
   }
-  const fibHTML=fibs.map(f=>`<div class="metric">${f[0]}<b>${fmt(f[1],8)}</b></div>`).join("");
-  const signalClass=signal==="BUY"?"green":signal==="SELL"?"red":"yellow";
-  el("analysis").dataset.loaded="yes";
-  el("analysis").innerHTML=`
-   <div class="signal ${signalClass}">${signal}</div>
-   <div class="grid">
-    <div class="metric">Last closed candle<b>${fmt(last.close,8)}</b></div>
-    <div class="metric">RSI 14<b>${fmt(r,2)}</b></div>
-    <div class="metric">EMA 20<b>${fmt(e20,8)}</b></div>
-    <div class="metric">EMA 50<b>${fmt(e50,8)}</b></div>
-    <div class="metric">Bull score<b>${bull} / 5</b></div>
-    <div class="metric">Bear score<b>${bear} / 5</b></div>
-    <div class="metric">Support<b>${fmt(support,8)}</b></div>
-    <div class="metric">Resistance<b>${fmt(resistance,8)}</b></div>
-   </div>
-   <hr><b>Fibonacci retracement</b>
-   <div class="grid">${fibHTML}</div>
-   <hr><b>Market structure estimates</b>
-   <p class="small">BOS: ${bosUp?"Bullish break":bosDown?"Bearish break":"No confirmed break"}</p>
-   <p class="small">CHOCH: ${bosUp&&trendDown?"Possible bullish change":bosDown&&trendUp?"Possible bearish change":"No clear change detected"}</p>
-   <p class="small">FVG: ${bullishFVG?"Bullish imbalance detected":""} ${bearishFVG?"Bearish imbalance detected":""} ${!bullishFVG&&!bearishFVG?"No recent imbalance found":""}</p>
-   <p class="small">Order block: simplified automatic order-block identification is not included in this version.</p>
-   <p class="small">Near support: ${nearSupport?"Yes":"No"} • Near resistance: ${nearResistance?"Yes":"No"}</p>
-   <hr><b>Illustrative trade levels</b>
-   <div class="grid">
-    <div class="metric">Entry<b>${signal==="WAIT"?"Wait for confirmation":fmt(entry,8)}</b></div>
-    <div class="metric">Stop loss<b>${signal==="WAIT"?"-":fmt(stop,8)}</b></div>
-    <div class="metric">Take profit 1<b>${signal==="WAIT"?"-":fmt(tp1,8)}</b></div>
-    <div class="metric">Take profit 2<b>${signal==="WAIT"?"-":fmt(tp2,8)}</b></div>
-    <div class="metric">Take profit 3<b>${signal==="WAIT"?"-":fmt(tp3,8)}</b></div>
-   </div>
-   <p class="small">These are rough chart-derived levels, not validated trading recommendations. A BUY or SELL signal is not an instruction to open a live trade.</p>`;
-  el("tradeCoin").value=symbol;
+ }else if(bear>=5&&bear>bull){
+  let candidate=Math.max(...c.slice(-10).map(x=>x.h));
+  if(candidate>last.cl){
+   signal="SELL";sl=candidate;
+   let risk=sl-last.cl;
+   tps=[1.5,2,3].map(x=>last.cl-risk*x);
+  }
+ }
+ return {
+  symbol,last:last.cl,e20,e50,r,signal,sl,tps,
+  support,resistance,bosUp,bosDown,bullishFVG,
+  bearishFVG,ob,fib,bull,bear,nearFib
+ };
+}
+
+function renderAnalysis(a){
+ let cls=a.signal==="BUY"?"green":
+  a.signal==="SELL"?"red":"yellow";
+
+ $("analysis").innerHTML=`
+ <div class="signal ${cls}">${a.signal} · ${esc(a.symbol)}</div>
+ <div class="grid">
+  <div class="metric">Last closed 15m price<b>${nfmt(a.last,8)}</b></div>
+  <div class="metric">RSI 14<b>${nfmt(a.r,2)}</b></div>
+  <div class="metric">EMA 20<b>${nfmt(a.e20,8)}</b></div>
+  <div class="metric">EMA 50<b>${nfmt(a.e50,8)}</b></div>
+  <div class="metric">Bull score<b>${a.bull} / 6</b></div>
+  <div class="metric">Bear score<b>${a.bear} / 6</b></div>
+  <div class="metric">Support estimate<b>${nfmt(a.support,8)}</b></div>
+  <div class="metric">Resistance estimate<b>${nfmt(a.resistance,8)}</b></div>
+ </div>
+ <hr><b>Structure and zones</b>
+ <p class="small">BOS: ${
+  a.bosUp?"Possible bullish break":
+  a.bosDown?"Possible bearish break":"No recent 20-candle break"
+ } · CHOCH: ${
+  a.bosUp&&a.e20<a.e50?"Possible bullish change":
+  a.bosDown&&a.e20>a.e50?"Possible bearish change":"No clear change"
+ }</p>
+ <p class="small">FVG: ${
+  a.bullishFVG?"Possible bullish imbalance ":""
+ }${
+  a.bearishFVG?"Possible bearish imbalance ":""
+ }${
+  !a.bullishFVG&&!a.bearishFVG?"None detected":""
+ }</p>
+ <p class="small">Order-block heuristic: ${esc(a.ob)}</p>
+ <p class="small">Near Fibonacci retracement: ${a.nearFib?"Yes":"No"}</p>
+ <div class="grid">${a.fib.map(x=>
+  `<div class="metric">Fib ${x[0]}<b>${nfmt(x[1],8)}</b></div>`
+ ).join("")}</div>
+ <hr><b>Illustrative levels (not an order)</b>
+ <div class="grid">
+  <div class="metric">Entry reference<b>${
+   a.signal==="WAIT"?"Wait":nfmt(a.last,8)
+  }</b></div>
+  <div class="metric">Stop loss<b>${
+   a.signal==="WAIT"?"—":nfmt(a.sl,8)
+  }</b></div>
+  ${[0,1,2].map(i=>
+   `<div class="metric">Take profit ${i+1}<b>${
+    a.signal==="WAIT"?"—":nfmt(a.tps[i],8)
+   }</b></div>`
+  ).join("")}
+ </div>
+ <p class="small">Rules require a score of at least 5/6. This threshold is not a 90% accuracy claim and has not been validated.</p>`;
+}
+
+async function refreshAll(){
+ if(busy)return;
+ busy=true;
+ $("status").textContent="Updating public Binance data…";
+ try{
+  await loadMarket();
+  $("status").textContent="Market loaded · analysing "+$("coinSelect").value+"…";
+  let a=await analyse($("coinSelect").value);
+  renderAnalysis(a);
+  $("status").textContent="Updated "+new Date().toLocaleTimeString()+" · closed 15m candles";
  }catch(e){
-  el("analysis").innerHTML='<p class="red">Analysis error: '+safe(e.message)+'</p>';
- }finally{analysisBusy=false;}
+  $("status").textContent="Update error: "+e.message+" · tap Refresh to retry";
+  $("analysis").innerHTML=`<p class="red">Analysis unavailable: ${esc(e.message)}</p>`;
+ }finally{busy=false;}
+}
+ function saveHistory(){
+ persist();
+ renderPaper();
 }
 
-function calculateRisk(){
- const balance=+el("balance").value,riskPct=+el("riskPct").value;
- const entry=+el("calcEntry").value,stop=+el("calcStop").value;
- if(!(balance>0&&riskPct>0&&entry>0&&stop>0&&entry!==stop)){
-  el("riskResult").textContent="Please enter valid positive balance, risk, entry and stop-loss values.";
-  return;
+function renderPaper(){
+ const open=trades.find(t=>t.status==="OPEN");
+ if(!open){
+  $("openTrade").innerHTML='<p class="small">No open paper trade.</p>';
+ }else{
+  let current=Number(open.lastPrice||open.entry);
+  let dir=open.direction==="LONG"?1:-1;
+  let gross=(current-open.entry)*open.qty*dir;
+  let fees=(open.entry+current)*open.qty*open.fee/100;
+  let pnl=gross-fees;
+  $("openTrade").innerHTML=`
+   <div class="grid">
+    <div class="metric">Open position<b>${esc(open.symbol)} ${open.direction}</b></div>
+    <div class="metric">Current price<b>${nfmt(current,8)}</b></div>
+    <div class="metric">Estimated P&L<b class="${pnl>=0?"green":"red"}">${nfmt(pnl,5)} USDT</b></div>
+    <div class="metric">Stop / Target<b>${nfmt(open.sl,8)} / ${nfmt(open.tp,8)}</b></div>
+   </div>
+   <button id="closeTradeBtn" class="danger">Close paper trade at current price</button>`;
+  $("closeTradeBtn").addEventListener("click",()=>closePaper(open.id,current,"MANUAL"));
  }
- const riskMoney=balance*riskPct/100;
- const qty=riskMoney/Math.abs(entry-stop);
- el("riskResult").innerHTML=`Risk budget: <b>${fmt(riskMoney,4)} USDT</b><br>Estimated quantity: <b>${fmt(qty,8)}</b><br>Estimated position notional: <b>${fmt(qty*entry,4)} USDT</b><br><span class="yellow">This calculation excludes fees, slippage and leverage effects.</span>`;
+
+ let closed=trades.filter(t=>t.status==="CLOSED");
+ let total=closed.reduce((s,t)=>s+(Number(t.pnl)||0),0);
+ let wins=closed.filter(t=>t.pnl>0).length;
+ $("pnlSummary").innerHTML=`
+  <div class="metric">Closed trades<b>${closed.length}</b></div>
+  <div class="metric">Winning trades<b>${wins}</b></div>
+  <div class="metric">Win rate<b>${closed.length?nfmt(wins/closed.length*100,1)+"%":"—"}</b></div>
+  <div class="metric">Net paper P&L<b class="${total>=0?"green":"red"}">${nfmt(total,5)} USDT</b></div>`;
+
+ $("history").innerHTML=closed.length?
+  '<hr><b>Closed trade history</b><div class="scroll"><table><thead><tr><th>Symbol</th><th>Side</th><th>Entry</th><th>Exit</th><th>P&L</th><th>Reason</th></tr></thead><tbody>'+
+  closed.slice().reverse().map(t=>`
+   <tr>
+    <td>${esc(t.symbol)}</td>
+    <td>${esc(t.direction)}</td>
+    <td>${nfmt(t.entry,8)}</td>
+    <td>${nfmt(t.exit,8)}</td>
+    <td class="${t.pnl>=0?"green":"red"}">${nfmt(t.pnl,5)}</td>
+    <td>${esc(t.reason)}</td>
+   </tr>`).join("")+
+  '</tbody></table></div>':
+  '<p class="small">No closed paper trades yet.</p>';
 }
 
-function saveTrades(){
- localStorage.setItem("cryptoPaperTrades",JSON.stringify(paperTrades));
+function closePaper(id,price,reason){
+ let t=trades.find(x=>x.id===id&&x.status==="OPEN");
+ if(!t)return;
+ let dir=t.direction==="LONG"?1:-1;
+ let gross=(price-t.entry)*t.qty*dir;
+ let fees=(t.entry+price)*t.qty*t.fee/100;
+ t.exit=price;
+ t.pnl=gross-fees;
+ t.reason=reason;
+ t.status="CLOSED";
+ t.closedAt=new Date().toISOString();
+ saveHistory();
 }
 
-function openPaperTrade(){
- const symbol=el("tradeCoin").value.trim().toUpperCase();
- const direction=el("direction").value;
- const entry=+el("tradeEntry").value,qty=+el("tradeQty").value;
- const sl=+el("tradeSL").value,tp=+el("tradeTP").value,fee=+el("feePct").value;
- if(!/^[A-Z0-9]{4,20}$/.test(symbol)||!(entry>0&&qty>0&&sl>0&&tp>0)||fee<0){
-  alert("Please enter valid coin, entry, quantity, stop-loss, take-profit and fee values.");
-  return;
- }
- if(direction==="LONG"&&!(sl<entry&&tp>entry)){
-  alert("For LONG: stop loss must be below entry and take profit above entry.");return;
- }
- if(direction==="SHORT"&&!(sl>entry&&tp<entry)){
-  alert("For SHORT: stop loss must be above entry and take profit below entry.");return;
- }
- if(paperTrades.some(t=>t.status==="OPEN")){
-  alert("Please close your existing open paper trade before opening another.");return;
- }
- paperTrades.unshift({id:Date.now(),symbol,direction,entry,qty,sl,tp,fee,status:"OPEN",created:new Date().toISOString()});
- saveTrades();renderTrades();
-}
-
-function closeTrade(id,exit,reason){
- const t=paperTrades.find(x=>x.id===id&&x.status==="OPEN");
- if(!t||!(exit>0))return;
- const gross=t.direction==="LONG"?(exit-t.entry)*t.qty:(t.entry-exit)*t.qty;
- const fees=(t.entry*t.qty+exit*t.qty)*t.fee/100;
- t.exit=exit;t.gross=gross;t.fees=fees;t.net=gross-fees;
- t.status="CLOSED";t.reason=reason;t.closed=new Date().toISOString();
- saveTrades();renderTrades();
-}
-
-function renderTrades(){
- const open=paperTrades.find(t=>t.status==="OPEN");
- el("openTrade").innerHTML=open?`
-  <p class="green"><b>OPEN PAPER TRADE</b></p>
-  <p>${safe(open.symbol)} • ${open.direction}</p>
-  <p class="small">Entry: ${fmt(open.entry,8)} • Quantity: ${fmt(open.qty,8)}<br>Stop: ${fmt(open.sl,8)} • Target: ${fmt(open.tp,8)}</p>
-  <label class="small">Manual exit price</label>
-  <input id="manualExit" type="number" step="any" placeholder="Enter exit price">
-  <button class="danger" onclick="manualClose(${open.id})">Close Paper Trade</button>`:"<p class='small'>No open paper trades.</p>";
- const closed=paperTrades.filter(t=>t.status==="CLOSED");
- const net=closed.reduce((a,t)=>a+t.net,0);
- const wins=closed.filter(t=>t.net>0).length;
- const losses=closed.filter(t=>t.net<=0).length;
- el("pnlSummary").innerHTML=`<div class="grid">
- <div class="metric">Completed trades<b>${closed.length}</b></div>
- <div class="metric">Net P&L<b class="${net>=0?"green":"red"}">${fmt(net,4)} USDT</b></div>
- <div class="metric">Wins<b>${wins}</b></div>
- <div class="metric">Losses<b>${losses}</b></div>
- </div>`;
- el("history").innerHTML=closed.slice(0,30).map(t=>`
- <div class="metric" style="margin-top:8px">
- <b>${safe(t.symbol)} • ${t.direction}</b>
- <div class="small">Entry ${fmt(t.entry,8)} → Exit ${fmt(t.exit,8)}</div>
- <div class="small">Gross ${fmt(t.gross,4)} • Fees ${fmt(t.fees,4)}</div>
- <b class="${t.net>=0?"green":"red"}">Net ${fmt(t.net,4)} USDT</b>
- <div class="small">${safe(t.reason||"Manual")} • ${new Date(t.closed).toLocaleString()}</div>
- </div>`).join("")||"<p class='small'>No completed trades yet.</p>";
-}
-
-function manualClose(id){
- const price=+el("manualExit").value;
- if(!(price>0)){alert("Enter a valid exit price.");return;}
- closeTrade(id,price,"Manual close");
-}
-
-async function monitorPaperTrade(){
- const t=paperTrades.find(x=>x.status==="OPEN");
+async function monitorPaper(){
+ const t=trades.find(x=>x.status==="OPEN");
  if(!t)return;
  try{
   const data=await getJSON(API+"/fapi/v1/ticker/price?symbol="+encodeURIComponent(t.symbol));
   const price=+data.price;
-  prices[t.symbol]=price;
-  if(t.direction==="LONG"){
-   if(price<=t.sl)closeTrade(t.id,price,"Stop loss touched (price check)");
-   else if(price>=t.tp)closeTrade(t.id,price,"Take profit touched (price check)");
-  }else{
-   if(price>=t.sl)closeTrade(t.id,price,"Stop loss touched (price check)");
-   else if(price<=t.tp)closeTrade(t.id,price,"Take profit touched (price check)");
-  }
-  if(t.status==="OPEN")renderTrades();
- }catch(e){console.log("Paper monitor update failed",e);}
+  if(!Number.isFinite(price))return;
+  t.lastPrice=price;
+  let hitSL=t.direction==="LONG"?price<=t.sl:price>=t.sl;
+  let hitTP=t.direction==="LONG"?price>=t.tp:price<=t.tp;
+  if(hitSL)closePaper(t.id,price,"STOP LOSS");
+  else if(hitTP)closePaper(t.id,price,"TAKE PROFIT");
+  else saveHistory();
+ }catch(e){
+  $("status").textContent="Paper monitor update failed: "+e.message;
+ }
 }
 
-loadMarket();
-renderTrades();
-setInterval(loadMarket,60000);
-setInterval(monitorPaperTrade,15000);
-</script>
+$("search").addEventListener("input",renderMarket);
+$("coinSelect").addEventListener("change",async()=>{
+ try{
+  $("status").textContent="Analysing selected coin…";
+  renderAnalysis(await analyse($("coinSelect").value));
+  $("tradeCoin").value=$("coinSelect").value;
+ }catch(e){
+  $("analysis").innerHTML=`<p class="red">${esc(e.message)}</p>`;
+ }
+});
+$("market").addEventListener("click",e=>{
+ const tr=e.target.closest("tr[data-symbol]");
+ if(!tr)return;
+ $("coinSelect").value=tr.dataset.symbol;
+ $("tradeCoin").value=tr.dataset.symbol;
+ $("coinSelect").dispatchEvent(new Event("change"));
+});
+$("refreshBtn").addEventListener("click",refreshAll);
 
+$("calcBtn").addEventListener("click",()=>{
+ let balance=+$("balance").value;
+ let risk=+$("riskPct").value;
+ let entry=+$("calcEntry").value;
+ let stop=+$("calcStop").value;
+ if(!(balance>0&&risk>0&&risk<=5&&entry>0&&stop>0&&entry!==stop)){
+  $("riskResult").textContent="Please enter valid positive values. Risk must be 5% or less.";
+  return;
+ }
+ let riskCash=balance*risk/100;
+ let distance=Math.abs(entry-stop);
+ let qty=riskCash/distance;
+ $("riskResult").innerHTML=`
+  <p>Maximum planned loss at stop: <b>${nfmt(riskCash,5)} USDT</b></p>
+  <p>Approximate quantity: <b>${nfmt(qty,8)}</b></p>
+  <p>Approximate position notional: <b>${nfmt(qty*entry,5)} USDT</b></p>
+  <p class="small">This estimate excludes fees, slippage and liquidation risk. Check exchange minimum order sizes before trading.</p>`;
+});
+
+$("openTradeBtn").addEventListener("click",()=>{
+ if(trades.some(t=>t.status==="OPEN")){
+  alert("Please close your existing paper trade first.");
+  return;
+ }
+ let symbol=$("tradeCoin").value.trim().toUpperCase();
+ let direction=$("direction").value;
+ let entry=+$("tradeEntry").value;
+ let qty=+$("tradeQty").value;
+ let sl=+$("tradeSL").value;
+ let tp=+$("tradeTP").value;
+ let fee=+$("feePct").value;
+ let valid=/^[A-Z0-9]{3,30}$/.test(symbol)&&
+  entry>0&&qty>0&&sl>0&&tp>0&&fee>=0;
+ let correct=direction==="LONG"?
+  sl<entry&&tp>entry:
+  sl>entry&&tp<entry;
+ if(!valid||!correct){
+  alert("Check your symbol, entry, quantity, stop loss and take profit. LONG requires SL below entry and TP above entry. SHORT requires SL above entry and TP below entry.");
+  return;
+ }
+ trades.push({
+  id:Date.now().toString(),
+  symbol,direction,entry,qty,sl,tp,fee,
+  lastPrice:entry,status:"OPEN",
+  openedAt:new Date().toISOString()
+ });
+ saveHistory();
+ alert("Paper trade opened. No real Binance order was placed.");
+});
+
+$("clearHistoryBtn").addEventListener("click",()=>{
+ if(!confirm("Delete all paper-trade records from this browser?"))return;
+ trades=[];
+ persist();
+ renderPaper();
+});
+
+renderPaper();
+refreshAll();
+setInterval(refreshAll,60000);
+setInterval(monitorPaper,15000);
+</script>
 </body>
 </html>
