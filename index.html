@@ -3,469 +3,345 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>Crypto AI Pro</title>
+<title>Crypto AI Pro V2</title>
+
 <style>
-:root{color-scheme:dark;font-family:Arial,sans-serif;background:#0b1220;color:#edf3ff}
-*{box-sizing:border-box}body{margin:0;padding:14px;max-width:1100px;margin:auto}
-header,.panel{background:#151f32;border:1px solid #2a3955;border-radius:14px;padding:15px;margin:12px 0}
-h1{margin:0;color:#65e6bd;font-size:25px}h2{font-size:18px;margin:4px 0 12px;color:#85d9ff}
-p{color:#b8c5da;line-height:1.45}.muted,.small{font-size:12px;color:#aab8cf}
-#status{font-size:13px;color:#ffd36a;margin-top:8px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
-.field{flex:1;min-width:125px}label{display:block;font-size:12px;color:#b8c5da}
-input,select,button{width:100%;padding:11px;margin-top:5px;border:1px solid #405174;border-radius:8px;background:#0d1729;color:#fff;font-size:14px}
-button{background:#176b59;border:0;font-weight:bold;cursor:pointer}button.secondary{background:#405174}button.danger{background:#a83c4b}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:490px}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid #2b3952}th{color:#aab8cf}
-.green{color:#65e6bd}.red{color:#ff8585}.yellow{color:#ffd36a}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.metric{background:#0d1729;border-radius:9px;padding:10px;overflow-wrap:anywhere;font-size:12px;color:#afbdd2}
-.metric b{display:block;color:#fff;font-size:14px;margin-top:5px}
-.signal{font-size:23px;font-weight:bold;margin:8px 0}
-.scroll{overflow-x:auto}.notice{border-left:3px solid #e3b95d;padding:8px 10px;background:#241f17;border-radius:5px}
-hr{border:0;border-top:1px solid #30405c;margin:14px 0}
-@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+*{box-sizing:border-box}
+body{
+ margin:0;padding:16px;
+ background:#0b1220;color:#eef3ff;
+ font-family:Arial,sans-serif
+}
+header{text-align:center;margin:8px 0 20px}
+h1{margin:0;color:#60a5fa;font-size:27px}
+.sub{color:#94a3b8;font-size:12px;margin-top:7px}
+.panel{
+ background:#131f32;border:1px solid #26364e;
+ border-radius:14px;padding:14px;margin-bottom:14px
+}
+.top{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;flex-wrap:wrap
+}
+button{
+ background:#2563eb;color:white;border:0;
+ padding:12px 17px;border-radius:9px;
+ font-weight:bold;font-size:14px
+}
+button:disabled{opacity:.5}
+.status{font-size:12px;color:#94a3b8;margin-top:10px}
+.grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:10px
+}
+.card{
+ background:#131f32;border:1px solid #26364e;
+ border-radius:13px;padding:13px;min-width:0
+}
+.coin{font-size:17px;font-weight:bold}
+.price{font-size:17px;margin:12px 0 5px;word-break:break-all}
+.signal{
+ display:inline-block;padding:6px 10px;
+ border-radius:7px;font-size:12px;font-weight:bold;
+ background:#334155;color:#cbd5e1
+}
+.buy{background:#064e3b;color:#6ee7b7}
+.sell{background:#7f1d1d;color:#fca5a5}
+.wait{background:#334155;color:#cbd5e1}
+.detail{font-size:12px;color:#aebbd0;line-height:1.8;margin-top:10px}
+.detail b{color:#eef3ff}
+.good{color:#6ee7b7}
+.bad{color:#fca5a5}
+.small{font-size:11px;color:#94a3b8;line-height:1.6}
+footer{text-align:center;color:#64748b;font-size:11px;margin:20px 0}
+@media(max-width:360px){body{padding:10px}.grid{gap:7px}.card{padding:10px}}
 </style>
 </head>
+
 <body>
+
 <header>
-<h1>🚀 Crypto AI Pro</h1>
-<p>Binance USDT perpetuals · 1-hour trend + 15-minute confirmation · paper trading only</p>
-<div id="status">Connecting to Binance public market data…</div>
-<div class="small">No API key required. This page does not place real orders.</div>
+<h1>⚡ CRYPTO AI PRO</h1>
+<div class="sub">V2 • Binance USDT-M Futures • Low Risk Strategy</div>
 </header>
 
-<section class="panel">
-<h2>Market scanner</h2>
-<div class="row">
-<div class="field"><label for="search">Search market</label><input id="search" placeholder="BTCUSDT"></div>
-<div class="field"><label for="coinSelect">Analyse coin</label><select id="coinSelect"><option>BTCUSDT</option></select></div>
-<div class="field"><button id="refreshBtn">Refresh data</button></div>
+<div class="panel">
+ <div class="top">
+  <div>
+   <b>Market Scanner</b>
+   <div class="small">15m Entry + 1h Trend Confirmation</div>
+  </div>
+  <button id="refresh" onclick="scan()">↻ SCAN NOW</button>
+ </div>
+ <div class="status" id="status">Ready to scan Binance Futures...</div>
+ <div class="status" id="updated">No scan completed yet</div>
 </div>
-<p class="small">Top 40 eligible USDT perpetual contracts ranked by 24-hour quote volume.</p>
-<div class="scroll"><table><thead><tr><th>Coin</th><th>Last price</th><th>24h change</th><th>Quote volume</th></tr></thead><tbody id="market"><tr><td colspan="4">Loading…</td></tr></tbody></table></div>
-</section>
 
-<section class="panel">
-<h2>Conservative multi-timeframe analysis</h2>
-<div id="analysis"><p>Waiting for candle data…</p></div>
-<p class="small">Signals are experimental. WAIT is normal. No signal is guaranteed.</p>
-</section>
-
-<section class="panel">
-<h2>Position risk calculator</h2>
-<div class="row">
-<div class="field"><label>Account balance (USDT)</label><input id="balance" type="number" min="0" step="any" value="5"></div>
-<div class="field"><label>Risk (%)</label><input id="riskPct" type="number" min="0.1" max="5" step="0.1" value="0.5"></div>
-<div class="field"><label>Entry price</label><input id="calcEntry" type="number" min="0" step="any" placeholder="Entry"></div>
-<div class="field"><label>Stop price</label><input id="calcStop" type="number" min="0" step="any" placeholder="Stop"></div>
+<div class="panel">
+ <div class="top">
+  <b>Signal Summary</b>
+  <span class="small">Closed candles only</span>
+ </div>
+ <div id="summary" class="detail">Waiting for market data...</div>
 </div>
-<button id="calcBtn">Calculate position size</button>
-<div id="riskResult" class="small">Enter values to calculate the approximate size.</div>
-<p class="small">Estimate only. Excludes funding, slippage, liquidation and exact exchange fees.</p>
-</section>
 
-<section class="panel">
-<h2>Paper trading</h2>
-<p class="small">Practice tracker only. It is not an exchange stop-loss or take-profit order.</p>
-<div class="row">
-<div class="field"><label>Symbol</label><input id="tradeCoin" value="BTCUSDT"></div>
-<div class="field"><label>Direction</label><select id="direction"><option value="LONG">LONG / BUY</option><option value="SHORT">SHORT / SELL</option></select></div>
-<div class="field"><label>Entry price</label><input id="tradeEntry" type="number" step="any"></div>
-<div class="field"><label>Quantity (coin)</label><input id="tradeQty" type="number" step="any"></div>
-</div>
-<div class="row">
-<div class="field"><label>Stop loss</label><input id="tradeSL" type="number" step="any"></div>
-<div class="field"><label>Take profit</label><input id="tradeTP" type="number" step="any"></div>
-<div class="field"><label>Fee per side (%)</label><input id="feePct" type="number" min="0" step="any" value="0.05"></div>
-<div class="field"><button id="openTradeBtn">Open paper trade</button></div>
-</div>
-<div id="openTrade"><p class="small">No open paper trade.</p></div>
-<hr>
-<h2>Performance summary</h2>
-<div id="pnlSummary" class="grid"></div>
-<div id="history"></div>
-<button id="clearHistoryBtn" class="secondary">Clear paper-trade history</button>
-<p class="small">Records are stored only in this browser's local storage.</p>
-</section>
+<div class="grid" id="coins"></div>
 
-<section class="panel">
-<h2>Important safety notes</h2>
-<p class="notice">No system can guarantee 90% or 100% accuracy. Test signals honestly before risking money.</p>
-<p class="small">The system checks 1-hour trend alignment, 15-minute break-and-retest, candle close and volume. It can still fail. Paper-test before considering real funds.</p>
-</section>
+<div class="panel">
+ <b>Strategy Rules</b>
+ <div class="detail">
+  • 1H EMA20 / EMA50 trend confirmation<br>
+  • 15M EMA20 / EMA50 confirmation<br>
+  • RSI 14 momentum filter<br>
+  • Volume confirmation<br>
+  • ATR-based Stop Loss<br>
+  • Minimum 1:2 risk/reward target<br>
+  • No confirmation = WAIT
+ </div>
+</div>
+
+<footer>
+Educational signal scanner only. Not financial advice.
+No automatic orders. Futures trading can cause rapid losses.
+</footer>
 
 <script>
-"use strict";
-const API="https://fapi.binance.com";
-const $=id=>document.getElementById(id);
-let marketData=[],busy=false;
-let trades=[];
-try{
- trades=JSON.parse(localStorage.getItem("capPaperTrades")||"[]");
- if(!Array.isArray(trades))trades=[];
-}catch(e){trades=[];}
+const SYMBOLS = [
+ "ETHUSDT","SOLUSDT","ZECUSDT","XRPUSDT",
+ "HYPEUSDT","BNBUSDT","ADAUSDT","WLDUSDT",
+ "AAVEUSDT","ELSAUSDT"
+];
 
-const nfmt=(v,d=6)=>Number.isFinite(Number(v))
- ?Number(v).toLocaleString("en-US",{maximumFractionDigits:d}):"—";
+const API = "https://fapi.binance.com/fapi/v1/klines";
+let scanning = false;
 
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
-
-async function getJSON(url){
- const r=await fetch(url);
- if(!r.ok)throw new Error("HTTP "+r.status);
- return r.json();
-}
-function persist(){
- try{localStorage.setItem("capPaperTrades",JSON.stringify(trades));}
- catch(e){$("status").textContent="Storage error: browser storage may be full or disabled.";}
-}
-function ema(a,p){
- if(a.length<p)return NaN;
- let x=a.slice(0,p).reduce((s,v)=>s+v,0)/p,k=2/(p+1);
- for(let i=p;i<a.length;i++)x=a[i]*k+x*(1-k);
- return x;
-}
-function rsi(a,p=14){
- if(a.length<=p)return NaN;
- let g=0,l=0;
- for(let i=1;i<=p;i++){
-  let d=a[i]-a[i-1];
-  if(d>0)g+=d;else l-=d;
+function ema(values, period){
+ let k=2/(period+1);
+ let result = values[0];
+ for(let i=1;i<values.length;i++){
+  result=values[i]*k+result*(1-k);
  }
- g/=p;l/=p;
- for(let i=p+1;i<a.length;i++){
-  let d=a[i]-a[i-1];
-  g=(g*(p-1)+Math.max(d,0))/p;
-  l=(l*(p-1)+Math.max(-d,0))/p;
+ return result;
+}
+
+function rsi(values, period=14){
+ let gains=0,losses=0;
+ for(let i=values.length-period;i<values.length;i++){
+  let change=values[i]-values[i-1];
+  if(change>0) gains+=change;
+  else losses-=change;
  }
- return l===0?100:100-100/(1+g/l);
+ let avgGain=gains/period;
+ let avgLoss=losses/period;
+ if(avgLoss===0) return 100;
+ let rs=avgGain/avgLoss;
+ return 100-(100/(1+rs));
 }
-async function loadMarket(){
- const [info,tickers]=await Promise.all([
-  getJSON(API+"/fapi/v1/exchangeInfo"),
-  getJSON(API+"/fapi/v1/ticker/24hr")
- ]);
- const allowed=new Set(info.symbols.filter(s=>
-  s.status==="TRADING"&&s.contractType==="PERPETUAL"&&s.quoteAsset==="USDT"
- ).map(s=>s.symbol));
- marketData=tickers.filter(t=>allowed.has(t.symbol))
-  .sort((a,b)=>+b.quoteVolume- +a.quoteVolume).slice(0,40);
- renderMarket();updateCoinOptions();
-}
-function renderMarket(){
- const q=$("search").value.trim().toUpperCase();
- const rows=marketData.filter(t=>t.symbol.includes(q));
- $("market").innerHTML=rows.map(t=>{
-  let p=+t.priceChangePercent;
-  return `<tr data-symbol="${esc(t.symbol)}">
-   <td><b>${esc(t.symbol)}</b></td>
-   <td>${nfmt(t.lastPrice,8)}</td>
-   <td class="${p>=0?"green":"red"}">${nfmt(p,2)}%</td>
-   <td>${nfmt(+t.quoteVolume/1e6,2)}M</td>
-  </tr>`;
- }).join("")||'<tr><td colspan="4">No matching contracts</td></tr>';
-}
-function updateCoinOptions(){
- let old=$("coinSelect").value;
- let syms=marketData.map(x=>x.symbol);
- if(old&&!syms.includes(old))syms.unshift(old);
- $("coinSelect").innerHTML=syms.map(s=>
-  `<option value="${esc(s)}">${esc(s)}</option>`
- ).join("");
- if(syms.includes(old))$("coinSelect").value=old;
-}
-function atr(c,p=14){
- if(c.length<=p)return NaN;
- let tr=[];
- for(let i=1;i<c.length;i++){
-  tr.push(Math.max(
-   c[i].h-c[i].l,
-   Math.abs(c[i].h-c[i-1].cl),
-   Math.abs(c[i].l-c[i-1].cl)
+
+function atr(candles, period=14){
+ let ranges=[];
+ for(let i=1;i<candles.length;i++){
+  let c=candles[i],p=candles[i-1];
+  ranges.push(Math.max(
+   c.h-c.l,
+   Math.abs(c.h-p.c),
+   Math.abs(c.l-p.c)
   ));
  }
- return tr.slice(-p).reduce((a,b)=>a+b,0)/p;
+ return ranges.slice(-period).reduce((a,b)=>a+b,0)/period;
 }
-function average(a){
- return a.length?a.reduce((x,y)=>x+y,0)/a.length:NaN;
-}
-async function analyse(symbol){
- const [raw15,raw1h]=await Promise.all([
-  getJSON(API+"/fapi/v1/klines?symbol="+encodeURIComponent(symbol)+"&interval=15m&limit=180"),
-  getJSON(API+"/fapi/v1/klines?symbol="+encodeURIComponent(symbol)+"&interval=1h&limit=120")
- ]);
- const parse=raw=>raw.slice(0,-1).map(k=>({
-  o:+k[1],h:+k[2],l:+k[3],cl:+k[4],v:+k[5]
+
+async function getCandles(symbol, interval){
+ const url=`${API}?symbol=${symbol}&interval=${interval}&limit=100`;
+ const response=await fetch(url);
+ if(!response.ok) throw new Error("Market data unavailable");
+ const raw=await response.json();
+ if(!Array.isArray(raw)||raw.length<60)
+  throw new Error("Insufficient candles");
+
+ // Remove the currently forming candle
+ return raw.slice(0,-1).map(x=>({
+  time:x[0],
+  o:Number(x[1]),
+  h:Number(x[2]),
+  l:Number(x[3]),
+  c:Number(x[4]),
+  v:Number(x[5])
  }));
- const c=parse(raw15),h=parse(raw1h);
- if(c.length<80||h.length<60)
-  throw new Error("Not enough closed candles for analysis");
+}
 
- const close=c.map(x=>x.cl),hc=h.map(x=>x.cl);
- const last=c[c.length-1];
- const e20=ema(close,20),e50=ema(close,50),r=rsi(close),a=atr(c);
- const h20=ema(hc,20),h50=ema(hc,50);
- const htfUp=h20>h50&&hc[hc.length-1]>h20;
- const htfDown=h20<h50&&hc[hc.length-1]<h20;
- const ltfUp=e20>e50&&last.cl>e20;
- const ltfDown=e20<e50&&last.cl<e20;
+function analyze(fifteen, hourly){
+ const closes=fifteen.map(x=>x.c);
+ const hcloses=hourly.map(x=>x.c);
 
- const avgVol=average(c.slice(-21,-1).map(x=>x.v));
- const volRatio=avgVol>0?last.v/avgVol:0;
+ const price=closes.at(-1);
+ const previous=closes.at(-2);
+ const e20=ema(closes.slice(-60),20);
+ const e50=ema(closes.slice(-80),50);
+ const h20=ema(hcloses.slice(-60),20);
+ const h50=ema(hcloses.slice(-80),50);
+ const momentum=rsi(closes,14);
+ const volatility=atr(fifteen,14);
 
- let longRetest=null,shortRetest=null;
- for(let i=Math.max(20,c.length-9);i<c.length-1;i++){
-  const prior=c.slice(i-20,i);
-  const top=Math.max(...prior.map(x=>x.h));
-  const bottom=Math.min(...prior.map(x=>x.l));
-  if(c[i].cl>top)longRetest=top;
-  if(c[i].cl<bottom)shortRetest=bottom;
- }
- const tolerance=Math.max(a*0.25,last.cl*0.0012);
- const bullRetest=longRetest!==null&&
-  last.l<=longRetest+tolerance&&
-  last.cl>longRetest&&last.cl>last.o;
- const bearRetest=shortRetest!==null&&
-  last.h>=shortRetest-tolerance&&
-  last.cl<shortRetest&&last.cl<last.o;
+ const current=fifteen.at(-1);
+ const averageVolume=fifteen.slice(-21,-1)
+  .reduce((sum,x)=>sum+x.v,0)/20;
+ const volumeRatio=current.v/averageVolume;
+ const atrPercent=(volatility/price)*100;
 
- const bullRsi=r>=50&&r<=68;
- const bearRsi=r>=32&&r<=50;
- const volumeOK=volRatio>=1.10;
- const buyOK=htfUp&&ltfUp&&bullRetest&&bullRsi&&volumeOK;
- const sellOK=htfDown&&ltfDown&&bearRetest&&bearRsi&&volumeOK;
+ const bullishTrend=h20>h50;
+ const bearishTrend=h20<h50;
+ const bullishEntry=e20>e50 && price>e20 &&
+  current.c>current.o && price>previous;
+ const bearishEntry=e20<e50 && price<e20 &&
+  current.c<current.o && price<previous;
 
- let signal="WAIT",sl=NaN,tps=[],entry=last.cl,reason=[];
- if(buyOK){
+ const volumeOK=volumeRatio>=1.15;
+ const volatilityOK=atrPercent>=0.10 && atrPercent<=4;
+
+ let signal="WAIT";
+ let reason="Waiting for stronger confirmation";
+ let entry=null,sl=null,tp=null;
+
+ if(bullishTrend && bullishEntry &&
+    momentum>=52 && momentum<=68 &&
+    volumeOK && volatilityOK){
+
   signal="BUY";
-  sl=Math.min(...c.slice(-8).map(x=>x.l))-a*0.2;
-  const risk=entry-sl;
-  if(!(risk>0&&risk/entry<0.025)){
-   signal="WAIT";sl=NaN;
-  }else tps=[1,1.5,2].map(x=>entry+risk*x);
- }else if(sellOK){
-  signal="SELL";
-  sl=Math.max(...c.slice(-8).map(x=>x.h))+a*0.2;
-  const risk=sl-entry;
-  if(!(risk>0&&risk/entry<0.025)){
-   signal="WAIT";sl=NaN;
-  }else tps=[1,1.5,2].map(x=>entry-risk*x);
- }
- if(!htfUp&&!htfDown)reason.push("1h trend unclear");
- else if(htfUp&&!ltfUp)reason.push("15m not aligned bullish");
- else if(htfDown&&!ltfDown)reason.push("15m not aligned bearish");
- if(!bullRetest&&!bearRetest)reason.push("no confirmed break-and-retest");
- if(!volumeOK)reason.push("volume below confirmation threshold");
- if(!(bullRsi||bearRsi))reason.push("RSI outside confirmation range");
- if(signal==="WAIT"&&!reason.length)
-  reason.push("risk/stop filter rejected setup");
+  reason="1H bullish + 15M momentum confirmed";
+  entry=price;
+  sl=entry-(1.5*volatility);
+  tp=entry+(3*volatility);
 
- const support=Math.min(...c.slice(-30).map(x=>x.l));
- const resistance=Math.max(...c.slice(-30).map(x=>x.h));
+ }else if(bearishTrend && bearishEntry &&
+    momentum>=32 && momentum<=48 &&
+    volumeOK && volatilityOK){
+
+  signal="SELL";
+  reason="1H bearish + 15M momentum confirmed";
+  entry=price;
+  sl=entry+(1.5*volatility);
+  tp=entry-(3*volatility);
+ }
+
  return {
-  symbol,last:last.cl,e20,e50,r,h20,h50,
-  htfUp,htfDown,ltfUp,ltfDown,volRatio,
-  bullRetest,bearRetest,signal,sl,tps,entry,a,
-  support,resistance,reason
+  signal,reason,price,entry,sl,tp,
+  rsi:momentum,
+  volume:volumeRatio,
+  atr:atrPercent,
+  trend:bullishTrend?"BULLISH":
+        bearishTrend?"BEARISH":"MIXED"
  };
 }
-function renderAnalysis(a){
- const cls=a.signal==="BUY"?"green":
-  a.signal==="SELL"?"red":"yellow";
- const trend=a.htfUp?"BULLISH":
-  a.htfDown?"BEARISH":"UNCLEAR";
- const align=a.ltfUp?"BULLISH":
-  a.ltfDown?"BEARISH":"MIXED";
- $("analysis").innerHTML=`
- <div class="signal ${cls}">${a.signal} · ${esc(a.symbol)}</div>
- <div class="grid">
-  <div class="metric">1-hour trend<b>${trend}</b></div>
-  <div class="metric">15-minute trend<b>${align}</b></div>
-  <div class="metric">Last CLOSED 15m price<b>${nfmt(a.last,8)}</b></div>
-  <div class="metric">15m RSI 14<b>${nfmt(a.r,2)}</b></div>
-  <div class="metric">1h EMA 20 / 50<b>${nfmt(a.h20,6)} / ${nfmt(a.h50,6)}</b></div>
-  <div class="metric">15m EMA 20 / 50<b>${nfmt(a.e20,6)} / ${nfmt(a.e50,6)}</b></div>
-  <div class="metric">Volume vs 20-candle avg<b>${nfmt(a.volRatio,2)}x</b></div>
-  <div class="metric">ATR 14 (15m)<b>${nfmt(a.a,8)}</b></div>
-  <div class="metric">Support estimate<b>${nfmt(a.support,8)}</b></div>
-  <div class="metric">Resistance estimate<b>${nfmt(a.resistance,8)}</b></div>
-  <div class="metric">Bullish break/retest<b>${a.bullRetest?"Confirmed":"Not confirmed"}</b></div>
-  <div class="metric">Bearish break/retest<b>${a.bearRetest?"Confirmed":"Not confirmed"}</b></div>
- </div>
- <hr><b>Confirmation checklist</b>
- <p class="small">1-hour trend alignment: ${a.htfUp||a.htfDown?"Yes":"No"}</p>
- <p class="small">15-minute trend alignment: ${a.ltfUp||a.ltfDown?"Yes":"No"}</p>
- <p class="small">Break-and-retest candle close: ${a.bullRetest||a.bearRetest?"Yes":"No"}</p>
- <p class="small">Volume confirmation (at least 1.10x average): ${a.volRatio>=1.10?"Yes":"No"}</p>
- <p class="small">Signal decision: ${
-  a.signal==="WAIT"?"WAIT — "+esc(a.reason.join("; ")):
-  "All required filters currently agree. This is still not a guarantee."
- }</p>
- <hr><b>Illustrative levels — paper testing only</b>
- <div class="grid">
-  <div class="metric">Entry reference<b>${a.signal==="WAIT"?"Wait":nfmt(a.entry,8)}</b></div>
-  <div class="metric">Stop loss<b>${a.signal==="WAIT"?"—":nfmt(a.sl,8)}</b></div>
-  ${[0,1,2].map(i=>`
-   <div class="metric">Take profit ${i+1} (${
-    ["1R","1.5R","2R"][i]
-   })<b>${a.signal==="WAIT"?"—":nfmt(a.tps[i],8)}</b></div>
-  `).join("")}
- </div>
- <p class="small">Strict filters deliberately produce fewer signals. WAIT means the setup did not meet every rule. These rules are experimental and need backtesting.</p>`;
-}
-async function refreshAll(){
- if(busy)return;
- busy=true;
- $("status").textContent="Updating public Binance data…";
- try{
-  await loadMarket();
-  $("status").textContent="Market loaded · analysing "+$("coinSelect").value+"…";
-  let a=await analyse($("coinSelect").value);
-  renderAnalysis(a);
-  $("status").textContent="Updated "+new Date().toLocaleTimeString()+" · closed 15m candles";
- }catch(e){
-  $("status").textContent="Update error: "+e.message+" · tap Refresh to retry";
-  $("analysis").innerHTML=`<p class="red">Analysis unavailable: ${esc(e.message)}</p>`;
- }finally{busy=false;}
-}
-function calcRisk(){
- let bal=+$("balance").value,pct=+$("riskPct").value;
- let entry=+$("calcEntry").value,stop=+$("calcStop").value;
- if(!(bal>0&&pct>0&&pct<=5&&entry>0&&stop>0&&entry!==stop)){
-  $("riskResult").textContent="Enter valid positive values. Risk percentage must be 5% or less.";
-  return;
- }
- let risk=bal*pct/100,qty=risk/Math.abs(entry-stop);
- $("riskResult").innerHTML=`Planned price-risk: <b>${nfmt(risk,4)} USDT</b> · Approximate quantity: <b>${nfmt(qty,8)}</b> · Notional: <b>${nfmt(qty*entry,4)} USDT</b>. Fees and slippage are extra.`;
-}
-function openPaper(){
- let symbol=$("tradeCoin").value.trim().toUpperCase();
- let dir=$("direction").value,entry=+$("tradeEntry").value;
- let qty=+$("tradeQty").value,sl=+$("tradeSL").value;
- let tp=+$("tradeTP").value,fee=+$("feePct").value;
- if(!/^[A-Z0-9]{4,20}$/.test(symbol)||
-  !(entry>0&&qty>0&&sl>0&&tp>0)||fee<0){
-  alert("Please enter valid symbol, entry, quantity, stop, target and fee.");
-  return;
- }
- if(trades.some(t=>t.status==="OPEN")){
-  alert("Close the current open paper trade first.");
-  return;
- }
- if(dir==="LONG"&&!(sl<entry&&tp>entry)){
-  alert("LONG requires stop below entry and target above entry.");
-  return;
- }
- if(dir==="SHORT"&&!(sl>entry&&tp<entry)){
-  alert("SHORT requires stop above entry and target below entry.");
-  return;
- }
- trades.unshift({
-  id:Date.now(),symbol,dir,entry,qty,sl,tp,fee,
-  status:"OPEN",opened:new Date().toISOString()
+
+function fmt(n){
+ if(n===null||n===undefined) return "—";
+ return Number(n).toLocaleString("en-US",{
+  maximumFractionDigits:6
  });
- persist();renderTrades();
 }
-function closePaper(id,exit,reason){
- let t=trades.find(x=>x.id===id&&x.status==="OPEN");
- if(!t||!(exit>0))return;
- let gross=(t.dir==="LONG"?exit-t.entry:t.entry-exit)*t.qty;
- let fees=(t.entry*t.qty+exit*t.qty)*t.fee/100;
- t.exit=exit;t.gross=gross;t.fees=fees;
- t.net=gross-fees;t.reason=reason;
- t.status="CLOSED";t.closed=new Date().toISOString();
- persist();renderTrades();
+
+function render(symbol,data){
+ const card=document.createElement("div");
+ card.className="card";
+
+ if(data.error){
+  card.innerHTML=`
+   <div class="coin">${symbol}</div>
+   <div style="margin-top:12px" class="signal wait">UNAVAILABLE</div>
+   <div class="detail">${data.error}</div>`;
+  return card;
+ }
+
+ const cls=data.signal.toLowerCase();
+ card.innerHTML=`
+  <div class="coin">${symbol.replace("USDT","")} / USDT</div>
+  <div class="price">${fmt(data.price)}</div>
+  <span class="signal ${cls}">${data.signal}</span>
+
+  <div class="detail">
+   Trend: <b>${data.trend}</b><br>
+   RSI: <b>${fmt(data.rsi)}</b><br>
+   Volume: <b>${fmt(data.volume)}x</b><br>
+   ATR: <b>${fmt(data.atr)}%</b><br>
+   <hr style="border-color:#26364e">
+   Entry: <b>${fmt(data.entry)}</b><br>
+   Stop Loss: <b class="bad">${fmt(data.sl)}</b><br>
+   Take Profit: <b class="good">${fmt(data.tp)}</b><br>
+   <span class="small">${data.reason}</span>
+  </div>`;
+ return card;
 }
-function manualClose(id){
- let x=+$("manualExit").value;
- if(!(x>0)){alert("Enter a valid exit price.");return;}
- closePaper(id,x,"Manual close");
-}
-async function monitor(){
- let t=trades.find(x=>x.status==="OPEN");
- if(!t)return;
+
+async function scan(){
+ if(scanning)return;
+ scanning=true;
+ const button=document.getElementById("refresh");
+ button.disabled=true;
+ button.textContent="SCANNING...";
+ document.getElementById("status").textContent=
+  "Getting Binance Futures market data...";
+
+ const container=document.getElementById("coins");
+ container.innerHTML="";
+ let results=[];
+
  try{
-  let d=await getJSON(API+"/fapi/v1/ticker/price?symbol="+encodeURIComponent(t.symbol));
-  let p=+d.price;
-  if(t.dir==="LONG"){
-   if(p<=t.sl)closePaper(t.id,p,"Stop touched on price check");
-   else if(p>=t.tp)closePaper(t.id,p,"Target touched on price check");
-  }else{
-   if(p>=t.sl)closePaper(t.id,p,"Stop touched on price check");
-   else if(p<=t.tp)closePaper(t.id,p,"Target touched on price check");
+  for(let i=0;i<SYMBOLS.length;i++){
+   const symbol=SYMBOLS[i];
+   document.getElementById("status").textContent=
+    `Analyzing ${symbol} (${i+1}/${SYMBOLS.length})...`;
+
+   try{
+    const [m15,h1]=await Promise.all([
+     getCandles(symbol,"15m"),
+     getCandles(symbol,"1h")
+    ]);
+    const data=analyze(m15,h1);
+    results.push({symbol,data});
+   }catch(error){
+    results.push({
+     symbol,
+     data:{error:error.message}
+    });
+   }
+
+   container.appendChild(
+    render(symbol,results[results.length-1].data)
+   );
   }
- }catch(e){
-  $("status").textContent="Paper monitor error: "+e.message;
+
+  const valid=results.filter(x=>!x.data.error);
+  const buys=valid.filter(x=>x.data.signal==="BUY").length;
+  const sells=valid.filter(x=>x.data.signal==="SELL").length;
+  const waits=valid.filter(x=>x.data.signal==="WAIT").length;
+  const unavailable=results.length-valid.length;
+
+  document.getElementById("summary").innerHTML=`
+   <span class="good">BUY: ${buys}</span> &nbsp; 
+   <span class="bad">SELL: ${sells}</span> &nbsp;
+   WAIT: ${waits}<br>
+   Unavailable: ${unavailable} / ${SYMBOLS.length}
+  `;
+
+  document.getElementById("status").textContent=
+   "Scan completed. Check each signal before considering a trade.";
+  document.getElementById("updated").textContent=
+   "Last update: "+new Date().toLocaleString();
+
+ }catch(error){
+  document.getElementById("status").textContent=
+   "Connection problem. Please try again.";
+ }finally{
+  scanning=false;
+  button.disabled=false;
+  button.textContent="↻ SCAN NOW";
  }
 }
-function renderTrades(){
- let t=trades.find(x=>x.status==="OPEN");
- $("openTrade").innerHTML=t?
- `<p class="green"><b>OPEN PAPER POSITION · ${esc(t.symbol)} ${t.dir}</b></p>
- <p class="small">Entry ${nfmt(t.entry,8)} · Qty ${nfmt(t.qty,8)} · SL ${nfmt(t.sl,8)} · TP ${nfmt(t.tp,8)}</p>
- <div class="row"><div class="field"><label>Manual exit price</label><input id="manualExit" type="number" step="any"></div>
- <div class="field"><button class="danger" id="manualCloseBtn">Close paper trade</button></div></div>`:
- "<p class='small'>No open paper trade.</p>";
 
- if(t)$("manualCloseBtn").onclick=()=>manualClose(t.id);
-
- let done=trades.filter(x=>x.status==="CLOSED");
- let net=done.reduce((s,x)=>s+x.net,0);
- let wins=done.filter(x=>x.net>0).length;
- let loss=done.length-wins;
- let rate=done.length?100*wins/done.length:0;
-
- $("pnlSummary").innerHTML=`
- <div class="metric">Closed trades<b>${done.length}</b></div>
- <div class="metric">Win rate<b>${nfmt(rate,1)}%</b></div>
- <div class="metric">Net P&L<b class="${net>=0?"green":"red"}">${nfmt(net,4)} USDT</b></div>
- <div class="metric">Wins / losses<b>${wins} / ${loss}</b></div>`;
-
- $("history").innerHTML=done.slice(0,30).map(x=>`
- <div class="metric" style="margin-top:8px">
- <b>${esc(x.symbol)} · ${x.dir} ·
- <span class="${x.net>=0?"green":"red"}">${nfmt(x.net,4)} USDT net</span></b>
- <p class="small">Entry ${nfmt(x.entry,8)} → exit ${nfmt(x.exit,8)} · Gross ${nfmt(x.gross,4)} · Fees ${nfmt(x.fees,4)}<br>
- ${esc(x.reason)} · ${new Date(x.closed).toLocaleString()}</p>
- </div>`).join("")||"<p class='small'>No completed paper trades yet.</p>";
-}
-$("refreshBtn").addEventListener("click",refreshAll);
-$("search").addEventListener("input",renderMarket);
-$("coinSelect").addEventListener("change",async()=>{
- if(!busy){
-  busy=true;
-  try{
-   let a=await analyse($("coinSelect").value);
-   renderAnalysis(a);
-   $("tradeCoin").value=$("coinSelect").value;
-  }catch(e){
-   $("analysis").textContent="Analysis error: "+e.message;
-  }finally{busy=false;}
- }
-});
-$("market").addEventListener("click",e=>{
- let tr=e.target.closest("tr[data-symbol]");
- if(tr){
-  $("coinSelect").value=tr.dataset.symbol;
-  $("tradeCoin").value=tr.dataset.symbol;
-  $("coinSelect").dispatchEvent(new Event("change"));
- }
-});
-$("calcBtn").addEventListener("click",calcRisk);
-$("openTradeBtn").addEventListener("click",openPaper);
-$("clearHistoryBtn").addEventListener("click",()=>{
- if(confirm("Delete all paper-trade records stored in this browser?")){
-  trades=[];persist();renderTrades();
- }
-});
-refreshAll();renderTrades();
-setInterval(refreshAll,60000);
-setInterval(monitor,15000);
+scan();
 </script>
 </body>
 </html>
-
