@@ -5,456 +5,677 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>Crypto AI Pro V7</title>
+<title>Crypto AI Pro - Paper Trading</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:13px;background:#0b1220;color:#eef3ff;font-family:Arial,sans-serif}
-header{text-align:center;padding:15px 0}
-h1{margin:0;color:#60a5fa;font-size:25px}
-.sub,.small{font-size:12px;color:#94a3b8;line-height:1.6}
-.panel,.card{background:#131f32;border:1px solid #26364e;border-radius:13px;padding:13px;margin-bottom:12px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-button{background:#2563eb;color:white;border:0;border-radius:8px;padding:12px;font-weight:bold}
-button:disabled{opacity:.5}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}
-.stat{background:#0b1220;border-radius:9px;padding:11px 3px;text-align:center}
-.stat strong{display:block;font-size:20px}
-.stat span{font-size:10px;color:#94a3b8}
-.status{font-size:12px;color:#94a3b8;margin-top:10px;line-height:1.6}
-#bar{height:5px;background:#26364e;border-radius:8px;margin-top:10px;overflow:hidden}
-#progress{height:100%;width:0;background:#3b82f6}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.card{margin:0;min-width:0;padding:11px}
-.coin{font-weight:bold;font-size:15px;overflow-wrap:anywhere}
-.price{font-size:17px;margin:9px 0}
-.signal{display:inline-block;padding:6px 9px;border-radius:6px;font-weight:bold;font-size:11px}
-.BUY{background:#064e3b;color:#6ee7b7}
-.SELL{background:#7f1d1d;color:#fca5a5}
-.detail{font-size:11px;color:#b4c1d4;line-height:1.9;margin-top:9px;overflow-wrap:anywhere}
-.detail b{color:white}
-.good{color:#6ee7b7!important}
-.bad{color:#fca5a5!important}
-h2{font-size:16px;margin:18px 0 10px}
-.empty{background:#131f32;border:1px dashed #394b65;padding:18px;border-radius:12px;text-align:center;color:#94a3b8;font-size:13px;grid-column:1/-1}
-.warning{color:#fbbf24}
-footer{text-align:center;color:#64748b;font-size:11px;margin:20px 0;line-height:1.8}
-@media(max-width:360px){body{padding:8px}.grid{gap:6px}.card{padding:8px}}
+body{margin:0;padding:14px;background:#0b1220;color:#e8eef8;font-family:Arial,sans-serif}
+.wrap{max-width:850px;margin:auto}
+h1{font-size:24px;margin:5px 0}
+h2{font-size:18px;margin:22px 0 10px}
+.sub,.small{color:#9aa9bf;font-size:12px;line-height:1.65}
+.panel,.card{background:#131f32;border:1px solid #263750;border-radius:13px;padding:13px;margin:12px 0}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+button{background:#2563eb;color:white;border:0;border-radius:9px;padding:11px 14px;font-weight:bold;margin:4px 2px;cursor:pointer}
+button:disabled{opacity:.45}
+button.secondary{background:#334155}
+button.green{background:#087f5b}
+button.red{background:#b42332}
+.stat{background:#182940;border-radius:10px;padding:12px;flex:1;min-width:105px}
+.stat strong{display:block;font-size:21px;margin-top:5px}
+.muted{color:#9aa9bf}
+.greenText{color:#42d69b}
+.redText{color:#ff7777}
+.yellow{color:#ffd166}
+.tag{display:inline-block;border-radius:6px;padding:5px 8px;font-size:11px;font-weight:bold;background:#263750;margin:3px}
+.buy{background:#075b43;color:#75f0bd}
+.sell{background:#702a34;color:#ff9ca5}
+hr{border:0;border-top:1px solid #2a3a50;margin:12px 0}
+footer{text-align:center;color:#8292a9;font-size:11px;margin:25px 0;line-height:1.7}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<header>
-<h1>⚡ CRYPTO AI PRO</h1>
-<div class="sub">V7 • CONFIRMED BREAKOUT SCANNER</div>
-<div class="small">BINANCE USDT PERPETUAL FUTURES</div>
-</header>
+<h1>🚀 Crypto AI Pro</h1>
+<div class="sub">15-minute Binance Futures scanner · PAPER TRADING ONLY</div>
 
 <div class="panel">
- <div class="top">
-  <div>
-   <b>V7 Market Scanner</b>
-   <div class="small">15M Setup • 1H Trend • Breakout Trigger</div>
+  <div class="row">
+    <div>
+      <span class="tag">15 MINUTE</span>
+      <span class="tag">1 HOUR TREND</span>
+      <span class="tag">PAPER ONLY</span>
+    </div>
+    <span id="clock" class="small muted">Ready</span>
   </div>
-  <button id="scanBtn" onclick="startScan()">↻ SCAN NOW</button>
- </div>
- <div class="status" id="status">Connecting to Binance...</div>
- <div id="bar"><div id="progress"></div></div>
- <div class="stats">
-  <div class="stat"><strong id="total">0</strong><span>SCANNED</span></div>
-  <div class="stat"><strong id="buyCount" class="good">0</strong><span>BUY SETUPS</span></div>
-  <div class="stat"><strong id="sellCount" class="bad">0</strong><span>SELL SETUPS</span></div>
- </div>
- <div class="status" id="nextScan">Next scan: calculating...</div>
- <div class="status" id="lastScan">No completed scan yet</div>
+  <p id="status" class="small yellow">Ready to scan.</p>
+  <button id="scanBtn" onclick="startScan()">🔍 SCAN ALL COINS</button>
+  <button class="secondary" onclick="stopScan()">STOP SCAN</button>
+  <div class="small">Automatic market scan every 15 minutes while this page stays open. Scanning may take time. Some coins may be skipped if Binance limits requests.</div>
 </div>
 
-<div class="panel warning">
- <b>Important: Conditional entries only</b>
- <div class="small">
- A setup is NOT an instruction to enter immediately.
- Wait for price to cross its trigger level. Confirm the live price and candle on TradingView. Signals expire.
- </div>
+<div class="row">
+  <div class="stat"><span class="small">Scanned</span><strong id="scanned">0</strong></div>
+  <div class="stat"><span class="small">Signals</span><strong id="opportunities">0</strong></div>
+  <div class="stat"><span class="small">Next scan</span><strong id="nextScan">—</strong></div>
 </div>
 
-<h2>🟢 BUY Setups</h2>
-<div class="grid" id="buyResults">
- <div class="empty">Waiting for BUY setups...</div>
-</div>
+<h2>📊 BUY / SELL opportunities</h2>
+<div class="sub">Select a signal to register its entry, SL and TP automatically.</div>
+<div id="signals"><div class="panel muted">Start your first scan.</div></div>
 
-<h2>🔴 SELL Setups</h2>
-<div class="grid" id="sellResults">
- <div class="empty">Waiting for SELL setups...</div>
+<h2>📝 Paper trades</h2>
+<div class="row">
+  <div class="stat"><span class="small">Completed</span><strong id="total">0</strong></div>
+  <div class="stat"><span class="small">Wins</span><strong id="wins" class="greenText">0</strong></div>
+  <div class="stat"><span class="small">Losses</span><strong id="losses" class="redText">0</strong></div>
+  <div class="stat"><span class="small">Win rate</span><strong id="winrate">0%</strong></div>
 </div>
+<div id="trades"><div class="panel muted">No paper trades selected yet.</div></div>
 
-<div class="panel">
- <b>V7 Strategy Conditions</b>
- <div class="detail">
- • All eligible USDT perpetual contracts<br>
- • 1H EMA20 / EMA50 trend alignment<br>
- • 15M EMA20 / EMA50 trend alignment<br>
- • ADX trend-strength filter<br>
- • Fibonacci 0.618–0.786 pullback<br>
- • Confirmed swing pivots<br>
- • Rejection candle confirmation<br>
- • Entry trigger beyond confirmation candle<br>
- • ATR-buffered stop loss<br>
- • TP1 = 1.5R, TP2 = 2.5R<br>
- • Signal expires after two 15M candles<br>
- • BUY and SELL setups
- </div>
+<div class="row">
+  <button class="secondary" onclick="exportCSV()">⬇ EXPORT HISTORY</button>
+  <button class="red" onclick="clearHistory()">CLEAR HISTORY</button>
 </div>
 
 <footer>
-Research and paper-testing tool only.<br>
-No guaranteed profits. No automatic orders.<br>
-Futures trading can result in rapid losses.
+No Binance login, API key, deposits or real orders.<br>
+Uses public market data only. Paper results are simulations, not guaranteed trading results.
 </footer>
+</div>
 
 <script>
-const BASE="https://fapi.binance.com";
-const TF=15*60*1000;
-let busy=false;
-let timer=null;
-let results=[];
+"use strict";
 
-async function getJSON(url){
- const r=await fetch(url);
- if(r.status===429||r.status===418)
-  throw new Error("Binance rate limit. Wait before scanning again.");
- if(!r.ok)throw new Error("Binance API "+r.status);
- return r.json();
+const API="https://fapi.binance.com";
+const STORE="crypto-ai-pro-paper-v8";
+const SCAN_INTERVAL=15*60*1000;
+const MONITOR_INTERVAL=20*1000;
+
+let trades=loadTrades();
+let signals=[];
+let symbols=[];
+let running=false;
+let stopRequested=false;
+let scanCount=0;
+let nextScanAt=0;
+
+function loadTrades(){
+  try{
+    const data=JSON.parse(localStorage.getItem(STORE)||"[]");
+    return Array.isArray(data)?data:[];
+  }catch(e){return []}
 }
 
-async function candles(symbol,interval){
- const raw=await getJSON(
-  BASE+"/fapi/v1/klines?symbol="+symbol+
-  "&interval="+interval+"&limit=120"
- );
- if(!Array.isArray(raw)||raw.length<70)
-  throw new Error("Insufficient candles");
-
- return raw.slice(0,-1).map(x=>({
-  t:+x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]
- }));
-}
-
-function ema(a,period){
- if(a.length<period)return [];
- const out=[];
- let value=a.slice(0,period).reduce((s,x)=>s+x,0)/period;
- out[period-1]=value;
- const k=2/(period+1);
- for(let i=period;i<a.length;i++){
-  value=a[i]*k+value*(1-k);
-  out[i]=value;
- }
- return out;
-}
-
-function atr(a,p=14){
- const tr=[];
- for(let i=1;i<a.length;i++){
-  tr.push(Math.max(
-   a[i].h-a[i].l,
-   Math.abs(a[i].h-a[i-1].c),
-   Math.abs(a[i].l-a[i-1].c)
-  ));
- }
- if(tr.length<p)return 0;
- return tr.slice(-p).reduce((s,x)=>s+x,0)/p;
-}
-
-function adx(a,p=14){
- if(a.length<p*2+2)return 0;
- const trs=[],plus=[],minus=[];
- for(let i=1;i<a.length;i++){
-  const up=a[i].h-a[i-1].h;
-  const down=a[i-1].l-a[i].l;
-  plus.push(up>down&&up>0?up:0);
-  minus.push(down>up&&down>0?down:0);
-  trs.push(Math.max(
-   a[i].h-a[i].l,
-   Math.abs(a[i].h-a[i-1].c),
-   Math.abs(a[i].l-a[i-1].c)
-  ));
- }
- const dx=[];
- for(let i=p-1;i<trs.length;i++){
-  const tr=trs.slice(i-p+1,i+1).reduce((s,x)=>s+x,0);
-  if(!tr)continue;
-  const pd=100*plus.slice(i-p+1,i+1).reduce((s,x)=>s+x,0)/tr;
-  const md=100*minus.slice(i-p+1,i+1).reduce((s,x)=>s+x,0)/tr;
-  dx.push(100*Math.abs(pd-md)/Math.max(pd+md,0.000001));
- }
- if(dx.length<p)return 0;
- return dx.slice(-p).reduce((s,x)=>s+x,0)/p;
-}
-
-function pivots(a,r=2){
- const out=[];
- for(let i=r;i<a.length-r;i++){
-  let hi=true,lo=true;
-  for(let j=1;j<=r;j++){
-   if(a[i].h<=a[i-j].h||a[i].h<=a[i+j].h)hi=false;
-   if(a[i].l>=a[i-j].l||a[i].l>=a[i+j].l)lo=false;
+function saveTrades(){
+  try{
+    localStorage.setItem(STORE,JSON.stringify(trades));
+  }catch(e){
+    setStatus("Storage is full. Export your history and clear old records.");
   }
-  if(hi)out.push({type:"H",price:a[i].h,index:i});
-  if(lo)out.push({type:"L",price:a[i].l,index:i});
- }
- out.sort((x,y)=>x.index-y.index);
- const clean=[];
- for(const p of out){
-  const last=clean[clean.length-1];
-  if(last&&last.index===p.index)continue;
-  if(last&&last.type===p.type){
-   const extreme=p.type==="H"?p.price>last.price:p.price<last.price;
-   if(extreme)clean[clean.length-1]=p;
-  }else clean.push(p);
- }
- return clean;
+  renderTrades();
 }
 
-function impulse(a,direction,maxAge){
- const ps=pivots(a);
- if(ps.length<2)return null;
- const lastIndex=a.length-1;
- for(let i=ps.length-1;i>=1;i--){
-  const x=ps[i-1],y=ps[i];
-  if(lastIndex-y.index>maxAge)continue;
-  if(direction==="BUY"&&x.type==="L"&&y.type==="H"&&y.price>x.price){
-   return {low:x.price,high:y.price,range:y.price-x.price,end:y.index};
+function setStatus(message){
+  document.getElementById("status").textContent=message;
+}
+
+function sleep(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
+function fmt(value){
+  if(value===null||value===undefined||!Number.isFinite(Number(value)))return "—";
+  return Number(value).toPrecision(7);
+}
+
+async function api(path){
+  const response=await fetch(API+path);
+  if(!response.ok)throw new Error("Binance API error "+response.status);
+  return response.json();
+}
+
+function ema(values,period){
+  if(values.length<period)return [];
+  const k=2/(period+1);
+  const output=[];
+  let value=values.slice(0,period).reduce((a,b)=>a+b,0)/period;
+  output[period-1]=value;
+  for(let i=period;i<values.length;i++){
+    value=values[i]*k+value*(1-k);
+    output[i]=value;
   }
-  if(direction==="SELL"&&x.type==="H"&&y.type==="L"&&y.price<x.price){
-   return {high:x.price,low:y.price,range:x.price-y.price,end:y.index};
+  return output;
+}
+
+function rsi(values,period=14){
+  if(values.length<period+1)return 50;
+  let gains=0,losses=0;
+  for(let i=values.length-period;i<values.length;i++){
+    const difference=values[i]-values[i-1];
+    if(difference>0)gains+=difference;
+    else losses-=difference;
   }
- }
- return null;
+  if(losses===0)return 100;
+  const rs=gains/losses;
+  return 100-100/(1+rs);
 }
 
-function analyze(m15,h1){
- const c=m15[m15.length-1];
- const prev=m15[m15.length-2];
- const price=c.c;
- const vol=atr(m15);
- if(!vol||price<=0)return null;
-
- // Expire old setups. Only the latest completed candle can create a setup.
- const age=Date.now()-(c.t+TF);
- if(age<0||age>TF*2)return null;
-
- const e15f=ema(m15.map(x=>x.c),20);
- const e15s=ema(m15.map(x=>x.c),50);
- const e1f=ema(h1.map(x=>x.c),20);
- const e1s=ema(h1.map(x=>x.c),50);
-
- const i15=m15.length-1,i1=h1.length-1;
- const adxValue=adx(m15);
-
- if(!e15f[i15]||!e15s[i15]||!e1f[i1]||!e1s[i1])return null;
- if(adxValue<18)return null;
-
- const candleRange=c.h-c.l;
- if(candleRange<=0)return null;
- const body=Math.abs(c.c-c.o);
- const lower=c.l-Math.min(c.o,c.c);
- const upper=c.h-Math.max(c.o,c.c);
-
- const bullishCandle=c.c>c.o&&c.c>prev.c;
- const bearishCandle=c.c<c.o&&c.c<prev.c;
-
- const bullishReject=
-  lower>=Math.max(body*0.5,candleRange*0.20)&&
-  c.c>=c.l+candleRange*0.65;
-
- const bearishReject=
-  upper>=Math.max(body*0.5,candleRange*0.20)&&
-  c.c<=c.h-candleRange*0.65;
-
- let direction=null;
- if(e1f[i1]>e1s[i1]&&e15f[i15]>e15s[i15]&&price>e15f[i15])
-  direction="BUY";
- if(e1f[i1]<e1s[i1]&&e15f[i15]<e15s[i15]&&price<e15f[i15])
-  direction="SELL";
- if(!direction)return null;
-
- const imp=impulse(m15,direction,30);
- if(!imp||imp.range<vol*2)return null;
-
- let zoneLow,zoneHigh,touched=false,rejection=false;
- if(direction==="BUY"){
-  zoneLow=imp.high-imp.range*0.786;
-  zoneHigh=imp.high-imp.range*0.618;
-  touched=c.l<=zoneHigh&&c.h>=zoneLow;
-  rejection=bullishCandle&&bullishReject&&c.c>=zoneLow;
- }else{
-  zoneLow=imp.low+imp.range*0.618;
-  zoneHigh=imp.low+imp.range*0.786;
-  touched=c.h>=zoneLow&&c.l<=zoneHigh;
-  rejection=bearishCandle&&bearishReject&&c.c<=zoneHigh;
- }
-
- if(!touched||!rejection)return null;
-
- // Conditional breakout trigger, not an immediate market entry.
- const buffer=vol*0.05;
- const trigger=direction==="BUY"?c.h+buffer:c.l-buffer;
-
- const sl=direction==="BUY"
-  ?Math.min(c.l,imp.low)-vol*0.25
-  :Math.max(c.h,imp.high)+vol*0.25;
-
- const risk=direction==="BUY"?trigger-sl:sl-trigger;
- if(risk<=vol*0.15)return null;
-
- const tp1=direction==="BUY"?trigger+risk*1.5:trigger-risk*1.5;
- const tp2=direction==="BUY"?trigger+risk*2.5:trigger-risk*2.5;
-
- return {
-  signal:direction,price,trigger,sl,tp1,tp2,
-  zoneLow,zoneHigh,adx:adxValue,
-  atrPercent:vol/price*100,
-  candleTime:c.t,
-  expiresAt:c.t+TF*3,
-  status:"WAIT FOR BREAKOUT"
- };
+function atr(candles,period=14){
+  let sum=0,count=0;
+  for(let i=Math.max(1,candles.length-period);i<candles.length;i++){
+    const high=+candles[i][2];
+    const low=+candles[i][3];
+    const previous=+candles[i-1][4];
+    sum+=Math.max(high-low,Math.abs(high-previous),Math.abs(low-previous));
+    count++;
+  }
+  return count?sum/count:0;
 }
 
-function fmt(n){
- if(!Number.isFinite(Number(n)))return "—";
- return Number(n).toLocaleString("en-US",{maximumFractionDigits:8});
+function adxApprox(candles,period=14){
+  let plus=0,minus=0,tr=0;
+  for(let i=Math.max(1,candles.length-period);i<candles.length;i++){
+    const up=+candles[i][2]- +candles[i-1][2];
+    const down=+candles[i-1][3]- +candles[i][3];
+    if(up>down&&up>0)plus+=up;
+    if(down>up&&down>0)minus+=down;
+    tr+=Math.max(
+      +candles[i][2]- +candles[i][3],
+      Math.abs(+candles[i][2]- +candles[i-1][4]),
+      Math.abs(+candles[i][3]- +candles[i-1][4])
+    );
+  }
+  return tr?100*Math.abs(plus-minus)/tr:0;
 }
 
-function card(x){
- const d=x.data;
- const expiry=new Date(d.expiresAt).toLocaleTimeString();
- return `
- <div class="card">
-  <div class="coin">${x.symbol}</div>
-  <div class="price">${fmt(d.price)}</div>
-  <span class="signal ${d.signal}">${d.signal} SETUP</span>
-  <div class="detail">
-   <b class="warning">WAIT FOR BREAKOUT</b><br>
-   Trigger: <b>${fmt(d.trigger)}</b><br>
-   Do not enter before trigger confirmation.
-   <hr style="border-color:#26364e">
-   Fib zone: <b>${fmt(d.zoneLow)} – ${fmt(d.zoneHigh)}</b><br>
-   Stop Loss: <b class="bad">${fmt(d.sl)}</b><br>
-   TP1 (1.5R): <b class="good">${fmt(d.tp1)}</b><br>
-   TP2 (2.5R): <b class="good">${fmt(d.tp2)}</b>
-   <hr style="border-color:#26364e">
-   ADX: <b>${fmt(d.adx)}</b><br>
-   ATR: <b>${fmt(d.atrPercent)}%</b><br>
-   Signal expires: <b>${expiry}</b>
-  </div>
- </div>`;
+function analyse(candles){
+  if(candles.length<55)return null;
+  const closes=candles.map(k=>+k[4]);
+  const volumes=candles.map(k=>+k[5]);
+  const e20=ema(closes,20);
+  const e50=ema(closes,50);
+  const fast=ema(closes,12);
+  const slow=ema(closes,26);
+  const last=closes.length-1;
+  const avgVolume=volumes.slice(-21,-1).reduce((a,b)=>a+b,0)/20;
+
+  return {
+    candles,
+    price:closes[last],
+    e20:e20[last],
+    e50:e50[last],
+    previousE20:e20[last-3],
+    rsi:rsi(closes),
+    macd:fast[last]-slow[last],
+    previousMacd:fast[last-1]-slow[last-1],
+    volume:volumes[last],
+    avgVolume,
+    atr:atr(candles),
+    adx:adxApprox(candles)
+  };
 }
 
-function show(){
- const buys=results.filter(x=>x.data.signal==="BUY");
- const sells=results.filter(x=>x.data.signal==="SELL");
- document.getElementById("buyCount").textContent=buys.length;
- document.getElementById("sellCount").textContent=sells.length;
- document.getElementById("buyResults").innerHTML=
-  buys.length?buys.map(card).join(""):
-  '<div class="empty">No confirmed BUY setups.</div>';
- document.getElementById("sellResults").innerHTML=
-  sells.length?sells.map(card).join(""):
-  '<div class="empty">No confirmed SELL setups.</div>';
+async function getCandles(symbol,interval){
+  const data=await api(
+    "/fapi/v1/klines?symbol="+symbol+"&interval="+interval+"&limit=100"
+  );
+  // Ignore the currently forming candle.
+  return data.slice(0,-1);
+}
+
+function buildSignal(symbol,a,b){
+  if(!a||!b)return null;
+
+  const buyChecks=[
+    b.e20>b.e50,
+    a.e20>a.e50,
+    a.e20>a.previousE20,
+    a.rsi>=52&&a.rsi<=68,
+    a.macd>a.previousMacd&&a.macd>0,
+    a.volume>a.avgVolume*1.05,
+    a.adx>=20
+  ];
+
+  const sellChecks=[
+    b.e20<b.e50,
+    a.e20<a.e50,
+    a.e20<a.previousE20,
+    a.rsi<=48&&a.rsi>=32,
+    a.macd<a.previousMacd&&a.macd<0,
+    a.volume>a.avgVolume*1.05,
+    a.adx>=20
+  ];
+
+  const buyScore=buyChecks.filter(Boolean).length;
+  const sellScore=sellChecks.filter(Boolean).length;
+
+  let side=null;
+  let score=0;
+
+  if(buyScore>=6){side="BUY";score=buyScore;}
+  else if(sellScore>=6){side="SELL";score=sellScore;}
+  else return null;
+
+  const candles=a.candles;
+  const recent=candles.slice(-5,-1);
+  const current=+candles[candles.length-1][4];
+  const volatility=a.atr;
+
+  if(!volatility||!current||recent.length<4)return null;
+
+  const recentHigh=Math.max(...recent.map(k=>+k[2]));
+  const recentLow=Math.min(...recent.map(k=>+k[3]));
+
+  let trigger,sl,tp1,tp2;
+
+  if(side==="BUY"){
+    trigger=recentHigh+volatility*.08;
+    sl=Math.min(...candles.slice(-9,-1).map(k=>+k[3]))-volatility*.15;
+    if(sl>=trigger)return null;
+    const risk=trigger-sl;
+    tp1=trigger+risk*1.5;
+    tp2=trigger+risk*2;
+  }else{
+    trigger=recentLow-volatility*.08;
+    sl=Math.max(...candles.slice(-9,-1).map(k=>+k[2]))+volatility*.15;
+    if(sl<=trigger)return null;
+    const risk=sl-trigger;
+    tp1=trigger-risk*1.5;
+    tp2=trigger-risk*2;
+  }
+
+  const candleTime=+candles[candles.length-1][0];
+
+  return {
+    id:symbol+"_"+side+"_"+candleTime,
+    symbol,side,score,price:current,
+    trigger,sl,tp1,tp2,
+    rsi:a.rsi,adx:a.adx,
+    candleTime,
+    expiresAt:candleTime+45*60*1000
+  };
+}
+
+async function loadSymbols(){
+  const info=await api("/fapi/v1/exchangeInfo");
+  return info.symbols.filter(s=>
+    s.status==="TRADING"&&
+    s.contractType==="PERPETUAL"&&
+    s.quoteAsset==="USDT"&&
+    !/(UP|DOWN|BULL|BEAR)USDT$/.test(s.symbol)
+  ).map(s=>s.symbol);
 }
 
 async function scanOne(symbol){
- try{
-  const [m15,h1]=await Promise.all([
-   candles(symbol,"15m"),candles(symbol,"1h")
-  ]);
-  const data=analyze(m15,h1);
-  return data?{symbol,data}:null;
- }catch(e){
-  return {symbol,error:true};
- }
+  try{
+    const results=await Promise.all([
+      getCandles(symbol,"15m"),
+      getCandles(symbol,"1h")
+    ]);
+    return buildSignal(symbol,analyse(results[0]),analyse(results[1]));
+  }catch(e){
+    return null;
+  }
 }
 
 async function startScan(){
- if(busy)return;
- busy=true;
- const btn=document.getElementById("scanBtn");
- btn.disabled=true;
- btn.textContent="SCANNING...";
- results=[];
- let errors=0,done=0;
+  if(running)return;
 
- document.getElementById("buyResults").innerHTML=
-  '<div class="empty">Scanning...</div>';
- document.getElementById("sellResults").innerHTML=
-  '<div class="empty">Scanning...</div>';
- document.getElementById("buyCount").textContent="0";
- document.getElementById("sellCount").textContent="0";
- document.getElementById("progress").style.width="0%";
+  running=true;
+  stopRequested=false;
+  scanCount=0;
+  signals=[];
+  document.getElementById("signals").innerHTML=
+    '<div class="panel muted">Scanning market...</div>';
+  document.getElementById("scanBtn").disabled=true;
+  document.getElementById("scanned").textContent="0";
+  document.getElementById("opportunities").textContent="0";
 
- try{
-  document.getElementById("status").textContent="Loading contracts...";
-  const info=await getJSON(BASE+"/fapi/v1/exchangeInfo");
-  const symbols=info.symbols.filter(s=>
-   s.status==="TRADING"&&
-   s.contractType==="PERPETUAL"&&
-   s.quoteAsset==="USDT"
-  ).map(s=>s.symbol);
+  try{
+    setStatus("Loading Binance USDT perpetual contracts...");
+    symbols=await loadSymbols();
 
-  const total=symbols.length;
-  document.getElementById("total").textContent=total;
-  let index=0;
+    setStatus("Scanning "+symbols.length+" contracts. Please wait.");
 
-  async function worker(){
-   while(index<total){
-    const symbol=symbols[index++];
-    const result=await scanOne(symbol);
-    done++;
-    if(result){
-     if(result.error)errors++;
-     else results.push(result);
+    let index=0;
+    const found=[];
+
+    async function worker(){
+      while(index<symbols.length&&!stopRequested){
+        const symbol=symbols[index++];
+        const result=await scanOne(symbol);
+        scanCount++;
+
+        if(result&&!found.some(x=>x.id===result.id)){
+          found.push(result);
+        }
+
+        document.getElementById("scanned").textContent=scanCount;
+
+        if(scanCount%20===0){
+          setStatus("Scanned "+scanCount+" / "+symbols.length+
+            " · Found "+found.length+" possible signals.");
+        }
+
+        // Slow requests to reduce the risk of API rate limits.
+        await sleep(300);
+      }
     }
-    document.getElementById("progress").style.width=
-     (100*done/total)+"%";
-    document.getElementById("status").textContent=
-     "Analyzed "+done+"/"+total+
-     " • Setups "+results.length+
-     " • Errors "+errors;
-   }
+
+    await Promise.all([worker(),worker(),worker()]);
+
+    signals=found.sort((a,b)=>b.score-a.score);
+    renderSignals();
+
+    document.getElementById("opportunities").textContent=signals.length;
+
+    setStatus((stopRequested?"Scan stopped. ":"Scan complete. ")+
+      scanCount+" coins checked · "+signals.length+" possible signals.");
+
+    nextScanAt=Date.now()+SCAN_INTERVAL;
+    updateNextScan();
+
+  }catch(error){
+    setStatus("Scan error: "+error.message+". Check your connection and try again.");
+  }finally{
+    running=false;
+    document.getElementById("scanBtn").disabled=false;
+  }
+}
+
+function stopScan(){
+  stopRequested=true;
+  setStatus("Stopping scan...");
+}
+
+function renderSignals(){
+  const box=document.getElementById("signals");
+
+  if(!signals.length){
+    box.innerHTML=
+      '<div class="panel muted">No signals passed the filters this scan. No trade is better than a weak trade.</div>';
+    return;
   }
 
-  await Promise.all(Array.from({length:3},worker));
-  results.sort((a,b)=>b.data.adx-a.data.adx);
-  show();
-
-  document.getElementById("lastScan").textContent=
-   "Last completed scan: "+new Date().toLocaleString();
-  document.getElementById("status").textContent=
-   "Scan complete • "+done+" contracts • "+
-   results.length+" setups • "+errors+" errors.";
-
- }catch(e){
-  document.getElementById("status").textContent=
-   "Scan error: "+e.message;
- }finally{
-  busy=false;
-  btn.disabled=false;
-  btn.textContent="↻ SCAN NOW";
- }
+  box.innerHTML=signals.map(s=>{
+    const exists=trades.some(t=>t.id===s.id);
+    return `
+      <div class="card">
+        <div class="row">
+          <div>
+            <strong>${s.symbol}</strong>
+            <span class="tag ${s.side==="BUY"?"buy":"sell"}">${s.side}</span>
+            <span class="tag">${s.score}/7 checks</span>
+          </div>
+          <span class="small">15-minute signal</span>
+        </div>
+        <div class="small">
+          Current price: <b>${fmt(s.price)}</b><br>
+          RSI: ${fmt(s.rsi)} · ADX: ${fmt(s.adx)}
+        </div>
+        <hr>
+        <div class="small">
+          Entry trigger: <b>${fmt(s.trigger)}</b><br>
+          Stop loss: <b class="redText">${fmt(s.sl)}</b><br>
+          Take profit 1: <b class="greenText">${fmt(s.tp1)}</b><br>
+          Take profit 2: <b class="greenText">${fmt(s.tp2)}</b><br>
+        </div>
+        <button class="${s.side==="BUY"?"green":"red"}"
+          ${exists?"disabled":""}
+          onclick="selectTrade('${s.id}')">
+          ${exists?"ALREADY SELECTED":"SELECT & PAPER TRADE"}
+        </button>
+      </div>`;
+  }).join("");
 }
 
-function schedule(){
- if(timer)clearTimeout(timer);
- const now=Date.now();
- const next=(Math.floor(now/TF)+1)*TF+4000;
- document.getElementById("nextScan").textContent=
-  "Next scan: "+new Date(next).toLocaleTimeString();
- timer=setTimeout(async()=>{
-  if(!busy)await startScan();
-  schedule();
- },next-now);
+function selectTrade(id){
+  const s=signals.find(x=>x.id===id);
+  if(!s)return;
+
+  if(trades.some(t=>t.id===id)){
+    alert("This signal has already been selected.");
+    return;
+  }
+
+  trades.unshift({
+    ...s,
+    selectedAt:Date.now(),
+    status:"PENDING",
+    entry:null,
+    entryTime:null,
+    lastProcessed:Math.floor(Date.now()/60000)*60000-60000,
+    result:""
+  });
+
+  saveTrades();
+  renderSignals();
+  alert(s.symbol+" "+s.side+" registered. Waiting for the entry trigger.");
 }
 
-startScan().then(schedule);
+function evaluateCandle(t,candle){
+  const time=+candle[0];
+  const high=+candle[2];
+  const low=+candle[3];
+
+  if(time<=t.lastProcessed)return false;
+
+  let changed=false;
+
+  if(t.status==="PENDING"){
+    // Ignore the candle that was already forming when selected.
+    if(time<Math.floor(t.selectedAt/60000)*60000){
+      t.lastProcessed=time;
+      return true;
+    }
+
+    const triggered=t.side==="BUY"
+      ? high>=t.trigger
+      : low<=t.trigger;
+
+    t.lastProcessed=time;
+
+    if(!triggered)return true;
+
+    // Simulated fill at the trigger price, not a guaranteed real fill.
+    t.entry=t.trigger;
+    t.entryTime=time;
+    t.status="ACTIVE";
+    changed=true;
+  }
+
+  if(t.status==="ACTIVE"){
+    const stopHit=t.side==="BUY"?low<=t.sl:high>=t.sl;
+    const targetHit=t.side==="BUY"?high>=t.tp1:low<=t.tp1;
+
+    t.lastProcessed=time;
+
+    if(stopHit&&targetHit){
+      t.status="REVIEW";
+      t.result="SL and TP1 touched in same 1-minute candle; order unknown";
+    }else if(stopHit){
+      t.status="LOSS";
+      t.result="Stop loss reached";
+    }else if(targetHit){
+      t.status="WIN";
+      t.result="Take profit 1 reached";
+    }
+    changed=true;
+  }
+
+  return changed;
+}
+
+async function monitorOneTrade(t){
+  if(!["PENDING","ACTIVE"].includes(t.status))return false;
+
+  if(t.status==="PENDING"&&Date.now()>t.expiresAt){
+    t.status="EXPIRED";
+    t.result="Entry trigger not reached before expiry";
+    return true;
+  }
+
+  try{
+    const candles=await api(
+      "/fapi/v1/klines?symbol="+t.symbol+"&interval=1m&limit=10"
+    );
+
+    // Exclude the currently forming 1-minute candle.
+    const closed=candles.slice(0,-1);
+    let changed=false;
+
+    for(const candle of closed){
+      if(+candle[0]<=t.lastProcessed)continue;
+      if(evaluateCandle(t,candle))changed=true;
+      if(!["PENDING","ACTIVE"].includes(t.status))break;
+    }
+
+    if(t.status==="PENDING"&&Date.now()>t.expiresAt){
+      t.status="EXPIRED";
+      t.result="Entry trigger not reached before expiry";
+      changed=true;
+    }
+
+    return changed;
+  }catch(e){
+    return false;
+  }
+}
+
+async function monitorTrades(){
+  const active=trades.filter(t=>["PENDING","ACTIVE"].includes(t.status));
+  if(!active.length)return;
+
+  let changed=false;
+
+  // Sequential requests help reduce API request pressure.
+  for(const trade of active){
+    if(await monitorOneTrade(trade))changed=true;
+    await sleep(150);
+  }
+
+  if(changed)saveTrades();
+}
+
+function renderTrades(){
+  const box=document.getElementById("trades");
+  const completed=trades.filter(t=>
+    ["WIN","LOSS","EXPIRED","REVIEW"].includes(t.status)
+  );
+
+  const wins=completed.filter(t=>t.status==="WIN").length;
+  const losses=completed.filter(t=>t.status==="LOSS").length;
+  const counted=wins+losses;
+
+  document.getElementById("total").textContent=completed.length;
+  document.getElementById("wins").textContent=wins;
+  document.getElementById("losses").textContent=losses;
+  document.getElementById("winrate").textContent=
+    counted?Math.round(wins/counted*100)+"%":"0%";
+
+  if(!trades.length){
+    box.innerHTML='<div class="panel muted">No paper trades selected yet.</div>';
+    return;
+  }
+
+  box.innerHTML=trades.map(t=>{
+    const color=t.status==="WIN"?"greenText":
+      t.status==="LOSS"?"redText":
+      t.status==="REVIEW"?"yellow":"muted";
+
+    let extra="";
+    if(t.status==="PENDING")extra="Waiting for entry trigger.";
+    if(t.status==="ACTIVE")extra="Entry triggered. Monitoring closed 1-minute candles.";
+    if(t.status==="REVIEW")extra="Both SL and TP1 touched in one candle. Not counted as a win or loss.";
+
+    return `
+      <div class="card">
+        <div class="row">
+          <strong>${t.symbol}
+            <span class="tag ${t.side==="BUY"?"buy":"sell"}">${t.side}</span>
+          </strong>
+          <b class="${color}">${t.status}</b>
+        </div>
+        <div class="small">
+          Entry trigger: <b>${fmt(t.trigger)}</b><br>
+          Simulated entry: <b>${fmt(t.entry)}</b><br>
+          Stop loss: <b class="redText">${fmt(t.sl)}</b><br>
+          TP1: <b class="greenText">${fmt(t.tp1)}</b><br>
+          TP2: <b class="greenText">${fmt(t.tp2)}</b><br>
+          ${t.result?"Result: "+t.result:""}
+        </div>
+        ${extra?'<div class="small yellow">'+extra+'</div>':""}
+      </div>`;
+  }).join("");
+}
+
+function exportCSV(){
+  if(!trades.length){
+    alert("There is no paper-trade history to export.");
+    return;
+  }
+
+  const columns=[
+    "symbol","side","status","score","price","trigger",
+    "entry","sl","tp1","tp2","selectedAt","entryTime",
+    "result"
+  ];
+
+  const rows=[columns.join(",")];
+
+  for(const t of trades){
+    rows.push(columns.map(key=>{
+      const value=t[key]??"";
+      return '"'+String(value).replace(/"/g,'""')+'"';
+    }).join(","));
+  }
+
+  const blob=new Blob([rows.join("\n")],{type:"text/csv;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=url;
+  link.download="crypto-ai-paper-history.csv";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearHistory(){
+  if(!confirm("Delete all paper-trade history? Export it first if you want a backup."))return;
+  trades=[];
+  saveTrades();
+  renderSignals();
+}
+
+function updateNextScan(){
+  if(!nextScanAt){
+    document.getElementById("nextScan").textContent="—";
+    return;
+  }
+  const remaining=Math.max(0,nextScanAt-Date.now());
+  const minutes=Math.floor(remaining/60000);
+  const seconds=Math.floor((remaining%60000)/1000);
+  document.getElementById("nextScan").textContent=
+    minutes+"m "+seconds+"s";
+}
+
+function updateClock(){
+  document.getElementById("clock").textContent=
+    new Date().toLocaleTimeString();
+  updateNextScan();
+}
+
+renderTrades();
+setInterval(updateClock,1000);
+setInterval(monitorTrades,MONITOR_INTERVAL);
+setInterval(()=>{
+  if(!running){
+    startScan();
+  }
+},SCAN_INTERVAL);
+
+// Start first scan automatically.
+setTimeout(startScan,1500);
 </script>
 </body>
 </html>
