@@ -3,959 +3,388 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080e1b">
-<title>Crypto AI Pro VIP V2</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>Crypto AI Pro VIP V2.1</title>
 <style>
 *{box-sizing:border-box}
-:root{
---bg:#080e1b;--card:#111c2d;--card2:#17243a;
---line:#293a53;--text:#edf3ff;--muted:#91a2bb;
---green:#22d69a;--red:#ff647c;--gold:#f3c66b;--blue:#65aaff
-}
-body{margin:0;padding:13px;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-main,header{max-width:1150px;margin:auto}
-header{padding:8px 2px 18px}
-h1{font-size:23px;margin:8px 0}
+body{margin:0;padding:12px;background:#0b1220;color:#eaf1ff;font:14px Arial,sans-serif}
+main{max-width:1100px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+h1{font-size:22px;color:#62d5ff;margin:5px 0}
 h2{font-size:16px;margin:0 0 12px}
-p{font-size:12px;color:var(--muted);line-height:1.6}
-button{border:0;border-radius:8px;padding:11px 14px;font-weight:bold;cursor:pointer;background:var(--blue);color:#071426}
-button:disabled{opacity:.45}
-.secondary{background:#293c57;color:white}
-.danger{background:#5c3040;color:#fff}
-.green{color:var(--green)}.red{color:var(--red)}.gold{color:var(--gold)}
-.muted{color:var(--muted)}
-.brand{font-size:11px;color:var(--gold);font-weight:bold;letter-spacing:2px}
-.pill{padding:6px 9px;border-radius:20px;background:#23344c;color:var(--blue);font-size:10px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px;margin-bottom:13px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.stat{background:#0c1728;border-radius:9px;padding:12px;min-width:0}
-.stat small{font-size:10px;color:var(--muted)}
-.stat b{display:block;font-size:21px;margin-top:7px;overflow-wrap:anywhere}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.signal{background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:13px;margin:10px 0}
-.signalhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.signalhead h3{margin:0 0 5px;font-size:16px}
-.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
-.level{background:#0c1728;border-radius:7px;padding:9px;font-size:10px;color:var(--muted)}
-.level b{display:block;font-size:12px;color:var(--text);margin-top:5px;overflow-wrap:anywhere}
-.tabs{display:flex;gap:7px;overflow-x:auto;margin:14px 0}
-.tab{background:#19283d;color:var(--muted);white-space:nowrap}
-.tab.active{background:var(--blue);color:#071426}
-.section{display:none}
-.section.active{display:block}
-input,select{background:#0b1728;border:1px solid var(--line);border-radius:7px;color:white;padding:10px;width:100%;margin-top:5px}
-.field{flex:1;min-width:120px}
-.small{font-size:11px;color:var(--muted)}
-.progress{height:5px;background:#263750;border-radius:5px;margin-top:13px;overflow:hidden}
-.progress div{height:100%;width:0;background:var(--green);transition:width .2s}
+small,.muted,.note{color:#91a6c4}
+.note{font-size:11px;line-height:1.5}
+.panel{background:#121e30;border:1px solid #293b56;border-radius:12px;padding:14px;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:#0b1728;padding:12px;border-radius:8px}
+.stat small{display:block;font-size:11px}
+.stat b{display:block;font-size:20px;margin-top:6px}
+button{border:0;border-radius:7px;padding:10px 13px;background:#168bd0;color:white;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5}
+.secondary{background:#30425b}
+.danger{background:#a63e4b}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+label{display:block;color:#9db0ca;font-size:11px;margin-bottom:5px}
+input,select{width:100%;padding:9px;border-radius:7px;border:1px solid #344761;background:#0b1728;color:white}
+.progress{height:7px;background:#293b56;border-radius:8px;margin-top:12px;overflow:hidden}
+#progressBar{height:100%;width:0;background:#20c5a0}
+.status{font-size:12px;color:#a6bad5;margin-top:10px;line-height:1.5}
+.signal{background:#0c192b;border:1px solid #2b405b;border-radius:9px;padding:12px;margin:9px 0}
+.top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.buy{color:#35d6a0;font-weight:bold}
+.sell{color:#ff777e;font-weight:bold}
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}
+.level{background:#172840;padding:8px;border-radius:6px;min-width:0}
+.level small{display:block;font-size:10px}
+.level b{display:block;font-size:12px;margin-top:5px;overflow-wrap:anywhere}
+.tag{background:#20354d;padding:5px 7px;border-radius:5px;font-size:10px}
+.empty{text-align:center;padding:18px;color:#91a6c4}
 .tablewrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:11px}
-td,th{padding:10px 7px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
-th{color:var(--muted)}
-.footer{text-align:center;font-size:10px;color:var(--muted);padding:20px}
-@media(max-width:600px){
- body{padding:9px}
- .grid{grid-template-columns:repeat(2,1fr)}
+table{width:100%;min-width:700px;border-collapse:collapse;font-size:12px}
+td,th{padding:9px 7px;border-bottom:1px solid #293b56;text-align:left;white-space:nowrap}
+th{color:#91a6c4}
+@media(max-width:650px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .controls{grid-template-columns:repeat(2,1fr)}
  .levels{grid-template-columns:repeat(2,1fr)}
- h1{font-size:20px}
- .panel{padding:12px}
+ h1{font-size:19px}
 }
 </style>
 </head>
 <body>
-
+<main>
 <header>
- <div class="brand">CRYPTO AI PRO</div>
- <div class="row">
-  <h1>VIP SIGNAL TERMINAL <span class="gold">V2</span></h1>
-  <span class="pill" id="connection">CONNECTING</span>
- </div>
- <div class="small">BINANCE FUTURES · FIBONACCI SIGNAL ENGINE · PAPER TRADING</div>
+ <div><h1>⚡ Crypto AI Pro VIP V2.1</h1>
+ <div class="note">Fibonacci 0.681 • 15M Entry • 1H Trend • Paper Trading</div></div>
+ <span class="tag">BINANCE FUTURES DATA</span>
 </header>
 
-<main>
-
 <section class="panel">
- <div class="row">
-  <div>
-   <h2>AI Market Scanner</h2>
-   <div class="small" id="status">Connecting to Binance public market data...</div>
-  </div>
-  <div class="actions">
-   <button id="scanButton" onclick="startScan()">SCAN NOW</button>
-   <button class="secondary" id="autoButton" onclick="toggleAuto()">AUTO ON</button>
-  </div>
+ <div class="stats">
+  <div class="stat"><small>Eligible markets</small><b id="markets">—</b></div>
+  <div class="stat"><small>Scanned</small><b id="scanned">0</b></div>
+  <div class="stat"><small>New signals</small><b id="signalCount">0</b></div>
+  <div class="stat"><small>Request failures</small><b id="failures">0</b></div>
  </div>
  <div class="progress"><div id="progressBar"></div></div>
- <div class="small" id="scanProgress" style="margin-top:8px">Preparing scanner...</div>
+ <div class="status" id="scanStatus">Loading market data...</div>
+ <div class="actions">
+  <button id="scanBtn" onclick="startScan()">🔍 Start Scan</button>
+  <button class="secondary" onclick="clearSignals()">Clear Signals</button>
+  <button class="secondary" onclick="refreshMarkets()">Refresh Markets</button>
+ </div>
 </section>
 
 <section class="panel">
- <h2>VIP Performance</h2>
- <div class="grid">
-  <div class="stat"><small>Confirmed signals</small><b id="signalTotal">0</b></div>
-  <div class="stat"><small>Open trades</small><b id="openTotal">0</b></div>
-  <div class="stat"><small>Winning trades</small><b class="green" id="winTotal">0</b></div>
-  <div class="stat"><small>Losing trades</small><b class="red" id="lossTotal">0</b></div>
-  <div class="stat"><small>Win rate</small><b id="winRate">0%</b></div>
-  <div class="stat"><small>Paper PNL</small><b id="totalPnl">$0.00</b></div>
-  <div class="stat"><small>Markets available</small><b id="marketTotal">0</b></div>
-  <div class="stat"><small>Markets scanned</small><b id="scannedTotal">0</b></div>
+ <h2>⚙️ Paper Trading Settings</h2>
+ <div class="controls">
+  <div><label>Paper balance (USDT)</label><input id="balanceInput" type="number" min="10" value="100"></div>
+  <div><label>Risk per trade (%)</label><input id="riskInput" type="number" min=".1" max="2" step=".1" value="1"></div>
+  <div><label>Minimum 24h volume</label><select id="volumeInput"><option value="10000000">10 million USDT</option><option value="5000000">5 million USDT</option><option value="1000000">1 million USDT</option><option value="0">All volumes</option></select></div>
+  <div><label>Markets per scan</label><select id="maxMarkets"><option value="0">All eligible</option><option value="100">100</option><option value="50">50</option><option value="20">20</option></select></div>
  </div>
+ <div class="actions"><button onclick="saveSettings()">Save Settings</button></div>
+ <div class="note" id="settingsStatus">Paper trading only. Maximum risk setting is 2%.</div>
 </section>
 
-<div class="tabs">
- <button class="tab active" onclick="showTab('signals',this)">SIGNALS</button>
- <button class="tab" onclick="showTab('trades',this)">OPEN TRADES</button>
- <button class="tab" onclick="showTab('history',this)">HISTORY</button>
- <button class="tab" onclick="showTab('settings',this)">SETTINGS</button>
-</div>
-
-<section class="section active" id="signals">
- <div class="panel">
-  <div class="row">
-   <h2>Confirmed BUY / SELL Opportunities</h2>
-   <span class="pill">FIB 0.681</span>
-  </div>
-  <p>Signals are displayed only after a completed 15-minute candle confirms the setup. WAIT setups are hidden.</p>
-  <div id="signalList"><p>Waiting for confirmed opportunities...</p></div>
- </div>
+<section class="panel">
+ <h2>🎯 Confirmed BUY / SELL Signals</h2>
+ <p class="note">Signals require 1H EMA trend, 15M Fibonacci 0.681 retracement, candle confirmation, RSI and volume checks. No WAIT signals are displayed.</p>
+ <div id="signals"><div class="empty">No signals yet. Start a scan.</div></div>
 </section>
 
-<section class="section" id="trades">
- <div class="panel">
-  <h2>Active Paper Trades</h2>
-  <p>Prices are monitored automatically. You must select a signal to start a paper trade.</p>
-  <div id="tradeList"><p>No active paper trades.</p></div>
+<section class="panel">
+ <h2>📊 Open Paper Trades</h2>
+ <div class="stats">
+  <div class="stat"><small>Open trades</small><b id="openCount">0</b></div>
+  <div class="stat"><small>Realized PNL</small><b id="realized">0.00</b></div>
+  <div class="stat"><small>Unrealized PNL</small><b id="unrealized">0.00</b></div>
+  <div class="stat"><small>Win rate</small><b id="winRate">—</b></div>
  </div>
+ <div class="tablewrap"><table>
+ <thead><tr><th>Coin</th><th>Side</th><th>Entry</th><th>Price</th><th>SL</th><th>TPs</th><th>PNL</th><th>Action</th></tr></thead>
+ <tbody id="openTrades"><tr><td colspan="8">No open trades</td></tr></tbody>
+ </table></div>
 </section>
 
-<section class="section" id="history">
- <div class="panel">
-  <div class="row">
-   <h2>Trade History</h2>
-   <button class="secondary" onclick="exportCSV()">EXPORT CSV</button>
-  </div>
-  <div class="tablewrap" id="historyList"></div>
- </div>
+<section class="panel">
+ <h2>📚 Paper Trade History</h2>
+ <div class="actions"><button class="secondary" onclick="exportCSV()">Export CSV</button><button class="danger" onclick="resetHistory()">Reset History</button></div>
+ <div class="tablewrap"><table>
+ <thead><tr><th>Coin</th><th>Side</th><th>Entry</th><th>Exit</th><th>Result</th><th>PNL</th><th>Closed</th></tr></thead>
+ <tbody id="history"><tr><td colspan="7">No closed trades</td></tr></tbody>
+ </table></div>
 </section>
 
-<section class="section" id="settings">
- <div class="panel">
-  <h2>Risk Management Settings</h2>
-  <div class="row">
-   <div class="field">
-    <label class="small">Paper balance (USDT)</label>
-    <input id="balance" type="number" min="1" value="100">
-   </div>
-   <div class="field">
-    <label class="small">Risk per trade (%)</label>
-    <input id="risk" type="number" min="0.1" max="2" step="0.1" value="0.5">
-   </div>
-  </div>
-  <div class="row" style="margin-top:10px">
-   <div class="field">
-    <label class="small">Minimum 24h volume (USDT)</label>
-    <input id="minVolume" type="number" min="1000000" value="5000000">
-   </div>
-   <div class="field">
-    <label class="small">Maximum open trades</label>
-    <select id="maxOpen">
-     <option value="3">3</option>
-     <option value="5">5</option>
-     <option value="10">10</option>
-    </select>
-   </div>
-  </div>
-  <button style="margin-top:13px" onclick="saveSettings()">SAVE SETTINGS</button>
- </div>
-
- <div class="panel">
-  <h2>VIP V2 Strategy</h2>
-  <p>1H EMA 50/200 trend confirmation.</p>
-  <p>15M Fibonacci retracement at 0.681.</p>
-  <p>Closed-candle rejection confirmation.</p>
-  <p>RSI and volume filters.</p>
-  <p>ATR-based stop-loss buffer.</p>
-  <p>TP1 = 2R · TP2 = 3R · TP3 = 4R.</p>
-  <p>Only confirmed signals are published.</p>
-  <p class="gold">No strategy can guarantee an 80% win rate or eliminate losses.</p>
- </div>
+<section class="panel">
+ <h2>🛠 Scanner Diagnostics</h2>
+ <div class="status" id="diagnostics">Waiting for first scan.</div>
+ <p class="note">Zero signals can mean no market currently meets all filters. This scanner uses public Binance data and cannot guarantee profitable signals.</p>
 </section>
-
-<div class="footer">
- CRYPTO AI PRO VIP V2<br>
- Public Binance market data · Simulated trading only
-</div>
+<p class="note" style="text-align:center">Crypto AI Pro VIP V2.1 • Educational paper trading only • No real orders</p>
 </main>
 
 <script>
 "use strict";
-
-/* CONFIGURATION */
 const API="https://fapi.binance.com";
-const STORAGE="crypto_ai_pro_vip_v2_complete";
-
+const STORE="crypto_ai_pro_vip_v2_complete";
 const $=id=>document.getElementById(id);
+let symbols=[],signals=[],trades=[],seen=new Set();
+let scanning=false,settings={balance:100,risk:1,volume:10000000,maxMarkets:0};
+let reasons={};
 
-let symbols=[];
-let signals=[];
-let trades=[];
-let history=[];
-let settings={
- balance:100,
- risk:0.5,
- volume:5000000,
- maxOpen:3
-};
-
-let cursor=0;
-let scanning=false;
-let auto=true;
-let timer=null;
-let monitorTimer=null;
-let scannedCount=0;
-let seen={};
-
-/* STORAGE */
-
-function loadData(){
+function fmt(n){return Number.isFinite(Number(n))?Number(n).toLocaleString("en-US",{maximumFractionDigits:8}):"—"}
+function money(n){return (Number(n)||0).toFixed(2)}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function save(){
+ try{localStorage.setItem(STORE,JSON.stringify({settings,trades,seen:[...seen].slice(-3000)}))}
+ catch(e){$("settingsStatus").textContent="Storage full. Export history and remove old records."}
+}
+function load(){
  try{
-  const d=JSON.parse(localStorage.getItem(STORAGE)||"{}");
-  signals=Array.isArray(d.signals)?d.signals:[];
-  trades=Array.isArray(d.trades)?d.trades:[];
-  history=Array.isArray(d.history)?d.history:[];
-  seen=d.seen||{};
-  settings={...settings,...(d.settings||{})};
- }catch(e){
-  console.log("Starting fresh storage");
- }
- $("balance").value=settings.balance;
- $("risk").value=settings.risk;
- $("minVolume").value=settings.volume;
- $("maxOpen").value=settings.maxOpen;
+  const d=JSON.parse(localStorage.getItem(STORE)||"{}");
+  if(d.settings)settings={...settings,...d.settings};
+  if(Array.isArray(d.trades))trades=d.trades;
+  if(Array.isArray(d.seen))seen=new Set(d.seen);
+ }catch(e){}
+ $("balanceInput").value=settings.balance;
+ $("riskInput").value=settings.risk;
+ $("volumeInput").value=settings.volume;
+ $("maxMarkets").value=settings.maxMarkets;
+ render();
 }
-
-function saveData(){
- localStorage.setItem(STORAGE,JSON.stringify({
-  signals:signals.slice(0,150),
-  trades,
-  history:history.slice(0,1000),
-  seen,
-  settings
- }));
-}
-
-/* GENERAL FUNCTIONS */
-
-function num(x,d=6){
- if(!Number.isFinite(x))return "--";
- return Number(x).toLocaleString("en-US",{maximumFractionDigits:d});
-}
-
-function money(x){
- return (x<0?"-":"")+"$"+Math.abs(x).toFixed(2);
-}
-
-function avg(a){
- return a.length?a.reduce((s,x)=>s+x,0)/a.length:0;
-}
-
-function setStatus(s){
- $("status").textContent=s;
-}
-
-function showTab(id,btn){
- document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
- $(id).classList.add("active");
- btn.classList.add("active");
-}
-
-/* BINANCE API */
-
 async function api(path){
- const controller=new AbortController();
- const timeout=setTimeout(()=>controller.abort(),15000);
-
+ const c=new AbortController(),timer=setTimeout(()=>c.abort(),15000);
  try{
-  const response=await fetch(API+path,{
-   signal:controller.signal,
-   cache:"no-store"
-  });
-
-  if(!response.ok){
-   throw Error("Binance API error: "+response.status);
-  }
-
-  return await response.json();
-
- }catch(e){
-  if(e.name==="AbortError"){
-   throw Error("Binance request timed out");
-  }
-  throw e;
-
- }finally{
-  clearTimeout(timeout);
- }
+  const r=await fetch(API+path,{signal:c.signal,cache:"no-store"});
+  if(!r.ok)throw Error("HTTP "+r.status);
+  return await r.json();
+ }finally{clearTimeout(timer)}
 }
-
-function parseBars(raw){
- return raw.map(x=>({
-  time:x[0],
-  open:+x[1],
-  high:+x[2],
-  low:+x[3],
-  close:+x[4],
-  volume:+x[5]
- }));
+function saveSettings(){
+ const balance=Number($("balanceInput").value),risk=Number($("riskInput").value);
+ if(!Number.isFinite(balance)||balance<10){alert("Balance must be at least 10 USDT.");return}
+ if(!Number.isFinite(risk)||risk<=0||risk>2){alert("Risk must be above 0 and no more than 2%.");return}
+ settings={balance,risk,volume:Number($("volumeInput").value),maxMarkets:Number($("maxMarkets").value)};
+ save();$("settingsStatus").textContent="Settings saved.";
 }
-
-/* INDICATORS */
-
-function ema(values,period){
- if(values.length<period)return 0;
- const k=2/(period+1);
- let value=values[0];
- for(let i=1;i<values.length;i++){
-  value=values[i]*k+value*(1-k);
- }
- return value;
-}
-
-function rsi(values,period=14){
- if(values.length<period+1)return 50;
- let gains=0,losses=0;
- for(let i=values.length-period;i<values.length;i++){
-  const diff=values[i]-values[i-1];
-  if(diff>0)gains+=diff;
-  else losses-=diff;
- }
- if(losses===0)return 100;
- return 100-(100/(1+gains/losses));
-}
-
-function atr(bars,period=14){
- const ranges=[];
- for(let i=1;i<bars.length;i++){
-  const c=bars[i],p=bars[i-1];
-  ranges.push(Math.max(
-   c.high-c.low,
-   Math.abs(c.high-p.close),
-   Math.abs(c.low-p.close)
-  ));
- }
- return avg(ranges.slice(-period));
-}
-
-function swing(bars){
- const section=bars.slice(-48);
- let high=-Infinity,low=Infinity;
- for(const c of section){
-  high=Math.max(high,c.high);
-  low=Math.min(low,c.low);
- }
- return {high,low};
-}
-
-/* SIGNAL ENGINE */
-
-function analyze(symbol,k15,k1h){
- const b=parseBars(k15);
- const h=parseBars(k1h);
-
- // Do not use currently forming candles.
- const closed=b.slice(0,-1);
- const hourly=h.slice(0,-1);
-
- if(closed.length<50||hourly.length<205)return null;
-
- const last=closed.at(-1);
- const previous=closed.at(-2);
- const prices=hourly.map(x=>x.close);
-
- const ema50=ema(prices.slice(-150),50);
- const ema200=ema(prices.slice(-220),200);
- const hourClose=hourly.at(-1).close;
-
- let direction=null;
-
- if(ema50>ema200&&hourClose>ema50)direction="BUY";
- if(ema50<ema200&&hourClose<ema50)direction="SELL";
-
- if(!direction)return null;
-
- const sw=swing(closed.slice(0,-1));
- const range=sw.high-sw.low;
- if(range<=0)return null;
-
- const a=atr(closed);
- if(!a||a<=0)return null;
-
- const fib=direction==="BUY"
-  ?sw.high-range*0.681
-  :sw.low+range*0.681;
-
- const tolerance=Math.max(a*0.15,fib*0.0004);
-
- const closes=closed.map(x=>x.close);
- const currentRSI=rsi(closes);
- const averageVolume=avg(closed.slice(-21,-1).map(x=>x.volume));
- const volumeOK=last.volume>=averageVolume*0.8;
-
- let rejection=false;
-
- if(direction==="BUY"){
-  rejection=
-   last.low<=fib+tolerance&&
-   last.close>fib&&
-   last.close>last.open&&
-   last.close>previous.close;
- }else{
-  rejection=
-   last.high>=fib-tolerance&&
-   last.close<fib&&
-   last.close<last.open&&
-   last.close<previous.close;
- }
-
- if(!rejection||!volumeOK)return null;
-
- if(direction==="BUY"&&(currentRSI<38||currentRSI>68))return null;
- if(direction==="SELL"&&(currentRSI<32||currentRSI>62))return null;
-
- const entry=last.close;
-
- const sl=direction==="BUY"
-  ?sw.low-a*0.3
-  :sw.high+a*0.3;
-
- const riskDistance=direction==="BUY"?entry-sl:sl-entry;
-
- if(riskDistance<=0)return null;
- if(riskDistance/entry>0.045)return null;
-
- function target(r){
-  return direction==="BUY"
-   ?entry+r*riskDistance
-   :entry-r*riskDistance;
- }
-
- const id=symbol+"_"+direction+"_"+last.time;
-
- return {
-  id,
-  symbol,
-  direction,
-  entry,
-  sl,
-  tp1:target(2),
-  tp2:target(3),
-  tp3:target(4),
-  fib,
-  rsi:currentRSI,
-  riskDistance,
-  rr:2,
-  time:Date.now(),
-  candleTime:last.time,
-  reason:"1H trend + Fib rejection + RSI + volume"
- };
-}
-
-/* MARKET INITIALIZATION */
-
-async function initialize(){
+async function refreshMarkets(){
+ $("scanStatus").textContent="Loading Binance market list...";
  try{
-  $("connection").textContent="CONNECTING";
-  setStatus("Loading Binance USDT perpetual markets...");
-
-  const [info,tickers]=await Promise.all([
-   api("/fapi/v1/exchangeInfo"),
-   api("/fapi/v1/ticker/24hr")
-  ]);
-
-  const eligible=new Set(
-   info.symbols.filter(s=>
-    s.status==="TRADING"&&
-    s.contractType==="PERPETUAL"&&
-    s.quoteAsset==="USDT"
-   ).map(s=>s.symbol)
-  );
-
-  symbols=tickers
-   .filter(t=>
-    eligible.has(t.symbol)&&
-    +t.quoteVolume>=settings.volume
-   )
-   .sort((a,b)=>+b.quoteVolume- +a.quoteVolume)
-   .map(t=>t.symbol);
-
-  $("connection").textContent="CONNECTED";
-  $("connection").style.color="var(--green)";
-  $("marketTotal").textContent=symbols.length;
-
-  setStatus("Connected. "+symbols.length+" eligible markets loaded.");
-  render();
-
-  if(auto)startSchedule();
-
- }catch(e){
-  $("connection").textContent="ERROR";
-  setStatus(e.message+" Check internet or API access.");
- }
+  const [info,tickers]=await Promise.all([api("/fapi/v1/exchangeInfo"),api("/fapi/v1/ticker/24hr")]);
+  const volume=new Map(tickers.map(t=>[t.symbol,+t.quoteVolume||0]));
+  symbols=info.symbols.filter(s=>s.status==="TRADING"&&s.contractType==="PERPETUAL"&&s.quoteAsset==="USDT")
+   .map(s=>({symbol:s.symbol,volume:volume.get(s.symbol)||0}))
+   .filter(s=>s.volume>=settings.volume).sort((a,b)=>b.volume-a.volume);
+  if(settings.maxMarkets)symbols=symbols.slice(0,settings.maxMarkets);
+  $("markets").textContent=symbols.length;
+  $("scanStatus").textContent="Ready. "+symbols.length+" eligible markets loaded.";
+ }catch(e){$("scanStatus").textContent="Market loading failed: "+e.message+". Check internet and retry."}
 }
-
-/* SCANNING */
-
-async function checkSymbol(symbol){
- const results=await Promise.all([
-  api("/fapi/v1/klines?symbol="+symbol+"&interval=15m&limit=100"),
-  api("/fapi/v1/klines?symbol="+symbol+"&interval=1h&limit=220")
+function ema(v,p){
+ if(v.length<p)return NaN;
+ let k=2/(p+1),x=v.slice(0,p).reduce((a,b)=>a+b,0)/p;
+ for(let i=p;i<v.length;i++)x=v[i]*k+x*(1-k);
+ return x;
+}
+function rsi(v,p=14){
+ if(v.length<=p)return 50;
+ let g=0,l=0;
+ for(let i=v.length-p;i<v.length;i++){let d=v[i]-v[i-1];if(d>0)g+=d;else l-=d}
+ if(l===0)return 100;
+ return 100-100/(1+g/l);
+}
+function atr(a,p=14){
+ if(a.length<=p)return 0;
+ let x=[];
+ for(let i=1;i<a.length;i++){let c=a[i],q=a[i-1];x.push(Math.max(c.h-c.l,Math.abs(c.h-q.c),Math.abs(c.l-q.c)))}
+ return x.slice(-p).reduce((s,v)=>s+v,0)/p;
+}
+function toCandle(x){return {t:x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]}}
+function analyze(symbol,raw15,raw1h){
+ const a=raw15.slice(0,-1).map(toCandle),h=raw1h.slice(0,-1).map(toCandle);
+ if(a.length<55||h.length<205)return {reason:"insufficient_data"};
+ const closes=h.map(x=>x.c),e50=ema(closes.slice(-150),50),e200=ema(closes.slice(-205),200),lastH=closes.at(-1);
+ let side=lastH>e50&&e50>e200?"BUY":lastH<e50&&e50<e200?"SELL":"";
+ if(!side)return {reason:"trend"};
+ const last=a.at(-1),prev=a.at(-2),window=a.slice(-49,-1);
+ const hi=Math.max(...window.map(x=>x.h)),lo=Math.min(...window.map(x=>x.l)),range=hi-lo;
+ if(range<=0)return {reason:"range"};
+ const fib=side==="BUY"?hi-range*.681:lo+range*.681;
+ const tolerance=Math.max(atr(a)*.22,fib*.0007);
+ if(last.l>fib+tolerance||last.h<fib-tolerance)return {reason:"fib"};
+ if(side==="BUY"&&!(last.c>last.o&&last.c>prev.h))return {reason:"candle"};
+ if(side==="SELL"&&!(last.c<last.o&&last.c<prev.l))return {reason:"candle"};
+ const rv=rsi(a.map(x=>x.c));
+ if(side==="BUY"&&(rv<48||rv>68))return {reason:"rsi"};
+ if(side==="SELL"&&(rv>52||rv<32))return {reason:"rsi"};
+ const avg=a.slice(-21,-1).reduce((s,x)=>s+x.v,0)/20;
+ if(!avg||last.v<avg*.75)return {reason:"volume"};
+ const entry=last.c,volatility=atr(a);
+ let sl=side==="BUY"?Math.min(last.l,lo+range*.79)-volatility*.15:Math.max(last.h,hi-range*.79)+volatility*.15;
+ const distance=Math.abs(entry-sl);
+ if(!distance||distance/entry>.045)return {reason:"risk"};
+ const dir=side==="BUY"?1:-1;
+ return {reason:"signal",signal:{id:symbol+"_"+side+"_"+last.t,symbol,side,entry,sl,
+  tp1:entry+dir*distance*2,tp2:entry+dir*distance*3,tp3:entry+dir*distance*4,
+  riskPercent:distance/entry*100,rsi:rv,fib,time:last.t,created:Date.now()}};
+}
+async function scanOne(s){
+ const [a,b]=await Promise.all([
+  api("/fapi/v1/klines?symbol="+s+"&interval=15m&limit=100"),
+  api("/fapi/v1/klines?symbol="+s+"&interval=1h&limit=220")
  ]);
- return analyze(symbol,results[0],results[1]);
+ return analyze(s,a,b);
 }
-
 async function startScan(){
  if(scanning)return;
-
- if(!symbols.length){
- setStatus("Market list unavailable. Reconnecting...");
- await initialize();
+ if(!symbols.length)await refreshMarkets();
  if(!symbols.length)return;
- }
-
- scanning=true;
- $("scanButton").disabled=true;
-
- const batchSize=20;
- const selected=[];
-
- for(let i=0;i<Math.min(batchSize,symbols.length);i++){
-  selected.push(symbols[(cursor+i)%symbols.length]);
- }
-
- cursor=(cursor+selected.length)%symbols.length;
-
- let found=0;
- let checked=0;
-
- setStatus("Scanning "+selected.length+" markets...");
-
- for(let i=0;i<selected.length;i+=4){
-  const group=selected.slice(i,i+4);
-
-  const results=await Promise.allSettled(
-   group.map(s=>checkSymbol(s))
-  );
-
-  for(let j=0;j<results.length;j++){
-   const result=results[j];
-   checked++;
-   scannedCount++;
-
-   if(result.status==="fulfilled"&&result.value){
-    const signal=result.value;
-
-    if(!seen[signal.id]){
-     signals.unshift(signal);
-     signals=signals.slice(0,150);
-     seen[signal.id]=true;
-     found++;
-
-     if($("sound") && $("sound").checked){
-      try{
-       const ctx=new AudioContext();
-       const oscillator=ctx.createOscillator();
-       oscillator.connect(ctx.destination);
-       oscillator.frequency.value=800;
-       oscillator.start();
-       oscillator.stop(ctx.currentTime+0.15);
-      }catch(e){}
-     }
-    }
-   }
+ scanning=true;signals=[];reasons={};
+ let done=0,failed=0;
+ $("scanBtn").disabled=true;
+ $("signals").innerHTML='<div class="empty">Scanning...</div>';
+ $("scanStatus").textContent="Scanning "+symbols.length+" markets...";
+ $("progressBar").style.width="0%";
+ try{
+  for(let i=0;i<symbols.length;i+=4){
+   const batch=symbols.slice(i,i+4);
+   const results=await Promise.allSettled(batch.map(x=>scanOne(x.symbol)));
+   results.forEach(r=>{
+    done++;
+    if(r.status==="rejected"){failed++;reasons.request_error=(reasons.request_error||0)+1;return}
+    const out=r.value;
+    reasons[out.reason]=(reasons[out.reason]||0)+1;
+    if(out.signal&&!seen.has(out.signal.id)){signals.push(out.signal);seen.add(out.signal.id)}
+   });
+   $("scanned").textContent=done;
+   $("failures").textContent=failed;
+   $("signalCount").textContent=signals.length;
+   $("progressBar").style.width=(done/symbols.length*100)+"%";
+   $("scanStatus").textContent="Scanned "+done+" / "+symbols.length+" • "+signals.length+" signals";
+   renderSignals();
   }
-
-  $("progressBar").style.width=
-   (checked/selected.length*100)+"%";
-
-  $("scanProgress").textContent=
-   "Checked "+checked+" / "+selected.length+
-   " · "+scannedCount+" total checks";
-
-  saveData();
-  render();
+ }catch(e){$("scanStatus").textContent="Scan error: "+e.message}
+ finally{
+  scanning=false;$("scanBtn").disabled=false;
+  $("scanStatus").textContent="Scan complete: "+done+" checked, "+failed+" failed, "+signals.length+" new signals.";
+  $("diagnostics").textContent=JSON.stringify(reasons);
+  renderSignals();save();
  }
-
- scanning=false;
- $("scanButton").disabled=false;
-
- setStatus("Scan complete. "+found+" new confirmed signal(s).");
- $("scanProgress").textContent=
-  "Next batch covers the next eligible markets.";
- render();
 }
-
-/* AUTOMATIC SCANNING */
-
-function startSchedule(){
- if(timer)clearInterval(timer);
-
- timer=setInterval(()=>{
-  if(auto&&!scanning)startScan();
- },15*60*1000);
+function renderSignals(){
+ if(!signals.length){$("signals").innerHTML='<div class="empty">No confirmed signals found. Try again later when market conditions change.</div>';return}
+ $("signals").innerHTML=signals.map(s=>`
+ <div class="signal">
+  <div class="top"><b>${safe(s.symbol)} <span class="${s.side==="BUY"?"buy":"sell"}">${s.side}</span></b><span class="tag">15M + 1H</span></div>
+  <div class="levels">
+   <div class="level"><small>Entry</small><b>${fmt(s.entry)}</b></div>
+   <div class="level"><small>Stop Loss</small><b class="sell">${fmt(s.sl)}</b></div>
+   <div class="level"><small>TP1 • 2R</small><b class="buy">${fmt(s.tp1)}</b></div>
+   <div class="level"><small>TP2 • 3R</small><b class="buy">${fmt(s.tp2)}</b></div>
+   <div class="level"><small>TP3 • 4R</small><b class="buy">${fmt(s.tp3)}</b></div>
+  </div>
+  <p class="note">Fib 0.681: ${fmt(s.fib)} • RSI ${s.rsi.toFixed(1)} • SL distance ${s.riskPercent.toFixed(2)}%</p>
+  <button onclick="openPaper('${s.id}')">Start Paper Trade</button>
+ </div>`).join("");
 }
-
-function toggleAuto(){
- auto=!auto;
- $("autoButton").textContent=auto?"AUTO ON":"AUTO OFF";
-
- if(auto)startSchedule();
- else if(timer)clearInterval(timer);
-}
-
-/* PAPER TRADING */
-
-function openTrade(id){
+function clearSignals(){signals=[];$("signalCount").textContent="0";renderSignals()}
+function openPaper(id){
  const s=signals.find(x=>x.id===id);
  if(!s)return;
-
- if(trades.some(t=>t.signalId===id)||
-    history.some(t=>t.signalId===id)){
-  alert("This signal has already been used.");
-  return;
- }
-
- if(trades.length>=settings.maxOpen){
-  alert("Maximum open paper trades reached.");
-  return;
- }
-
- const riskMoney=settings.balance*settings.risk/100;
- const quantity=riskMoney/s.riskDistance;
-
- const trade={
-  id:"P"+Date.now()+Math.random().toString(16).slice(2,6),
-  signalId:s.id,
-  symbol:s.symbol,
-  direction:s.direction,
-  entry:s.entry,
-  sl:s.sl,
-  tp1:s.tp1,
-  tp2:s.tp2,
-  tp3:s.tp3,
-  quantity,
-  riskMoney,
-  remaining:1,
-  realized:0,
-  hit1:false,
-  hit2:false,
-  status:"OPEN",
-  opened:Date.now(),
-  lastPrice:s.entry
- };
-
- trades.unshift(trade);
- saveData();
- render();
- alert("Paper trade opened for "+s.symbol);
+ if(trades.some(t=>t.signalId===id)){alert("This signal already has a paper trade.");return}
+ const riskCash=settings.balance*settings.risk/100,dist=Math.abs(s.entry-s.sl);
+ if(!dist)return;
+ const qty=riskCash/dist;
+ trades.unshift({signalId:s.id,symbol:s.symbol,side:s.side,entry:s.entry,sl:s.sl,
+  tp1:s.tp1,tp2:s.tp2,tp3:s.tp3,qty,remaining:qty,lastPrice:s.entry,
+  realized:0,tp1Done:false,tp2Done:false,status:"OPEN",opened:Date.now()});
+ save();render();
 }
-
+function pnl(t,price,qty){return (t.side==="BUY"?1:-1)*(price-t.entry)*qty}
 function closeTrade(t,price,reason){
- const buy=t.direction==="BUY";
-
- const remainingPnl=
-  t.quantity*t.remaining*
-  (buy?price-t.entry:t.entry-price);
-
- t.realized+=remainingPnl;
- t.exit=price;
- t.closed=Date.now();
- t.status=reason;
- t.pnl=t.realized;
-
- history.unshift({...t});
- history=history.slice(0,1000);
-
- trades=trades.filter(x=>x.id!==t.id);
+ if(t.status!=="OPEN")return;
+ t.realized+=pnl(t,price,t.remaining);
+ t.remaining=0;t.lastPrice=price;t.status=reason;t.closed=Date.now();
 }
-
-async function monitorTrades(){
- if(!trades.length)return;
-
- const unique=[...new Set(trades.map(t=>t.symbol))];
- const prices={};
-
- await Promise.all(unique.map(async symbol=>{
-  try{
-   const result=await api(
-    "/fapi/v1/ticker/price?symbol="+symbol
-   );
-   prices[symbol]=+result.price;
-  }catch(e){}
- }));
-
- for(const t of [...trades]){
-  const price=prices[t.symbol];
-  if(!price)continue;
-
-  t.lastPrice=price;
-  const buy=t.direction==="BUY";
-
-  // Stop loss checked before targets.
-  const stopped=buy?price<=t.sl:price>=t.sl;
-
-  if(stopped){
-   closeTrade(t,price,"STOP LOSS");
-   continue;
-  }
-
-  const reached1=buy?price>=t.tp1:price<=t.tp1;
-  const reached2=buy?price>=t.tp2:price<=t.tp2;
-  const reached3=buy?price>=t.tp3:price<=t.tp3;
-
-  if(!t.hit1&&reached1){
-   t.hit1=true;
-   t.remaining=0.66;
-   t.realized+=t.quantity*0.34*
-    (buy?t.tp1-t.entry:t.entry-t.tp1);
-  }
-
-  if(!t.hit2&&reached2){
-   t.hit2=true;
-   t.remaining=0.33;
-   t.realized+=t.quantity*0.33*
-    (buy?t.tp2-t.entry:t.entry-t.tp2);
-  }
-
-  if(reached3){
-   t.realized+=t.quantity*t.remaining*
-    (buy?t.tp3-t.entry:t.entry-t.tp3);
-   t.remaining=0;
-   t.exit=t.tp3;
-   t.closed=Date.now();
-   t.status="TP3";
-   t.pnl=t.realized;
-
-   history.unshift({...t});
-   history=history.slice(0,1000);
-   trades=trades.filter(x=>x.id!==t.id);
-  }
+function partial(t,price,fraction){
+ const q=Math.min(t.remaining,t.qty*fraction);
+ t.realized+=pnl(t,price,q);t.remaining-=q;
+}
+function checkTrade(t,p){
+ if(t.status!=="OPEN")return;
+ t.lastPrice=p;
+ if(t.side==="BUY"){
+  if(p<=t.sl){closeTrade(t,t.sl,"STOP LOSS");return}
+  if(!t.tp1Done&&p>=t.tp1){partial(t,t.tp1,.33);t.tp1Done=true}
+  if(!t.tp2Done&&p>=t.tp2){partial(t,t.tp2,.33);t.tp2Done=true}
+  if(p>=t.tp3){closeTrade(t,t.tp3,"TP3")}
+ }else{
+  if(p>=t.sl){closeTrade(t,t.sl,"STOP LOSS");return}
+  if(!t.tp1Done&&p<=t.tp1){partial(t,t.tp1,.33);t.tp1Done=true}
+  if(!t.tp2Done&&p<=t.tp2){partial(t,t.tp2,.33);t.tp2Done=true}
+  if(p<=t.tp3){closeTrade(t,t.tp3,"TP3")}
  }
-
- saveData();
- render();
 }
-
-function manualClose(id){
- const t=trades.find(x=>x.id===id);
+function closeManually(id){
+ const t=trades.find(x=>x.signalId===id&&x.status==="OPEN");
  if(!t)return;
-
- const price=t.lastPrice||t.entry;
- closeTrade(t,price,"MANUAL CLOSE");
- saveData();
- render();
+ closeTrade(t,t.lastPrice||t.entry,"MANUAL");
+ save();render();
 }
-
-/* DISPLAY */
-
-function renderSignals(){
- const box=$("signalList");
-
- if(!signals.length){
-  box.innerHTML="<p>No confirmed signals yet. Start a scan.</p>";
-  return;
+async function monitor(){
+ const open=trades.filter(t=>t.status==="OPEN");
+ if(!open.length)return;
+ const unique=[...new Set(open.map(t=>t.symbol))];
+ for(let i=0;i<unique.length;i+=15){
+  const group=unique.slice(i,i+15);
+  try{
+   const data=await api("/fapi/v1/ticker/price");
+   const prices=new Map(data.filter(x=>group.includes(x.symbol)).map(x=>[x.symbol,+x.price]));
+   open.forEach(t=>{const p=prices.get(t.symbol);if(p)checkTrade(t,p)});
+  }catch(e){console.warn("Price monitor error",e)}
  }
-
- box.innerHTML=signals.slice(0,40).map(s=>{
-  const used=trades.some(t=>t.signalId===s.id)||
-   history.some(t=>t.signalId===s.id);
-
-  return `
-   <div class="signal">
-    <div class="signalhead">
-     <div>
-      <h3 class="${s.direction==="BUY"?"green":"red"}">
-       ${s.direction} · ${s.symbol}
-      </h3>
-      <div class="small">${new Date(s.time).toLocaleString()}</div>
-     </div>
-     <span class="pill">CONFIRMED</span>
-    </div>
-
-    <div class="levels">
-     <div class="level">ENTRY<b>${num(s.entry)}</b></div>
-     <div class="level">STOP LOSS<b class="red">${num(s.sl)}</b></div>
-     <div class="level">FIB 0.681<b>${num(s.fib)}</b></div>
-     <div class="level">TAKE PROFIT 1<b class="green">${num(s.tp1)}</b></div>
-     <div class="level">TAKE PROFIT 2<b class="green">${num(s.tp2)}</b></div>
-     <div class="level">TAKE PROFIT 3<b class="green">${num(s.tp3)}</b></div>
-    </div>
-
-    <p>RSI ${num(s.rsi,2)} · Reward/Risk 1:${s.rr}<br>${s.reason}</p>
-
-    <button ${used?"disabled":""}
-     onclick="openTrade('${s.id}')">
-     ${used?"ALREADY USED":"START PAPER TRADE"}
-    </button>
-   </div>
-  `;
- }).join("");
+ save();render();
 }
-
-function renderTrades(){
- const box=$("tradeList");
-
- if(!trades.length){
-  box.innerHTML="<p>No active paper trades.</p>";
-  return;
- }
-
- box.innerHTML=trades.map(t=>`
-  <div class="signal">
-   <div class="signalhead">
-    <h3 class="${t.direction==="BUY"?"green":"red"}">
-     ${t.direction} · ${t.symbol}
-    </h3>
-    <span class="pill">OPEN</span>
-   </div>
-
-   <div class="levels">
-    <div class="level">ENTRY<b>${num(t.entry)}</b></div>
-    <div class="level">CURRENT<b>${num(t.lastPrice)}</b></div>
-    <div class="level">STOP LOSS<b class="red">${num(t.sl)}</b></div>
-    <div class="level">TP1<b>${t.hit1?"✓ ":""}${num(t.tp1)}</b></div>
-    <div class="level">TP2<b>${t.hit2?"✓ ":""}${num(t.tp2)}</b></div>
-    <div class="level">TP3<b>${num(t.tp3)}</b></div>
-   </div>
-
-   <p>Remaining: ${num(t.remaining*100,1)}% · Realized PNL: ${num(t.realized,4)} USDT</p>
-   <button class="danger" onclick="manualClose('${t.id}')">CLOSE PAPER TRADE</button>
-  </div>
- `).join("");
-}
-
-function renderHistory(){
- const box=$("historyList");
-
- if(!history.length){
-  box.innerHTML="<p>No completed trades yet.</p>";
-  return;
- }
-
- box.innerHTML=`
-  <table>
-   <thead>
-    <tr>
-     <th>COIN</th><th>SIDE</th><th>RESULT</th><th>PNL</th><th>DATE</th>
-    </tr>
-   </thead>
-   <tbody>
-    ${history.map(t=>`
-     <tr>
-      <td>${t.symbol}</td>
-      <td>${t.direction}</td>
-      <td>${t.status}</td>
-      <td class="${t.pnl>=0?"green":"red"}">${num(t.pnl,4)}</td>
-      <td>${new Date(t.closed).toLocaleDateString()}</td>
-     </tr>
-    `).join("")}
-   </tbody>
-  </table>
- `;
-}
-
 function render(){
- const wins=history.filter(t=>t.pnl>0).length;
- const losses=history.filter(t=>t.pnl<0).length;
- const total=history.reduce((s,t)=>s+(t.pnl||0),0);
-
- $("signalTotal").textContent=signals.length;
- $("openTotal").textContent=trades.length;
- $("winTotal").textContent=wins;
- $("lossTotal").textContent=losses;
- $("winRate").textContent=history.length?
-  (wins/history.length*100).toFixed(1)+"%":"0%";
- $("totalPnl").textContent=money(total);
- $("totalPnl").className=total>=0?"green":"red";
- $("marketTotal").textContent=symbols.length;
- $("scannedTotal").textContent=scannedCount;
-
- renderSignals();
- renderTrades();
- renderHistory();
+ const open=trades.filter(t=>t.status==="OPEN"),closed=trades.filter(t=>t.status!=="OPEN");
+ const realized=closed.reduce((s,t)=>s+t.realized,0);
+ const unreal=open.reduce((s,t)=>s+pnl(t,t.lastPrice||t.entry,t.remaining)+t.realized,0);
+ const wins=closed.filter(t=>t.realized>0).length;
+ $("openCount").textContent=open.length;
+ $("realized").textContent=money(realized);
+ $("unrealized").textContent=money(unreal);
+ $("winRate").textContent=closed.length?Math.round(wins/closed.length*100)+"%":"—";
+ $("openTrades").innerHTML=open.length?open.map(t=>`<tr>
+ <td>${safe(t.symbol)}</td><td class="${t.side==="BUY"?"buy":"sell"}">${t.side}</td>
+ <td>${fmt(t.entry)}</td><td>${fmt(t.lastPrice||t.entry)}</td><td>${fmt(t.sl)}</td>
+ <td>${fmt(t.tp1)} / ${fmt(t.tp2)} / ${fmt(t.tp3)}</td>
+ <td>${money(pnl(t,t.lastPrice||t.entry,t.remaining)+t.realized)}</td>
+ <td><button class="danger" onclick="closeManually('${t.signalId}')">Close</button></td>
+ </tr>`).join(""):'<tr><td colspan="8">No open trades</td></tr>';
+ $("history").innerHTML=closed.length?closed.map(t=>`<tr>
+ <td>${safe(t.symbol)}</td><td>${t.side}</td><td>${fmt(t.entry)}</td>
+ <td>${fmt(t.lastPrice)}</td><td>${safe(t.status)}</td>
+ <td>${money(t.realized)}</td><td>${new Date(t.closed).toLocaleString()}</td>
+ </tr>`).join(""):'<tr><td colspan="7">No closed trades</td></tr>';
 }
-
-/* SETTINGS */
-
-function saveSettings(){
- const balance=+$("balance").value;
- const risk=+$("risk").value;
- const volume=+$("minVolume").value;
- const maxOpen=+$("maxOpen").value;
-
- if(!Number.isFinite(balance)||balance<=0||
-    !Number.isFinite(risk)||risk<0.1||risk>2||
-    !Number.isFinite(volume)||volume<1000000){
-  alert("Please check your settings. Risk must be between 0.1% and 2%.");
-  return;
- }
-
- settings={balance,risk,volume,maxOpen};
- saveData();
- alert("Settings saved.");
- initialize();
-}
-
-/* EXPORT */
-
 function exportCSV(){
- if(!history.length){
-  alert("No completed trades to export.");
-  return;
- }
-
- const rows=[
-  ["Symbol","Direction","Entry","Exit","SL","TP1","TP2","TP3","Result","PNL","Date"]
- ];
-
- history.forEach(t=>rows.push([
-  t.symbol,t.direction,t.entry,t.exit,t.sl,
-  t.tp1,t.tp2,t.tp3,t.status,t.pnl,
-  new Date(t.closed).toISOString()
- ]));
-
- const csv=rows.map(row=>row.map(x=>
-  '"'+String(x??"").replace(/"/g,'""')+'"'
- ).join(",")).join("\n");
-
- const url=URL.createObjectURL(
-  new Blob([csv],{type:"text/csv;charset=utf-8"})
- );
-
- const a=document.createElement("a");
- a.href=url;
- a.download="Crypto-AI-Pro-VIP-V2.csv";
- a.click();
- URL.revokeObjectURL(url);
+ const rows=[["Symbol","Side","Entry","Exit","Status","PNL","Opened","Closed"]];
+ trades.forEach(t=>rows.push([t.symbol,t.side,t.entry,t.lastPrice||"",t.status,t.realized,new Date(t.opened).toISOString(),t.closed?new Date(t.closed).toISOString():""]));
+ const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");
+ const url=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+ const a=document.createElement("a");a.href=url;a.download="crypto-ai-paper-history.csv";a.click();URL.revokeObjectURL(url);
 }
-
-/* START APPLICATION */
-
-loadData();
-render();
-
-initialize();
-
-monitorTimer=setInterval(()=>{
- monitorTrades().catch(e=>{
-  setStatus("Price monitoring: "+e.message);
- });
-},15000);
-
+function resetHistory(){
+ if(!confirm("Delete all paper trade history and saved trade records?"))return;
+ trades=[];seen.clear();save();render();
+}
+load();
+refreshMarkets();
+setInterval(monitor,15000);
+setInterval(()=>{if(!scanning&&symbols.length)startScan()},15*60*1000);
 </script>
 </body>
 </html>
