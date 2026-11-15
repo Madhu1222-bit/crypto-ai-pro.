@@ -1,203 +1,194 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1220">
-<title>Crypto AI Pro VIP — V1</title>
-<style>
-:root{color-scheme:dark;--bg:#08111f;--panel:#111d30;--panel2:#17263d;--line:#263851;--text:#edf4ff;--muted:#9aacc5;--green:#21c98b;--red:#ff647c;--gold:#f4c15d;--blue:#67a9ff}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#08111f,#0c1728 60%,#091321);color:var(--text);font:14px Arial,sans-serif}
-header{padding:20px 16px 14px;border-bottom:1px solid var(--line);background:#0a1424;position:sticky;top:0;z-index:5}
-.wrap{max-width:1400px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:21px;font-weight:800;letter-spacing:.2px}.brand span{color:var(--gold)}.sub{color:var(--muted);font-size:12px;margin-top:5px}
-.pill{border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:var(--muted);font-size:11px}
-main{max-width:1400px;margin:auto;padding:16px}
-.notice{background:#302718;border:1px solid #70592d;color:#f7d99a;padding:11px 13px;border-radius:12px;line-height:1.45;margin-bottom:14px;font-size:12px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-.stat,.panel,.signal{background:linear-gradient(145deg,var(--panel),#0f1a2b);border:1px solid var(--line);border-radius:14px}
-.stat{padding:13px}.stat small{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;font-size:22px;margin-top:7px}
-.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-button,select{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 13px;font-weight:700}
-button{cursor:pointer}button.primary{background:#176c59;border-color:#208c70}button:disabled{opacity:.5;cursor:not-allowed}
-.layout{display:grid;grid-template-columns:1.4fr .8fr;gap:14px}.panel{padding:14px;margin-bottom:14px}
-h2{font-size:15px;margin:0 0 12px}h3{font-size:13px;margin:0 0 8px}
-.muted{color:var(--muted)}.tiny{font-size:11px;color:var(--muted)}
-.progress{height:7px;background:#26364c;border-radius:99px;overflow:hidden;margin-top:9px}.bar{height:100%;width:0;background:linear-gradient(90deg,#3a8cff,#21c98b)}
-.signal-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.signal{padding:13px;min-width:0}.signal-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
-.symbol{font-weight:800;font-size:16px}.side{font-size:11px;font-weight:800;padding:5px 8px;border-radius:7px}.buy{color:var(--green);background:#123c34}.sell{color:var(--red);background:#451e2a}
-.levels{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.level{background:#0b1626;padding:8px;border-radius:8px}.level small{display:block;color:var(--muted);font-size:10px}.level b{font-size:12px;word-break:break-all}
-.reason{font-size:11px;line-height:1.5;color:#b8c7dc;min-height:32px}
-.row{display:flex;justify-content:space-between;gap:8px;align-items:center}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px;grid-column:1/-1}
-table{width:100%;border-collapse:collapse;font-size:11px}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-weight:600}
-.table-wrap{overflow:auto}.positive{color:var(--green)}.negative{color:var(--red)}
-footer{max-width:1400px;margin:auto;padding:4px 16px 28px;color:var(--muted);font-size:11px;line-height:1.5}
-#status{font-size:12px;color:var(--muted)}.tag{font-size:10px;color:var(--gold);border:1px solid #6a562e;padding:4px 7px;border-radius:6px}
-@media(max-width:800px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.signal-list{grid-template-columns:1fr}header{position:static}.brand{font-size:19px}}
-@media(min-width:1100px){.signal-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
-</style>
-</head>
-<body>
-<header><div class="wrap top">
- <div><div class="brand">CRYPTO AI <span>PRO VIP</span></div><div class="sub">SIGNAL INTELLIGENCE · VERSION 1.0 · PAPER MODE</div></div>
- <div class="pill">● PUBLIC BINANCE DATA · NO API KEY</div>
-</div></header>
-<main>
- <div class="notice"><b>Risk notice:</b> This is an experimental rule-based scanner, not a guaranteed AI predictor or financial advice. Signals can lose. Paper mode only — this app cannot place Binance orders. Validate results over a meaningful sample before risking money.</div>
- <div class="stats">
-  <div class="stat"><small>Market universe</small><strong id="universe">—</strong></div>
-  <div class="stat"><small>Active signals</small><strong id="active">0</strong></div>
-  <div class="stat"><small>Paper trades closed</small><strong id="closed">0</strong></div>
-  <div class="stat"><small>Paper win rate</small><strong id="winrate">—</strong></div>
- </div>
- <div class="controls">
-  <button class="primary" id="scanBtn">▶ Scan all markets</button>
-  <button id="autoBtn">Start 15m auto-scan</button>
-  <button id="notifyBtn">Enable alerts</button>
-  <button id="exportBtn">Export results CSV</button>
-  <button id="resetBtn">Reset paper history</button>
- </div>
- <div class="panel">
-  <div class="row"><h2>Market scanner</h2><span class="tag">15m ENTRY + 1h FILTER</span></div>
-  <div id="status">Ready. Press Scan all markets to begin.</div>
-  <div class="progress"><div class="bar" id="progress"></div></div>
-  <div class="tiny" style="margin-top:8px">The scanner checks eligible USDT perpetual contracts. It may take several minutes; keep this page open. Auto-scan runs every 15 minutes while the page remains open.</div>
- </div>
- <div class="layout">
-  <section>
-   <div class="row" style="margin:0 0 10px"><h2>Live BUY / SELL opportunities</h2><select id="filter"><option value="ALL">All signals</option><option value="BUY">BUY only</option><option value="SELL">SELL only</option></select></div>
-   <div class="signal-list" id="signals"><div class="empty">No confirmed setups yet. Run a scan to find opportunities.</div></div>
-  </section>
-  <aside>
-   <div class="panel">
-    <h2>Signal rules</h2>
-    <div class="tiny" style="line-height:1.8">
-     • 1h EMA trend alignment<br>• 15m EMA 20 / EMA 50 structure<br>• RSI momentum filter<br>• Recent swing Fibonacci zone 0.618–0.681<br>• Candle close confirmation<br>• ATR-based stop distance<br>• Minimum estimated reward/risk 2:1
-    </div>
-   </div>
-   <div class="panel">
-    <h2>Paper trading summary</h2>
-    <div class="row"><span class="muted">Wins</span><b id="wins">0</b></div>
-    <div class="row" style="margin-top:8px"><span class="muted">Losses</span><b id="losses">0</b></div>
-    <div class="row" style="margin-top:8px"><span class="muted">Open paper trades</span><b id="openCount">0</b></div>
-    <div class="tiny" style="margin-top:10px">Trades are simulated from signal levels and subsequent market candles. Fees, slippage and funding are not included in V1.</div>
-   </div>
- </aside>
- </div>
- <div class="panel">
-  <div class="row"><h2>Paper trade history</h2><span class="tiny">Saved in this browser</span></div>
-  <div class="table-wrap"><table><thead><tr><th>PAIR</th><th>SIDE</th><th>ENTRY</th><th>EXIT</th><th>RESULT</th><th>R-MULTIPLE</th><th>DATE</th></tr></thead><tbody id="history"><tr><td colspan="7" class="muted">No closed paper trades yet.</td></tr></tbody></table></div>
- </div>
-</main>
-<footer>Data source: Binance public USDⓈ-M Futures market endpoints. No account connection or API key is requested. V1 uses a technical rule engine; the “confidence” score is a rule-match score, not a probability of profit. Do not use signals as instructions to trade. This page must remain open for scanning, monitoring and browser notifications.</footer>
-<script>
-const API='https://fapi.binance.com';
-const $=id=>document.getElementById(id);
-let symbols=[],signals=[],openTrades=JSON.parse(localStorage.getItem('cap_v1_open')||'[]'),history=JSON.parse(localStorage.getItem('cap_v1_history')||'[]');
-let scanning=false,autoTimer=null,scanTimer=null,knownSignalIds=new Set();
-const fmt=n=>Number.isFinite(n)?Number(n).toPrecision(7).replace(/\.?0+$/,''):'—';
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-function ema(values,period){let k=2/(period+1),out=values[0];for(let i=1;i<values.length;i++)out=values[i]*k+out*(1-k);return out}
-function rsi(values,p=14){if(values.length<p+1)return 50;let gain=0,loss=0;for(let i=values.length-p;i<values.length;i++){let d=values[i]-values[i-1];if(d>0)gain+=d;else loss-=d}if(loss===0)return 100;return 100-100/(1+gain/loss)}
-function atr(ks,p=14){let a=[];for(let i=1;i<ks.length;i++){let x=ks[i],prev=ks[i-1];a.push(Math.max(x.h-x.l,Math.abs(x.h-prev.c),Math.abs(x.l-prev.c)))}return a.slice(-p).reduce((s,v)=>s+v,0)/Math.min(p,a.length)}
-async function getJSON(url){let r=await fetch(url);if(!r.ok)throw Error('HTTP '+r.status);return r.json()}
-async function loadUniverse(){
- const d=await getJSON(API+'/fapi/v1/exchangeInfo');
- return d.symbols.filter(s=>s.status==='TRADING'&&s.quoteAsset==='USDT'&&s.contractType==='PERPETUAL').map(s=>s.symbol);
+
+function updateUI(){
+ const open=trades.filter(t=>t.status==="OPEN").length;
+ const wins=history.filter(t=>t.pnl>0).length;
+ const closed=history.length;
+ const total=history.reduce((s,t)=>s+(t.pnl||0),0);
+
+ el("signalCount").textContent=signals.length;
+ el("openCount").textContent=open;
+ el("winRate").textContent=
+ closed?Math.round(wins/closed*100)+"%":"0%";
+
+ renderSignals();
+ renderTrades();
+ renderHistory();
 }
-async function klines(sym,tf,limit=100){
- const d=await getJSON(API+'/fapi/v1/klines?symbol='+sym+'&interval='+tf+'&limit='+limit);
- return d.map(x=>({t:x[0],o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]}));
-}
-function analyse(sym,k15,k1h){
- // Ignore the still-forming candle to avoid repainting.
- k15=k15.slice(0,-1);k1h=k1h.slice(0,-1);
- if(k15.length<60||k1h.length<55)return null;
- const c=k15.map(x=>x.c),h=k15.map(x=>x.h),l=k15.map(x=>x.l);
- const last=k15[k15.length-1],prev=k15[k15.length-2],e20=ema(c.slice(-40),20),e50=ema(c.slice(-60),50),r=rsi(c),a=atr(k15);
- const hclose=k1h.map(x=>x.c),h20=ema(hclose.slice(-40),20),h50=ema(hclose.slice(-55),50);
- const bull1=h20>h50&&hclose.at(-1)>h20,bear1=h20<h50&&hclose.at(-1)<h20;
- // Use the recent completed swing range; require price to retrace into preferred golden zone.
- const look=k15.slice(-48,-2),swingHigh=Math.max(...look.map(x=>x.h)),swingLow=Math.min(...look.map(x=>x.l)),range=swingHigh-swingLow;
- if(range<=0||a<=0)return null;
- const bullishRetrace=swingHigh-range*.681, bullishDeep=swingHigh-range*.618;
- const bearishRetrace=swingLow+range*.618, bearishDeep=swingLow+range*.681;
- const inBull=last.c>=bullishRetrace&&last.c<=bullishDeep;
- const inBear=last.c>=bearishRetrace&&last.c<=bearishDeep;
- const bullCandle=last.c>last.o&&last.c>prev.h;
- const bearCandle=last.c<last.o&&last.c<prev.l;
- let side=null,score=0,reasons=[];
- if(bull1&&e20>e50&&inBull&&r>=45&&r<=68&&bullCandle){side='BUY';score=60;reasons=['1h bullish','15m EMA aligned','Fib 0.618–0.681','bullish close','RSI '+r.toFixed(0)]}
- if(bear1&&e20<e50&&inBear&&r<=55&&r>=32&&bearCandle){side='SELL';score=60;reasons=['1h bearish','15m EMA aligned','Fib 0.618–0.681','bearish close','RSI '+r.toFixed(0)]}
- if(!side)return null;
- // Confidence is a rule-match score only, not a win probability.
- score+=Math.min(15,Math.abs(e20-e50)/a*10)+Math.min(10,Math.abs(r-50)/2);
- score=Math.min(85,Math.round(score));
- const entry=last.c,stop=side==='BUY'?Math.min(swingLow,last.l)-a*.35:Math.max(swingHigh,last.h)+a*.35;
- const risk=Math.abs(entry-stop);if(risk<=0)return null;
- const sign=side==='BUY'?1:-1,tp1=entry+sign*risk*2,tp2=entry+sign*risk*3,tp3=entry+sign*risk*4;
- return {symbol:sym,side,entry,stop,tp1,tp2,tp3,score,reasons:reasons.join(' · '),time:Date.now(),risk,signalId:sym+'-'+side+'-'+last.t};
-}
-async function mapLimit(items,limit,fn,onProgress){
- let i=0,done=0;const workers=Array.from({length:limit},async()=>{while(i<items.length){const n=i++;try{await fn(items[n])}catch(e){}done++;if(onProgress)onProgress(done,items.length);}});
- await Promise.all(workers);
-}
-async function scan(){
- if(scanning)return;scanning=true;$('scanBtn').disabled=true;$('status').textContent='Loading Binance Futures market list…';$('progress').style.width='0%';
- try{
-  if(!symbols.length)symbols=await loadUniverse();
-  $('universe').textContent=symbols.length;
-  const found=[];let errors=0;
-  $('status').textContent='Scanning '+symbols.length+' USDT perpetual pairs…';
-  await mapLimit(symbols,7,async sym=>{
-   try{const [a,b]=await Promise.all([klines(sym,'15m',100),klines(sym,'1h',80)]);const s=analyse(sym,a,b);if(s)found.push(s)}
-   catch(e){errors++}
-  },(done,total)=>{if(done%5===0||done===total){$('progress').style.width=(done/total*100)+'%';$('status').textContent='Scanned '+done+' / '+total+' pairs · '+found.length+' setups found · '+errors+' data errors';}});
-  signals=found.sort((a,b)=>b.score-a.score);
-  signals.forEach(s=>{if(!knownSignalIds.has(s.signalId)){knownSignalIds.add(s.signalId);if($('notifyBtn').dataset.enabled==='yes'&&Notification.permission==='granted')new Notification('Crypto AI Pro: '+s.side,{body:s.symbol+' · Entry '+fmt(s.entry)+' · SL '+fmt(s.stop)});}});
-  renderSignals();await monitorTrades();
-  $('status').textContent='Scan complete: '+symbols.length+' pairs checked · '+signals.length+' qualifying setups · '+errors+' data errors. Last scan '+new Date().toLocaleTimeString();
- }catch(e){$('status').textContent='Could not load market data: '+e.message+'. Check connection and try again.'}
- finally{scanning=false;$('scanBtn').disabled=false;renderStats()}
-}
+
 function renderSignals(){
- const f=$('filter').value,list=signals.filter(s=>f==='ALL'||s.side===f),root=$('signals');
- if(!list.length){root.innerHTML='<div class="empty">No qualifying '+(f==='ALL'?'BUY or SELL':' '+f)+' setups right now. WAIT is intentional — do not force an entry.</div>';return}
- root.innerHTML=list.map(s=>`<article class="signal"><div class="signal-head"><div><div class="symbol">${s.symbol}</div><div class="tiny">15m confirmed · ${new Date(s.time).toLocaleTimeString()}</div></div><span class="side ${s.side.toLowerCase()}">${s.side}</span></div><div class="row" style="margin-top:10px"><span class="tiny">Rule-match score</span><b>${s.score}/85</b></div><div class="levels"><div class="level"><small>ENTRY</small><b>${fmt(s.entry)}</b></div><div class="level"><small>STOP LOSS</small><b>${fmt(s.stop)}</b></div><div class="level"><small>TAKE PROFIT 1 · 2R</small><b>${fmt(s.tp1)}</b></div><div class="level"><small>TAKE PROFIT 2 · 3R</small><b>${fmt(s.tp2)}</b></div><div class="level"><small>TAKE PROFIT 3 · 4R</small><b>${fmt(s.tp3)}</b></div><div class="level"><small>RISK / REWARD</small><b>1 : 2 / 3 / 4</b></div></div><div class="reason">${s.reasons}</div><button class="primary" style="width:100%;margin-top:10px" onclick="paper('${s.signalId}')">Add paper trade</button></article>`).join('');
-}
-window.paper=id=>{const s=signals.find(x=>x.signalId===id);if(!s||openTrades.some(t=>t.signalId===id))return;openTrades.push({...s,opened:Date.now()});save();renderStats();alert('Paper trade added. It will be monitored on the next scan.');};
-async function monitorTrades(){
- if(!openTrades.length)return;
- const remain=[];
- for(const t of openTrades){
-  try{
-   const k=await klines(t.symbol,'1m',3),last=k[k.length-2];if(!last){remain.push(t);continue}
-   let exit=null,result=null,r=0;
-   // Conservative assumption: if SL and TP are both touched in one candle, count SL first.
-   const sl=t.side==='BUY'?last.l<=t.stop:last.h>=t.stop;
-   const tp=t.side==='BUY'?last.h>=t.tp1:last.l<=t.tp1;
-   if(sl){exit=t.stop;result='LOSS';r=-1}
-   else if(tp){exit=t.tp1;result='WIN';r=2}
-   if(exit!==null)history.unshift({...t,exit,result,r,closed:Date.now()});
-   else remain.push(t);
-  }catch(e){remain.push(t)}
+ const box=el("signalList");
+ if(!signals.length){
+ box.innerHTML="<p>No confirmed signals yet. Scanner is checking the market.</p>";
+ return;
  }
- openTrades=remain;save();renderHistory();renderStats();
+ box.innerHTML=signals.slice(0,30).map(s=>{
+ const exists=trades.some(t=>t.signalId===s.id)||
+ history.some(t=>t.signalId===s.id);
+ return `
+ <div class="signal">
+ <div class="signalhead">
+ <div>
+ <div class="direction ${s.direction==="BUY"?"buy":"sell"}">
+ ${s.direction} · ${s.symbol}
+ </div>
+ <div class="small">${new Date(s.time).toLocaleString()}</div>
+ </div>
+ <span class="pill">CONFIRMED</span>
+ </div>
+ <div class="levels">
+ <div class="level">ENTRY<b>${number(s.entry,8)}</b></div>
+ <div class="level">STOP LOSS<b class="red">${number(s.sl,8)}</b></div>
+ <div class="level">FIB 0.681<b>${number(s.level,8)}</b></div>
+ <div class="level">TAKE PROFIT 1<b class="green">${number(s.tp1,8)}</b></div>
+ <div class="level">TAKE PROFIT 2<b class="green">${number(s.tp2,8)}</b></div>
+ <div class="level">TAKE PROFIT 3<b class="green">${number(s.tp3,8)}</b></div>
+ </div>
+ <p>RSI: ${number(s.rsi,1)} · Risk/Reward: 1:${s.rr} · ${s.reason}</p>
+ <button ${exists?"disabled":""} onclick="openTrade('${s.id}')">
+ ${exists?"TRADE ALREADY USED":"START PAPER TRADE"}
+ </button>
+ </div>`;
+ }).join("");
 }
-function save(){localStorage.setItem('cap_v1_open',JSON.stringify(openTrades));localStorage.setItem('cap_v1_history',JSON.stringify(history))}
+
+function renderTrades(){
+ const box=el("tradeList");
+ if(!trades.length){
+ box.innerHTML="<p>No active paper trades.</p>";
+ return;
+ }
+ box.innerHTML=trades.map(t=>`
+ <div class="signal">
+ <div class="signalhead">
+ <div class="direction ${t.direction==="BUY"?"buy":"sell"}">
+ ${t.direction} · ${t.symbol}
+ </div>
+ <span class="pill">OPEN</span>
+ </div>
+ <div class="levels">
+ <div class="level">ENTRY<b>${number(t.entry,8)}</b></div>
+ <div class="level">CURRENT<b>${number(t.lastPrice||t.entry,8)}</b></div>
+ <div class="level">STOP LOSS<b class="red">${number(t.sl,8)}</b></div>
+ <div class="level">TP1<b>${t.hit1?"✓ ":""}${number(t.tp1,8)}</b></div>
+ <div class="level">TP2<b>${t.hit2?"✓ ":""}${number(t.tp2,8)}</b></div>
+ <div class="level">TP3<b>${number(t.tp3,8)}</b></div>
+ </div>
+ <p>Remaining position: ${number(t.remaining*100,0)}% · Realized PNL: ${number(t.realized,4)} USDT</p>
+ <button class="danger" onclick="manualClose('${t.id}')">CLOSE PAPER TRADE</button>
+ </div>
+ `).join("");
+}
+
 function renderHistory(){
- $('history').innerHTML=history.length?history.slice(0,100).map(t=>`<tr><td>${t.symbol}</td><td class="${t.side==='BUY'?'positive':'negative'}">${t.side}</td><td>${fmt(t.entry)}</td><td>${fmt(t.exit)}</td><td class="${t.result==='WIN'?'positive':'negative'}">${t.result}</td><td>${t.r>0?'+':''}${t.r}R</td><td>${new Date(t.closed).toLocaleDateString()}</td></tr>`).join(''):'<tr><td colspan="7" class="muted">No closed paper trades yet.</td></tr>';
+ const box=el("historyList");
+ if(!history.length){
+ box.innerHTML="<p>No completed paper trades yet.</p>";
+ return;
+ }
+ box.innerHTML=`
+ <div class="tablewrap"><table>
+ <thead><tr>
+ <th>COIN</th><th>DIRECTION</th><th>RESULT</th>
+ <th>PNL USDT</th><th>DATE</th>
+ </tr></thead>
+ <tbody>
+ ${history.map(t=>`
+ <tr>
+ <td>${t.symbol}</td>
+ <td>${t.direction}</td>
+ <td>${t.status}</td>
+ <td class="${t.pnl>=0?"green":"red"}">${number(t.pnl,4)}</td>
+ <td>${new Date(t.closed).toLocaleDateString()}</td>
+ </tr>`).join("")}
+ </tbody></table></div>
+ <p>Total realized PNL: <b class="${history.reduce((s,t)=>s+(t.pnl||0),0)>=0?"green":"red"}">
+ ${number(history.reduce((s,t)=>s+(t.pnl||0),0),4)} USDT</b></p>
+ `;
 }
-function renderStats(){
- const wins=history.filter(x=>x.result==='WIN').length,loss=history.filter(x=>x.result==='LOSS').length,total=wins+loss;
- $('active').textContent=signals.length;$('closed').textContent=total;$('winrate').textContent=total?(wins/total*100).toFixed(1)+'%':'—';$('wins').textContent=wins;$('losses').textContent=loss;$('openCount').textContent=openTrades.length;renderHistory();
+
+function manualClose(id){
+ const t=trades.find(x=>x.id===id);
+ if(!t)return;
+ const price=t.lastPrice||t.entry;
+ closeTrade(t,price,"MANUAL CLOSE");
+ save();updateUI();
 }
-$('scanBtn').onclick=scan;$('filter').onchange=renderSignals;
-$('autoBtn').onclick=()=>{if(autoTimer){clearInterval(autoTimer);autoTimer=null;$('autoBtn').textContent='Start 15m auto-scan'}else{scan();autoTimer=setInterval(scan,15*60*1000);$('autoBtn').textContent='Stop auto-scan'}};
-$('notifyBtn').onclick=async()=>{if(!('Notification'in window)){alert('Notifications are not supported by this browser.');return}const p=await Notification.requestPermission();if(p==='granted'){$('notifyBtn').dataset.enabled='yes';$('notifyBtn').textContent='Alerts enabled'}else alert('Notification permission was not granted.')};
-$('resetBtn').onclick=()=>{if(confirm('Delete all paper trades and history from this browser?')){openTrades=[];history=[];save();renderStats()}};
-$('exportBtn').onclick=()=>{const rows=[['symbol','side','entry','exit','result','R','closed'],...history.map(t=>[t.symbol,t.side,t.entry,t.exit,t.result,t.r,new Date(t.closed).toISOString()])];const csv=rows.map(r=>r.join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='crypto-ai-pro-v1-paper-results.csv';a.click();URL.revokeObjectURL(a.href)};
-renderStats();renderSignals();
+
+function saveSettings(){
+ const balance=+el("balanceInput").value;
+ const risk=+el("riskInput").value;
+ const volume=+el("volumeInput").value;
+
+ if(balance<=0||risk<0.1||risk>2||volume<=0){
+ alert("Please enter valid settings. Risk must be between 0.1% and 2%.");
+ return;
+ }
+ settings={balance,risk,volume};
+ save();
+ alert("Settings saved.");
+ initialize();
+}
+
+function exportHistory(){
+ if(!history.length){
+ alert("No history to export.");
+ return;
+ }
+ const rows=[
+ ["Symbol","Direction","Entry","Exit","Stop Loss",
+ "TP1","TP2","TP3","Result","PNL USDT","Date"]
+ ];
+ history.forEach(t=>rows.push([
+ t.symbol,t.direction,t.entry,t.exit,t.sl,
+ t.tp1,t.tp2,t.tp3,t.status,t.pnl,
+ new Date(t.closed).toISOString()
+ ]));
+ const csv=rows.map(r=>r.map(v=>
+ '"'+String(v??"").replace(/"/g,'""')+'"'
+ ).join(",")).join("\n");
+ const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;a.download="Crypto-AI-Pro-VIP-V2-History.csv";
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+function resetHistory(){
+ if(!confirm("Delete all completed paper trade history?"))return;
+ history=[];
+ save();updateUI();
+}
+
+function showTab(id,btn){
+ document.querySelectorAll(".section").forEach(x=>
+ x.classList.remove("active"));
+ document.querySelectorAll(".tab").forEach(x=>
+ x.classList.remove("active"));
+ el(id).classList.add("active");
+ btn.classList.add("active");
+}
+
+function restoreSettings(){
+ el("balanceInput").value=settings.balance;
+ el("riskInput").value=settings.risk;
+ el("volumeInput").value=settings.volume;
+}
+
+async function refreshMarket(){
+ try{
+ await monitorTrades();
+ }catch(e){
+ log("Price monitoring issue: "+e.message);
+ }
+}
+
+restoreSettings();
+updateUI();
+initialize();
+
+monitorTimer=setInterval(refreshMarket,15000);
+
 </script>
-</body></html>
+</body>
+</html>
