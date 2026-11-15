@@ -277,9 +277,30 @@ function showTab(id,btn){
 /* BINANCE API */
 
 async function api(path){
- const response=await fetch(API+path);
- if(!response.ok)throw Error("Binance API error: "+response.status);
- return response.json();
+ const controller=new AbortController();
+ const timeout=setTimeout(()=>controller.abort(),15000);
+
+ try{
+  const response=await fetch(API+path,{
+   signal:controller.signal,
+   cache:"no-store"
+  });
+
+  if(!response.ok){
+   throw Error("Binance API error: "+response.status);
+  }
+
+  return await response.json();
+
+ }catch(e){
+  if(e.name==="AbortError"){
+   throw Error("Binance request timed out");
+  }
+  throw e;
+
+ }finally{
+  clearTimeout(timeout);
+ }
 }
 
 function parseBars(raw){
@@ -544,7 +565,7 @@ async function startScan(){
      seen[signal.id]=true;
      found++;
 
-     if($("sound").checked){
+     if($("sound") && $("sound").checked){
       try{
        const ctx=new AudioContext();
        const oscillator=ctx.createOscillator();
