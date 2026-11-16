@@ -5,691 +5,613 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08111f">
-<title>Crypto AI Pro SMC V1.1</title>
+<title>Crypto AI Pro SMC V1.2</title>
 <style>
 :root{color-scheme:dark;font-family:Arial,sans-serif}
 *{box-sizing:border-box}
-body{margin:0;background:#08111f;color:#e8eef8}
-header{padding:20px;background:#101d30;border-bottom:1px solid #26364c}
-h1{font-size:22px;color:#65d8ff;margin:0}
-.sub{font-size:11px;color:#8da3bd;margin-top:6px}
-main{max-width:1150px;margin:auto;padding:14px}
-.card{background:#101d30;border:1px solid #26364c;border-radius:13px;padding:14px;margin-bottom:13px}
-h2{font-size:15px;color:#70d5ff;margin:0 0 12px}
+body{margin:0;background:#08111f;color:#e8eef8;font-size:14px}
+header{padding:18px 15px;background:#101d30;border-bottom:1px solid #263750}
+h1{font-size:21px;margin:0 0 6px}
+h2{font-size:16px;margin:0 0 12px}
+h3{font-size:14px;margin:0 0 9px}
+.sub{color:#9aacc5;font-size:12px}
+main{max-width:1200px;margin:auto;padding:12px}
+.panel{background:#101d30;border:1px solid #263750;border-radius:12px;padding:13px;margin-bottom:12px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.metric{background:#0a1627;border-radius:9px;padding:11px;min-width:0}
-.metric small{display:block;color:#8da3bd;font-size:10px}
-.metric strong{display:block;font-size:19px;margin-top:6px;overflow-wrap:anywhere}
-input,select{width:100%;padding:11px;background:#091526;color:white;border:1px solid #334761;border-radius:8px;margin:5px 0 10px}
-button{border:0;border-radius:8px;padding:12px 14px;background:#137cc1;color:white;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.45}
-.secondary{background:#273b55}
-.danger{background:#9e3444}
-.actions{display:flex;flex-wrap:wrap;gap:8px}
-.actions button{flex:1;min-width:115px}
-.status{padding:10px;border-radius:8px;background:#0a1627;color:#9fb5cd;font-size:12px;line-height:1.6}
-.good,.buy{color:#40dda0}.bad,.sell{color:#ff7184}
-.note{font-size:11px;color:#90a7c0;line-height:1.6}
-table{width:100%;border-collapse:collapse;font-size:11px;white-space:nowrap}
-th,td{text-align:left;padding:9px 7px;border-bottom:1px solid #26364c}
-th{color:#89a6c4}
-.scroll{overflow-x:auto}
-.tag{display:inline-block;border-radius:5px;padding:4px 7px;font-size:10px;background:#243951}
-.progress{height:6px;background:#26364c;border-radius:9px;overflow:hidden;margin-top:10px}
-.bar{height:100%;background:#37c9ff;width:0}
-label{font-size:11px;color:#9db3cc}
-footer{text-align:center;color:#647e9b;font-size:10px;padding:20px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat{background:#0b1728;border:1px solid #24364e;border-radius:9px;padding:11px}
+.stat b{display:block;font-size:20px;margin-top:5px}
+.muted{color:#93a7c1}
+.small{font-size:11px;color:#93a7c1}
+button,select,input{background:#1b304b;color:#edf4ff;border:1px solid #39516f;border-radius:8px;padding:10px;font-size:13px}
+button{cursor:pointer;font-weight:bold}
+button.primary{background:#1677e8;border-color:#1677e8}
+button.good{background:#087d5b;border-color:#087d5b}
+button.danger{background:#9c3545;border-color:#9c3545}
+button:disabled{opacity:.45;cursor:not-allowed}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.controls select{flex:1;min-width:115px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:12px}
+th,td{text-align:left;padding:9px 7px;border-bottom:1px solid #263750;white-space:nowrap}
+th{color:#9fb3ce;font-weight:600}
+.buy{color:#36d99b;font-weight:bold}
+.sell{color:#ff7e8d;font-weight:bold}
+.wait{color:#f3c66a}
+.goodtext{color:#36d99b}
+.badtext{color:#ff7e8d}
+.tag{display:inline-block;padding:4px 7px;border-radius:5px;background:#1d3551;font-size:10px}
+.bar{height:7px;background:#24364e;border-radius:9px;overflow:hidden;margin-top:7px}
+.bar span{display:block;height:100%;background:#21b889}
+.log{max-height:180px;overflow:auto;font-size:11px;line-height:1.6;color:#a9bad0}
+.note{font-size:12px;line-height:1.55;color:#aabbd1}
+hr{border:0;border-top:1px solid #263750;margin:12px 0}
+input[type=checkbox]{width:auto}
+label{font-size:12px;color:#b4c5da}
+.status{padding:8px 10px;border-radius:7px;background:#0b1728;color:#a9bdd7;font-size:12px}
 </style>
 </head>
 <body>
 <header>
-<h1>◈ CRYPTO AI PRO</h1>
-<div class="sub">SMART MONEY CONCEPTS · STRICT EDITION V1.1</div>
+<h1>🚀 Crypto AI Pro — SMC V1.2</h1>
+<div class="sub">Sequential SMC • 1H bias • 15M structure • 5M confirmation • Paper only</div>
 </header>
+
 <main>
-
-<section class="card">
-<div class="grid">
-<div class="metric"><small>SCANNER STATUS</small><strong id="status">READY</strong></div>
-<div class="metric"><small>ACTIVE SIGNALS</small><strong id="signalCount">0</strong></div>
-<div class="metric"><small>OPEN PAPER TRADES</small><strong id="tradeCount">0</strong></div>
-<div class="metric"><small>PAPER WIN RATE</small><strong id="winRate">0%</strong></div>
-</div>
-<p class="note" id="connection">Waiting for Binance Futures data.</p>
-<div class="actions">
-<button id="scanBtn" onclick="startScan()">SCAN MARKET</button>
-<button class="secondary" id="autoBtn" onclick="toggleAuto()">AUTO SCAN: OFF</button>
-</div>
-<div class="progress"><div class="bar" id="progress"></div></div>
-</section>
-
-<section class="card">
-<h2>SMC Market Intelligence</h2>
-<div class="grid">
-<div class="metric"><small>1H MARKET BIAS</small><strong id="bias">WAIT</strong></div>
-<div class="metric"><small>15M LIQUIDITY</small><strong id="liquidity">WAIT</strong></div>
-<div class="metric"><small>STRUCTURE</small><strong id="structure">WAIT</strong></div>
-<div class="metric"><small>5M CONFIRMATION</small><strong id="confirmation">WAIT</strong></div>
-</div>
-<p class="note">Strict rules: 1H EMA trend, 15M liquidity sweep and reclaim, structure shift, OB/FVG zone, and 5M candle confirmation.</p>
-</section>
-
-<section class="card">
-<h2>Scanner Diagnostics</h2>
-<div class="scroll">
-<table>
-<thead><tr><th>CHECK</th><th>PASSED</th><th>REJECTED</th></tr></thead>
-<tbody id="diagnostics"></tbody>
-</table>
-</div>
-</section>
-
-<section class="card">
-<h2>Live SMC Signals</h2>
-<div class="scroll">
-<table>
-<thead><tr><th>COIN</th><th>DIRECTION</th><th>ENTRY</th><th>SL</th><th>TP</th><th>R:R</th></tr></thead>
-<tbody id="signals"><tr><td colspan="6">No signals yet.</td></tr></tbody>
-</table>
-</div>
-<p class="note">Only completed-candle confirmations are eligible. No qualifying setup means no trade.</p>
-</section>
-
-<section class="card">
-<h2>Automatic Paper Trading</h2>
-<div class="grid">
-<div><label>Starting balance USDT</label><input id="balanceInput" type="number" value="100" min="1"></div>
-<div><label>Risk per trade (%)</label><input id="riskInput" type="number" value="1" min=".1" max="2" step=".1"></div>
-<div><label>Maximum open trades</label><select id="maxTrades"><option>1</option><option selected>3</option><option>5</option><option>10</option></select></div>
-<div><label>Fee per side (%)</label><input id="feeInput" type="number" value=".05" min="0" max="1" step=".01"></div>
-</div>
-<div class="actions">
-<button onclick="saveSettings()">SAVE SETTINGS</button>
-<button class="secondary" id="paperBtn" onclick="togglePaper()">PAPER AUTO: OFF</button>
-</div>
-<p class="note">Paper trading only. Position size is calculated from the selected risk percentage and stop distance. Estimated fees are deducted.</p>
-<div class="scroll">
-<table>
-<thead><tr><th>COIN</th><th>DIR</th><th>ENTRY</th><th>PRICE</th><th>SL</th><th>TP</th><th>PNL</th><th>STATE</th></tr></thead>
-<tbody id="openTrades"><tr><td colspan="8">No open trades.</td></tr></tbody>
-</table>
-</div>
-<div class="actions"><button class="danger" onclick="closeAll()">CLOSE ALL PAPER TRADES</button></div>
-</section>
-
-<section class="card">
-<h2>Paper Trading Performance</h2>
-<div class="grid">
-<div class="metric"><small>REALIZED PNL</small><strong id="realized">0.00</strong></div>
-<div class="metric"><small>UNREALIZED PNL</small><strong id="unrealized">0.00</strong></div>
-<div class="metric"><small>WINNING TRADES</small><strong id="wins">0</strong></div>
-<div class="metric"><small>LOSING TRADES</small><strong id="losses">0</strong></div>
-</div>
-<div class="scroll">
-<table>
-<thead><tr><th>COIN</th><th>DIR</th><th>ENTRY</th><th>EXIT</th><th>PNL</th><th>RESULT</th></tr></thead>
-<tbody id="history"><tr><td colspan="6">No completed trades.</td></tr></tbody>
-</table>
-</div>
-<div class="actions">
-<button class="secondary" onclick="exportHistory()">EXPORT CSV</button>
-<button class="danger" onclick="resetPaper()">RESET PAPER ACCOUNT</button>
-</div>
-</section>
-
-<section class="card">
-<h2>Historical SMC Backtesting</h2>
-<label>Trading pair</label>
-<input id="backSymbol" value="BTCUSDT">
-<label>Historical period</label>
-<select id="backDays">
-<option value="7">7 days</option>
-<option value="14">14 days</option>
-<option value="30" selected>30 days</option>
+<section class="panel">
+<h2>Scanner control</h2>
+<div class="controls">
+<select id="marketMode">
+<option value="40">Top 40 USDT perpetuals</option>
+<option value="all">All eligible USDT perpetuals</option>
 </select>
-<label>Starting capital USDT</label>
-<input id="backCapital" type="number" value="1000" min="10">
-<div class="actions"><button id="backBtn" onclick="runBacktest()">RUN HISTORICAL BACKTEST</button></div>
-<p class="note" id="backStatus">Backtest uses historical 1H, 15M and 5M Binance candles. Stop-first handling applies if TP and SL are both touched in the same candle.</p>
-<div class="grid">
-<div class="metric"><small>TRADES</small><strong id="btTrades">0</strong></div>
-<div class="metric"><small>WIN RATE</small><strong id="btWin">0%</strong></div>
-<div class="metric"><small>PROFIT FACTOR</small><strong id="btPF">0</strong></div>
-<div class="metric"><small>NET PNL</small><strong id="btPnl">0.00</strong></div>
-<div class="metric"><small>MAX DRAWDOWN</small><strong id="btDD">0%</strong></div>
-<div class="metric"><small>ENDING CAPITAL</small><strong id="btEnd">0.00</strong></div>
+<select id="riskMode">
+<option value="1">1% simulated risk</option>
+<option value="0.5">0.5% simulated risk</option>
+<option value="2">2% simulated risk</option>
+</select>
+<button class="primary" id="scanBtn">Scan now</button>
+<button id="autoBtn">Start auto scan</button>
 </div>
-<div class="scroll">
+<div class="controls" style="margin-top:9px">
+<label><input type="checkbox" id="autoPaper" checked> Auto paper trade new signals</label>
+<label><input type="checkbox" id="soundOn"> Sound alert</label>
+</div>
+<p class="note">The scanner uses public Binance Futures market data. It does not connect to your Binance account, use API keys, or place real orders. All paper records are stored in this browser.</p>
+<div id="scanStatus" class="status">Ready. Press Scan now to begin.</div>
+</section>
+
+<section class="panel">
+<h2>Live overview</h2>
+<div class="grid">
+<div class="stat"><span class="small">Markets checked</span><b id="sMarkets">0</b></div>
+<div class="stat"><span class="small">Confirmed signals</span><b id="sSignals">0</b></div>
+<div class="stat"><span class="small">Open paper trades</span><b id="sOpen">0</b></div>
+<div class="stat"><span class="small">Closed paper PNL</span><b id="sPnl">$0.00</b></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>Sequential scanner diagnostics</h2>
+<p class="note">Each row shows how many setups reached that stage, how many passed, and how many were rejected at that stage. Rejections are conditional on reaching that stage.</p>
+<div class="tablewrap">
 <table>
-<thead><tr><th>ENTRY TIME</th><th>DIR</th><th>ENTRY</th><th>EXIT</th><th>RESULT</th><th>PNL</th></tr></thead>
-<tbody id="btHistory"><tr><td colspan="6">No backtest results.</td></tr></tbody>
+<thead><tr><th>Stage</th><th>Reached</th><th>Passed</th><th>Rejected</th></tr></thead>
+<tbody id="diagBody"><tr><td colspan="4">Waiting for scan</td></tr></tbody>
+</table>
+</div>
+<div id="diagSummary" class="small" style="margin-top:8px">No scan data yet.</div>
+</section>
+
+<section class="panel">
+<h2>Confirmed SMC signals</h2>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Pair</th><th>Side</th><th>Setup</th><th>Entry</th><th>Stop loss</th><th>Take profit</th><th>Risk</th></tr></thead>
+<tbody id="signalBody"><tr><td colspan="7">No confirmed signals yet.</td></tr></tbody>
 </table>
 </div>
 </section>
 
-<section class="card">
-<h2>System Safety</h2>
-<p class="note">
-• Binance public Futures market data only.<br>
-• No Binance login or API keys.<br>
-• No real exchange orders.<br>
-• SMC detection is algorithmic and approximate.<br>
-• Backtest results do not guarantee future profitability.<br>
-• Paper trades may differ from real fills due to spread, slippage and latency.
-</p>
+<section class="panel">
+<h2>Paper trading</h2>
+<div class="grid">
+<div class="stat"><span class="small">Starting balance</span><b id="startBalance">$1,000</b></div>
+<div class="stat"><span class="small">Current equity</span><b id="equity">$1,000</b></div>
+<div class="stat"><span class="small">Win rate</span><b id="winRate">0%</b></div>
+<div class="stat"><span class="small">Closed trades</span><b id="closedCount">0</b></div>
+</div>
+<div class="controls" style="margin-top:10px">
+<button id="exportBtn">Export CSV</button>
+<button id="resetBtn" class="danger">Reset paper records</button>
+</div>
+<div class="tablewrap" style="margin-top:10px">
+<table>
+<thead><tr><th>Pair</th><th>Side</th><th>Entry</th><th>Current</th><th>SL</th><th>TP</th><th>PNL</th><th>Status</th></tr></thead>
+<tbody id="tradeBody"><tr><td colspan="8">No paper trades yet.</td></tr></tbody>
+</table>
+</div>
 </section>
-<footer>CRYPTO AI PRO SMC V1.1 · PAPER TRADING ONLY</footer>
+
+<section class="panel">
+<h2>Historical backtesting</h2>
+<div class="controls">
+<select id="backSymbol"><option value="BTCUSDT">BTCUSDT</option><option value="ETHUSDT">ETHUSDT</option><option value="SOLUSDT">SOLUSDT</option><option value="BNBUSDT">BNBUSDT</option><option value="XRPUSDT">XRPUSDT</option></select>
+<select id="backDays"><option value="7">7 days</option><option value="14" selected>14 days</option><option value="30">30 days</option></select>
+<button class="primary" id="backBtn">Run backtest</button>
+</div>
+<div id="backStatus" class="status" style="margin-top:9px">Choose a pair and period.</div>
+<div class="grid" style="margin-top:10px">
+<div class="stat"><span class="small">Trades</span><b id="btTrades">—</b></div>
+<div class="stat"><span class="small">Win rate</span><b id="btWin">—</b></div>
+<div class="stat"><span class="small">Net PNL</span><b id="btPnl">—</b></div>
+<div class="stat"><span class="small">Max drawdown</span><b id="btDd">—</b></div>
+</div>
+<div id="backDetails" class="note" style="margin-top:10px">Backtest uses the same sequential setup rules as the live scanner, with historical candles and a simulated fee assumption.</div>
+</section>
+
+<section class="panel">
+<h2>Activity log</h2>
+<div class="log" id="log">App loaded. Paper trading only.<br></div>
+</section>
 </main>
 
 <script>
 "use strict";
 
 const API="https://fapi.binance.com";
-const STORE="crypto_ai_pro_smc_v11";
-const $=id=>document.getElementById(id);
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const STORE="crypto-ai-pro-smc-v12";
+const SETUP_LIFETIME=8;
+const SWEEP_LOOKBACK=12;
+const R_MULTIPLE=2;
+const FEE_RATE=0.0004;
+const START_BALANCE=1000;
+let scanning=false,autoTimer=null,priceTimer=null;
+let signals=[],diagnostics={},marketsChecked=0;
+let data=loadStore();
 
-let signals=[],open=[],history=[],lastSignal={};
-let auto=false,paper=false,scanning=false,timer=null;
-let settings={balance:100,risk:1,max:3,fee:.05};
-let diagnostics={};
-
-function persist(){
- localStorage.setItem(STORE,JSON.stringify({
-  settings,open,history,lastSignal
- }));
-}
-function load(){
+function loadStore(){
  try{
-  const s=JSON.parse(localStorage.getItem(STORE)||"{}");
-  settings={...settings,...(s.settings||{})};
-  open=s.open||[];
-  history=s.history||[];
-  lastSignal=s.lastSignal||{};
- }catch(e){}
- $("balanceInput").value=settings.balance;
- $("riskInput").value=settings.risk;
- $("maxTrades").value=settings.max;
- $("feeInput").value=settings.fee;
- render();
+  const x=JSON.parse(localStorage.getItem(STORE)||"{}");
+  return {
+   trades:Array.isArray(x.trades)?x.trades:[],
+   seen:Array.isArray(x.seen)?x.seen:[],
+   balance:Number.isFinite(x.balance)?x.balance:START_BALANCE
+  };
+ }catch(e){return {trades:[],seen:[],balance:START_BALANCE}}
 }
-function saveSettings(){
- settings.balance=Math.max(1,+$("balanceInput").value||100);
- settings.risk=Math.min(2,Math.max(.1,+$("riskInput").value||1));
- settings.max=+$("maxTrades").value||3;
- settings.fee=Math.max(0,+$("feeInput").value||0);
- persist();render();
- alert("Settings saved.");
+function saveStore(){localStorage.setItem(STORE,JSON.stringify(data))}
+function log(msg){
+ const el=document.getElementById("log");
+ el.innerHTML=`[${new Date().toLocaleTimeString()}] ${escapeHtml(msg)}<br>`+el.innerHTML;
 }
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function fmt(n,d=5){return Number(n).toLocaleString(undefined,{maximumFractionDigits:d})}
+function money(n){return (n<0?"-$":"$")+Math.abs(n).toFixed(2)}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 async function api(path){
  const r=await fetch(API+path);
- if(!r.ok)throw Error("Binance HTTP "+r.status);
+ if(!r.ok)throw new Error("Binance HTTP "+r.status);
  return r.json();
 }
-async function klines(symbol,interval,limit=150){
- return api("/fapi/v1/klines?symbol="+symbol+"&interval="+interval+"&limit="+limit);
+async function klines(symbol,interval,limit=150,startTime=null){
+ let p=`/fapi/v1/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`;
+ if(startTime!==null)p+=`&startTime=${startTime}`;
+ const raw=await api(p);
+ const now=Date.now();
+ return raw.map(k=>({t:+k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5],ct:+k[6]}))
+ .filter(k=>k.ct<now);
 }
-function candles(raw){
- return raw.map(x=>({
-  t:+x[0],o:+x[1],h:+x[2],l:+x[3],
-  c:+x[4],v:+x[5],closeTime:+x[6]
- }));
+function ema(values,period){
+ if(values.length<period)return null;
+ const a=2/(period+1);let e=values.slice(0,period).reduce((s,x)=>s+x,0)/period;
+ for(let i=period;i<values.length;i++)e=values[i]*a+e*(1-a);
+ return e;
 }
-function ema(data,period){
- if(data.length<period)return null;
- let value=data.slice(0,period).reduce((s,x)=>s+x.c,0)/period;
- const k=2/(period+1);
- for(let i=period;i<data.length;i++)
-  value=data[i].c*k+value*(1-k);
- return value;
+function trendAt(h1,time){
+ const a=h1.filter(x=>x.ct<=time);
+ if(a.length<55)return "NONE";
+ const closes=a.map(x=>x.c),e20=ema(closes,20),e50=ema(closes,50);
+ if(e20===null||e50===null)return "NONE";
+ if(e20>e50&&closes.at(-1)>e20)return "BUY";
+ if(e20<e50&&closes.at(-1)<e20)return "SELL";
+ return "NONE";
 }
-function trend1h(data,index){
- if(index<55)return "WAIT";
- const d=data.slice(0,index+1);
- const e20=ema(d,20),e50=ema(d,50);
- const p=d[d.length-1].c;
- if(p>e20&&e20>e50)return "BUY";
- if(p<e20&&e20<e50)return "SELL";
- return "WAIT";
+function getSweep(m15,i){
+ if(i<SWEEP_LOOKBACK)return null;
+ const prior=m15.slice(i-SWEEP_LOOKBACK,i);
+ const hi=Math.max(...prior.map(x=>x.h));
+ const lo=Math.min(...prior.map(x=>x.l));
+ const c=m15[i];
+ if(c.l<lo&&c.c>lo&&c.c>c.o)return {side:"BUY",extreme:c.l,level:lo,index:i};
+ if(c.h>hi&&c.c<hi&&c.c<c.o)return {side:"SELL",extreme:c.h,level:hi,index:i};
+ return null;
 }
-function getBiasAt(data,time){
- let idx=-1;
- for(let i=0;i<data.length;i++){
-  if(data[i].closeTime<=time)idx=i;
-  else break;
- }
- return idx>=55?trend1h(data,idx):"WAIT";
-}
-function bullish(c){return c.c>c.o}
-function bearish(c){return c.c<c.o}
-function findSetup(m15,index){
- if(index<20)return null;
- const c=m15[index];
- const prev=m15.slice(index-12,index);
- const low=Math.min(...prev.map(x=>x.l));
- const high=Math.max(...prev.map(x=>x.h));
- let dir=null;
- if(c.l<low&&c.c>low&&bullish(c))dir="BUY";
- if(c.h>high&&c.c<high&&bearish(c))dir="SELL";
- if(!dir)return null;
-
- let ob=null;
- for(let j=index-1;j>=Math.max(0,index-5);j--){
-  if((dir==="BUY"&&bearish(m15[j]))||
-     (dir==="SELL"&&bullish(m15[j]))){
-   ob=m15[j];break;
+function findStructure(m15,sweep){
+ const end=Math.min(m15.length-1,sweep.index+SETUP_LIFETIME);
+ for(let j=sweep.index+1;j<=end;j++){
+  if(j<5)continue;
+  const prior=m15.slice(Math.max(0,j-5),j);
+  const c=m15[j];
+  const hi=Math.max(...prior.map(x=>x.h));
+  const lo=Math.min(...prior.map(x=>x.l));
+  if(sweep.side==="BUY"&&c.c>hi&&c.c>c.o){
+   return {index:j,kind:c.c>Math.max(...m15.slice(Math.max(0,sweep.index-5),sweep.index).map(x=>x.h))?"BOS":"CHOCH"};
   }
- }
- let fvg=null;
- for(let j=Math.max(2,index-4);j<=index;j++){
-  if(dir==="BUY"&&m15[j].l>m15[j-2].h)
-   fvg={low:m15[j-2].h,high:m15[j].l};
-  if(dir==="SELL"&&m15[j].h<m15[j-2].l)
-   fvg={low:m15[j].h,high:m15[j-2].l};
- }
- if(!ob&&!fvg)return null;
- return {
-  dir,extreme:dir==="BUY"?c.l:c.h,
-  ob,fvg,time:c.t,
-  closeTime:c.closeTime
- };
-}
-function zoneValid(s,price){
- if(s.fvg&&price>=s.fvg.low&&price<=s.fvg.high)return true;
- if(s.ob&&price>=s.ob.l&&price<=s.ob.h)return true;
- return false;
-}
-function confirm5(m5,s,startIndex,endIndex){
- for(let i=startIndex;i<=endIndex&&i<m5.length;i++){
-  if(i<3)continue;
-  const c=m5[i],prev=m5.slice(i-3,i);
-  const ph=Math.max(...prev.map(x=>x.h));
-  const pl=Math.min(...prev.map(x=>x.l));
-  if(s.dir==="BUY"&&bullish(c)&&c.c>ph&&zoneValid(s,c.c)){
-   return {index:i,entry:c.c,structure:"Bullish BOS"};
-  }
-  if(s.dir==="SELL"&&bearish(c)&&c.c<pl&&zoneValid(s,c.c)){
-   return {index:i,entry:c.c,structure:"Bearish BOS"};
+  if(sweep.side==="SELL"&&c.c<lo&&c.c<c.o){
+   return {index:j,kind:c.c<Math.min(...m15.slice(Math.max(0,sweep.index-5),sweep.index).map(x=>x.l))?"BOS":"CHOCH"};
   }
  }
  return null;
 }
-function makeSignal(symbol,s,confirm,bias){
- const entry=confirm.entry;
- const sl=s.extreme;
- const risk=Math.abs(entry-sl);
- if(!risk||risk/entry>.025)return null;
- const tp=s.dir==="BUY"?entry+2*risk:entry-2*risk;
+function findZone(m15,sweep,structure){
+ const j=structure.index,side=sweep.side;
+ let ob=null;
+ for(let k=j-1;k>=sweep.index;k--){
+  const c=m15[k];
+  if(side==="BUY"&&c.c<c.o){ob={low:c.l,high:c.o,type:"OB",time:c.t};break}
+  if(side==="SELL"&&c.c>c.o){ob={low:c.o,high:c.h,type:"OB",time:c.t};break}
+ }
+ let fvg=null;
+ if(j>=2){
+  const a=m15[j-2],c=m15[j];
+  if(side==="BUY"&&c.l>a.h)fvg={low:a.h,high:c.l,type:"FVG",time:c.t};
+  if(side==="SELL"&&c.h<a.l)fvg={low:c.h,high:a.l,type:"FVG",time:c.t};
+ }
+ if(ob&&fvg){
+  const low=Math.max(ob.low,fvg.low),high=Math.min(ob.high,fvg.high);
+  if(low<high)return {low,high,type:"OB + FVG",time:m15[j].t};
+  return ob;
+ }
+ return ob||fvg;
+}
+function confirm5(m5,side,zone,afterTime){
+ const candidates=m5.filter(x=>x.t>=afterTime);
+ for(let n=2;n<candidates.length&&n<7;n++){
+  const c=candidates[n],prev=candidates.slice(Math.max(0,n-3),n);
+  const touched=c.l<=zone.high&&c.h>=zone.low;
+  if(!touched||!prev.length)continue;
+  const microHigh=Math.max(...prev.map(x=>x.h));
+  const microLow=Math.min(...prev.map(x=>x.l));
+  if(side==="BUY"&&c.c>c.o&&c.c>microHigh)return c;
+  if(side==="SELL"&&c.c<c.o&&c.c<microLow)return c;
+ }
+ return null;
+}
+function makeSetup(symbol,h1,m15,m5,sweepIndex){
+ const sweep=getSweep(m15,sweepIndex);
+ if(!sweep)return {stage:"sweep"};
+ const sweepCandle=m15[sweepIndex];
+ const bias=trendAt(h1,sweepCandle.ct);
+ if(bias!==sweep.side)return {stage:"trend"};
+ const structure=findStructure(m15,sweep);
+ if(!structure)return {stage:"structure"};
+ const zone=findZone(m15,sweep,structure);
+ if(!zone)return {stage:"zone"};
+ const structureCandle=m15[structure.index];
+ const confirm=confirm5(m5,sweep.side,zone,structureCandle.ct+1);
+ if(!confirm)return {stage:"confirm"};
+ const entry=confirm.c;
+ const buffer=entry*0.0005;
+ let sl=sweep.side==="BUY"?Math.min(sweep.extreme,zone.low)-buffer:Math.max(sweep.extreme,zone.high)+buffer;
+ const risk=Math.abs(entry-sl)/entry*100;
+ if(!Number.isFinite(risk)||risk<=0||risk>3)return {stage:"risk"};
+ const tp=sweep.side==="BUY"?entry+(entry-sl)*R_MULTIPLE:entry-(sl-entry)*R_MULTIPLE;
  return {
-  symbol,dir:s.dir,entry,sl,tp,rr:2,bias,
-  structure:confirm.structure,
-  time:s.time,
-  confirmIndex:confirm.index,
-  confirmTime:confirm.index>=0?confirm.index:null,
-  zone:s.fvg?"FVG":"OB"
+  stage:"passed",symbol,side:sweep.side,entry,sl,tp,risk,
+  sweepTime:sweepCandle.t,structureTime:structureCandle.t,
+  confirmTime:confirm.t,zone,structure:structure.kind,
+  setupKey:`${symbol}-${sweep.side}-${sweepCandle.t}`
  };
 }
-function initDiag(){
- diagnostics={
-  markets:0,trend:0,sweep:0,structure:0,zone:0,confirm:0
- };
+function blankDiag(){return {
+ sweep:{reached:0,passed:0},trend:{reached:0,passed:0},
+ structure:{reached:0,passed:0},zone:{reached:0,passed:0},
+ confirm:{reached:0,passed:0},risk:{reached:0,passed:0}
+}}
+function recordStage(d,stage,passed){
+ d[stage].reached++;
+ if(passed)d[stage].passed++;
 }
-function renderDiag(){
- const rows=[
-  ["Markets checked","markets"],
-  ["15M liquidity sweep","sweep"],
-  ["1H trend","trend"],
-  ["Structure shift","structure"],
-  ["OB / FVG","zone"],
-  ["5M confirmation","confirm"]
- ];
- $("diagnostics").innerHTML=rows.map(([n,k])=>
-  `<tr><td>${n}</td><td class="good">${diagnostics[k]||0}</td><td>${Math.max(0,diagnostics.markets-(diagnostics[k]||0))}</td></tr>`
- ).join("");
+function updateDiagnostics(d){
+ const names=[["sweep","15M liquidity sweep"],["trend","1H trend alignment"],["structure","15M BOS / CHOCH"],["zone","OB / FVG zone"],["confirm","5M retest confirmation"],["risk","Risk filter"]];
+ document.getElementById("diagBody").innerHTML=names.map(([key,name])=>{
+  const x=d[key],rej=x.reached-x.passed;
+  return `<tr><td>${name}</td><td>${x.reached}</td><td class="goodtext">${x.passed}</td><td class="badtext">${rej}</td></tr>`;
+ }).join("");
+ document.getElementById("diagSummary").textContent=
+ `Markets checked: ${marketsChecked}. A later stage is evaluated only when the previous stage passes.`;
 }
-async function analyse(symbol){
- const [a,b,c]=await Promise.all([
-  klines(symbol,"1h",100),
-  klines(symbol,"15m",100),
-  klines(symbol,"5m",100)
- ]);
- const h1=candles(a),m15=candles(b),m5=candles(c);
- h1.pop();m15.pop();m5.pop();
- const i=m15.length-1;
- if(i<20)return null;
- const setup=findSetup(m15,i);
- if(!setup)return null;
- diagnostics.sweep++;
- const bias=getBiasAt(h1,setup.closeTime);
- if(bias!==setup.dir)return null;
- diagnostics.trend++;
- const start=m5.findIndex(x=>x.t>=setup.closeTime);
- if(start<3)return null;
- const confirm=confirm5(m5,setup,start,start+3);
- if(!confirm)return null;
- diagnostics.structure++;
- diagnostics.zone++;
- diagnostics.confirm++;
- return makeSignal(symbol,setup,confirm,bias);
+function evaluateCandidate(symbol,h1,m15,m5,d){
+ const start=Math.max(SWEEP_LOOKBACK,m15.length-SETUP_LIFETIME-2);
+ let best=null;
+ for(let i=start;i<m15.length;i++){
+  const sweep=getSweep(m15,i);
+  if(!sweep)continue;
+  recordStage(d,"sweep",true);
+  const bias=trendAt(h1,m15[i].ct);
+  recordStage(d,"trend",bias===sweep.side);
+  if(bias!==sweep.side)continue;
+  const structure=findStructure(m15,sweep);
+  recordStage(d,"structure",!!structure);
+  if(!structure)continue;
+  const zone=findZone(m15,sweep,structure);
+  recordStage(d,"zone",!!zone);
+  if(!zone)continue;
+  const conf=confirm5(m5,sweep.side,zone,m15[structure.index].ct+1);
+  recordStage(d,"confirm",!!conf);
+  if(!conf)continue;
+  const entry=conf.c,buffer=entry*0.0005;
+  const sl=sweep.side==="BUY"?Math.min(sweep.extreme,zone.low)-buffer:Math.max(sweep.extreme,zone.high)+buffer;
+  const risk=Math.abs(entry-sl)/entry*100;
+  const riskOk=Number.isFinite(risk)&&risk>0&&risk<=3;
+  recordStage(d,"risk",riskOk);
+  if(!riskOk)continue;
+  const tp=sweep.side==="BUY"?entry+(entry-sl)*R_MULTIPLE:entry-(sl-entry)*R_MULTIPLE;
+  const item={symbol,side:sweep.side,entry,sl,tp,risk,sweepTime:m15[i].t,
+   structureTime:m15[structure.index].t,confirmTime:conf.t,zone,structure:structure.kind,
+   setupKey:`${symbol}-${sweep.side}-${m15[i].t}`};
+  if(!best||item.confirmTime>best.confirmTime)best=item;
+ }
+ return best;
 }
-async function getSymbols(){
+async function fetchUniverse(){
  const [info,tickers]=await Promise.all([
-  api("/fapi/v1/exchangeInfo"),
-  api("/fapi/v1/ticker/24hr")
+  api("/fapi/v1/exchangeInfo"),api("/fapi/v1/ticker/24hr")
  ]);
- const active=new Set(info.symbols.filter(s=>
-  s.quoteAsset==="USDT"&&s.contractType==="PERPETUAL"&&
-  s.status==="TRADING"
- ).map(s=>s.symbol));
- return tickers.filter(t=>active.has(t.symbol))
-  .sort((a,b)=>+b.quoteVolume- +a.quoteVolume)
-  .slice(0,40).map(x=>x.symbol);
+ const valid=new Set(info.symbols.filter(s=>s.status==="TRADING"&&s.contractType==="PERPETUAL"&&s.quoteAsset==="USDT").map(s=>s.symbol));
+ const list=tickers.filter(t=>valid.has(t.symbol)).sort((a,b)=>+b.quoteVolume-(+a.quoteVolume));
+ const mode=document.getElementById("marketMode").value;
+ return (mode==="all"?list:list.slice(0,40)).map(x=>x.symbol);
 }
-async function startScan(){
+async function workerPool(items,limit,fn){
+ let next=0;
+ const workers=Array.from({length:limit},async()=>{
+  while(next<items.length){
+   const i=next++;
+   await fn(items[i],i);
+  }
+ });
+ await Promise.all(workers);
+}
+function playAlert(){
+ if(!document.getElementById("soundOn").checked)return;
+ try{
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator(),gain=ctx.createGain();
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.frequency.value=880;gain.gain.value=.08;osc.start();
+  setTimeout(()=>{osc.stop();ctx.close()},180);
+ }catch(e){}
+}
+async function scan(){
  if(scanning)return;
  scanning=true;
- $("scanBtn").disabled=true;
- $("status").textContent="SCANNING";
- signals=[];
- initDiag();renderDiag();renderSignals();
+ const btn=document.getElementById("scanBtn");
+ btn.disabled=true;
+ signals=[];diagnostics=blankDiag();marketsChecked=0;
+ document.getElementById("signalBody").innerHTML="<tr><td colspan='7'>Scanning market data...</td></tr>";
+ document.getElementById("scanStatus").textContent="Loading eligible USDT perpetual markets...";
  try{
-  const symbols=await getSymbols();
-  $("connection").textContent="Connected. Scanning "+symbols.length+" high-volume USDT perpetual pairs.";
-  let done=0;
-  for(let i=0;i<symbols.length;i+=3){
-   const batch=symbols.slice(i,i+3);
-   const results=await Promise.allSettled(batch.map(analyse));
-   for(const r of results){
-    done++;diagnostics.markets++;
-    if(r.status==="fulfilled"&&r.value)signals.push(r.value);
+  const symbols=await fetchUniverse();
+  document.getElementById("scanStatus").textContent=`Scanning ${symbols.length} markets. Please wait...`;
+  await workerPool(symbols,5,async symbol=>{
+   try{
+    const [h1,m15,m5]=await Promise.all([
+     klines(symbol,"1h",100),klines(symbol,"15m",100),klines(symbol,"5m",100)
+    ]);
+    marketsChecked++;
+    const candidate=evaluateCandidate(symbol,h1,m15,m5,diagnostics);
+    if(candidate)signals.push(candidate);
+   }catch(e){log(symbol+" data error: "+e.message)}
+   if(marketsChecked%10===0){
+    document.getElementById("scanStatus").textContent=`Scanned ${marketsChecked}/${symbols.length} markets...`;
+    updateDiagnostics(diagnostics);
    }
-   $("progress").style.width=(done/symbols.length*100)+"%";
-   renderDiag();renderSignals();
-   await sleep(180);
+  });
+  signals.sort((a,b)=>b.confirmTime-a.confirmTime);
+  renderSignals();
+  updateDiagnostics(diagnostics);
+  document.getElementById("scanStatus").textContent=`Scan complete: ${marketsChecked} markets checked, ${signals.length} confirmed setups.`;
+  document.getElementById("sMarkets").textContent=marketsChecked;
+  for(const s of signals){
+   if(!data.seen.includes(s.setupKey)){
+    data.seen.push(s.setupKey);
+    if(document.getElementById("autoPaper").checked)addPaperTrade(s);
+    playAlert();
+   }
   }
-  $("status").textContent="SCAN COMPLETE";
-  $("connection").textContent="Completed "+done+" markets · "+new Date().toLocaleTimeString();
-  updateSMC();
-  if(paper)signals.forEach(openPaper);
+  data.seen=data.seen.slice(-3000);
+  saveStore();renderTrades();
+  log(`Scan completed: ${marketsChecked} markets, ${signals.length} confirmed setups.`);
  }catch(e){
-  $("status").textContent="ERROR";
-  $("connection").textContent=e.message;
+  document.getElementById("scanStatus").textContent="Scan error: "+e.message;
+  log("Scan error: "+e.message);
  }finally{
-  scanning=false;$("scanBtn").disabled=false;
+  scanning=false;btn.disabled=false;
  }
 }
 function renderSignals(){
- $("signalCount").textContent=signals.length;
- $("signals").innerHTML=signals.length?signals.map(s=>
- `<tr><td>${s.symbol}</td><td class="${s.dir==="BUY"?"buy":"sell"}">${s.dir}</td>
- <td>${fmt(s.entry)}</td><td>${fmt(s.sl)}</td><td>${fmt(s.tp)}</td><td>1:2</td></tr>`
- ).join(""):'<tr><td colspan="6">No fully confirmed signals.</td></tr>';
+ const body=document.getElementById("signalBody");
+ if(!signals.length){body.innerHTML="<tr><td colspan='7'>No confirmed setups in the current scan. This is normal when conditions are not met.</td></tr>";}
+ else body.innerHTML=signals.map(s=>`<tr>
+ <td>${s.symbol}</td><td class="${s.side==="BUY"?"buy":"sell"}">${s.side}</td>
+ <td>${s.structure} · ${s.zone.type}</td><td>${fmt(s.entry)}</td><td>${fmt(s.sl)}</td>
+ <td>${fmt(s.tp)}</td><td>${s.risk.toFixed(2)}%</td></tr>`).join("");
+ document.getElementById("sSignals").textContent=signals.length;
 }
-function updateSMC(){
- if(!signals.length){
-  $("bias").textContent="WAIT";
-  $("liquidity").textContent="WAIT";
-  $("structure").textContent="WAIT";
-  $("confirmation").textContent="WAIT";
-  return;
- }
- const s=signals[0];
- $("bias").textContent=s.bias;
- $("liquidity").textContent=s.dir+" SWEEP";
- $("structure").textContent=s.structure;
- $("confirmation").textContent="CONFIRMED";
+function addPaperTrade(s){
+ if(data.trades.some(t=>t.setupKey===s.setupKey))return;
+ const riskPct=Number(document.getElementById("riskMode").value)/100;
+ const riskCash=data.balance*riskPct;
+ const qty=riskCash/Math.abs(s.entry-s.sl);
+ const trade={
+  id:s.setupKey,setupKey:s.setupKey,symbol:s.symbol,side:s.side,
+  entry:s.entry,sl:s.sl,tp:s.tp,qty,riskCash,
+  current:s.entry,status:"OPEN",pnl:0,opened:Date.now(),
+  zone:s.zone.type,structure:s.structure
+ };
+ data.trades.unshift(trade);saveStore();
+ log(`Paper trade opened: ${s.symbol} ${s.side} at ${fmt(s.entry)}.`);
 }
-function toggleAuto(){
- auto=!auto;
- $("autoBtn").textContent="AUTO SCAN: "+(auto?"ON":"OFF");
- if(auto){
-  startScan();
-  timer=setInterval(()=>{if(!scanning)startScan()},60000);
- }else{
-  clearInterval(timer);timer=null;
- }
-}
-function togglePaper(){
- paper=!paper;
- $("paperBtn").textContent="PAPER AUTO: "+(paper?"ON":"OFF");
- if(paper)signals.forEach(openPaper);
-}
-function openPaper(s){
- if(!paper||open.length>=settings.max)return;
- const key=s.symbol+"_"+s.dir;
- if(open.some(t=>t.symbol===s.symbol))return;
- if(lastSignal[key]===s.time)return;
- const risk=Math.abs(s.entry-s.sl);
- if(!risk)return;
- const cash=settings.balance*settings.risk/100;
- const qty=cash/risk;
- open.push({
-  id:Date.now()+"_"+s.symbol,
-  symbol:s.symbol,dir:s.dir,
-  entry:s.entry,sl:s.sl,tp:s.tp,
-  qty,price:s.entry,
-  entryFee:s.entry*qty*settings.fee/100,
-  entryTime:Date.now()
- });
- lastSignal[key]=s.time;
- persist();render();
-}
-function fmt(n,d=5){return Number(n).toFixed(d)}
-function pnl(t,p){
- const gross=(p-t.entry)*t.qty*(t.dir==="BUY"?1:-1);
- const exitFee=Math.abs(p*t.qty)*settings.fee/100;
- return gross-t.entryFee-exitFee;
-}
-async function monitor(){
- if(!open.length)return;
+async function updatePrices(){
+ const open=data.trades.filter(t=>t.status==="OPEN");
+ if(!open.length){renderTrades();return}
  try{
-  const data=await api("/fapi/v1/ticker/price");
-  for(const t of [...open]){
-   const p=data.find(x=>x.symbol===t.symbol);
-   if(!p)continue;
-   t.price=+p.price;
-   let reason=null;
-   if(t.dir==="BUY"){
-    if(t.price<=t.sl)reason="STOP LOSS";
-    else if(t.price>=t.tp)reason="TAKE PROFIT";
-   }else{
-    if(t.price>=t.sl)reason="STOP LOSS";
-    else if(t.price<=t.tp)reason="TAKE PROFIT";
-   }
-   if(reason)closeTrade(t.id,t.price,reason);
+  const tickers=await api("/fapi/v1/ticker/price");
+  const prices=new Map(tickers.map(x=>[x.symbol,+x.price]));
+  for(const t of open){
+   const p=prices.get(t.symbol);if(!p)continue;
+   t.current=p;
+   const hitSL=t.side==="BUY"?p<=t.sl:p>=t.sl;
+   const hitTP=t.side==="BUY"?p>=t.tp:p<=t.tp;
+   if(hitSL)closeTrade(t,t.sl,"STOP LOSS");
+   else if(hitTP)closeTrade(t,t.tp,"TAKE PROFIT");
+   else t.pnl=unrealized(t,p);
   }
-  persist();render();
- }catch(e){
-  $("connection").textContent="Price monitor: "+e.message;
- }
+  saveStore();renderTrades();
+ }catch(e){log("Price update error: "+e.message)}
 }
-function closeTrade(id,price,reason){
- const i=open.findIndex(t=>t.id===id);
- if(i<0)return;
- const t=open.splice(i,1)[0];
- history.unshift({
-  ...t,exit:price,result:pnl(t,price),
-  reason,closeTime:Date.now()
- });
- persist();render();
+function unrealized(t,p){
+ const gross=(t.side==="BUY"?(p-t.entry):(t.entry-p))*t.qty;
+ const fees=(t.entry*t.qty+p*t.qty)*FEE_RATE;
+ return gross-fees;
 }
-function closeAll(){
- [...open].forEach(t=>closeTrade(t.id,t.price||t.entry,"MANUAL CLOSE"));
+function closeTrade(t,price,reason){
+ if(t.status!=="OPEN")return;
+ t.current=price;t.pnl=unrealized(t,price);t.status=reason;t.closed=Date.now();
+ data.balance+=t.pnl;
+ log(`${t.symbol} closed: ${reason}, ${money(t.pnl)}.`);
 }
-function totals(){
- const realized=history.reduce((a,t)=>a+t.result,0);
- const unreal=open.reduce((a,t)=>a+pnl(t,t.price||t.entry),0);
- const wins=history.filter(t=>t.result>0).length;
- return {realized,unreal,wins,losses:history.length-wins};
+function renderTrades(){
+ const body=document.getElementById("tradeBody");
+ const open=data.trades.filter(t=>t.status==="OPEN");
+ const closed=data.trades.filter(t=>t.status!=="OPEN");
+ if(!data.trades.length)body.innerHTML="<tr><td colspan='8'>No paper trades yet.</td></tr>";
+ else body.innerHTML=data.trades.slice(0,100).map(t=>`<tr>
+ <td>${t.symbol}</td><td class="${t.side==="BUY"?"buy":"sell"}">${t.side}</td>
+ <td>${fmt(t.entry)}</td><td>${fmt(t.current)}</td><td>${fmt(t.sl)}</td><td>${fmt(t.tp)}</td>
+ <td class="${t.pnl>=0?"goodtext":"badtext"}">${money(t.pnl)}</td><td>${t.status}</td></tr>`).join("");
+ const closedPnl=closed.reduce((s,t)=>s+t.pnl,0);
+ const wins=closed.filter(t=>t.pnl>0).length;
+ document.getElementById("sOpen").textContent=open.length;
+ document.getElementById("sPnl").textContent=money(closedPnl);
+ document.getElementById("equity").textContent=money(data.balance+open.reduce((s,t)=>s+t.pnl,0));
+ document.getElementById("startBalance").textContent=money(START_BALANCE);
+ document.getElementById("closedCount").textContent=closed.length;
+ document.getElementById("winRate").textContent=(closed.length?(wins/closed.length*100):0).toFixed(1)+"%";
 }
-function render(){
- const x=totals();
- $("tradeCount").textContent=open.length;
- $("winRate").textContent=history.length?(x.wins/history.length*100).toFixed(1)+"%":"0%";
- $("realized").textContent=fmt(x.realized,2);
- $("unrealized").textContent=fmt(x.unreal,2);
- $("wins").textContent=x.wins;
- $("losses").textContent=x.losses;
- $("openTrades").innerHTML=open.length?open.map(t=>
- `<tr><td>${t.symbol}</td><td>${t.dir}</td><td>${fmt(t.entry)}</td>
- <td>${fmt(t.price||t.entry)}</td><td>${fmt(t.sl)}</td><td>${fmt(t.tp)}</td>
- <td>${fmt(pnl(t,t.price||t.entry),2)}</td><td><span class="tag">OPEN</span></td></tr>`
- ).join(""):'<tr><td colspan="8">No open trades.</td></tr>';
- $("history").innerHTML=history.slice(0,100).map(t=>
- `<tr><td>${t.symbol}</td><td>${t.dir}</td><td>${fmt(t.entry)}</td>
- <td>${fmt(t.exit)}</td><td>${fmt(t.result,2)}</td><td>${t.reason}</td></tr>`
- ).join("")||'<tr><td colspan="6">No completed trades.</td></tr>';
+function startAuto(){
+ if(autoTimer){clearInterval(autoTimer);autoTimer=null;document.getElementById("autoBtn").textContent="Start auto scan";log("Auto scan stopped.");return}
+ document.getElementById("autoBtn").textContent="Stop auto scan";
+ scan();autoTimer=setInterval(scan,15*60*1000);
+ log("Auto scan started: every 15 minutes.");
+}
+function exportCSV(){
+ const rows=[["Symbol","Side","Entry","SL","TP","Quantity","PNL","Status","Opened","Closed"]];
+ data.trades.forEach(t=>rows.push([t.symbol,t.side,t.entry,t.sl,t.tp,t.qty,t.pnl,t.status,new Date(t.opened).toISOString(),t.closed?new Date(t.closed).toISOString():""]));
+ const csv=rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="crypto-ai-pro-paper-trades.csv";a.click();URL.revokeObjectURL(a.href);
 }
 function resetPaper(){
- if(!confirm("Delete all paper trading history?"))return;
- open=[];history=[];lastSignal={};persist();render();
+ if(!confirm("Delete all paper trades and reset the simulated balance?"))return;
+ data={trades:[],seen:[],balance:START_BALANCE};saveStore();renderTrades();log("Paper trading records reset.");
 }
-function exportHistory(){
- const rows=[["Symbol","Direction","Entry","Exit","Quantity","Net PNL","Reason"]];
- history.forEach(t=>rows.push([t.symbol,t.dir,t.entry,t.exit,t.qty,t.result,t.reason]));
- const csv=rows.map(r=>r.join(",")).join("\n");
- const a=document.createElement("a");
- a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
- a.download="crypto-ai-pro-smc-history.csv";
- a.click();URL.revokeObjectURL(a.href);
+function backtestConfirm(m5,side,zone,afterTime){
+ return confirm5(m5,side,zone,afterTime);
 }
-
-// Historical candle downloader.
-async function historical(symbol,interval,start,end){
- let all=[],cursor=start;
+async function runBacktest(){
+ const btn=document.getElementById("backBtn");btn.disabled=true;
+ document.getElementById("backStatus").textContent="Downloading historical candles...";
+ try{
+  const symbol=document.getElementById("backSymbol").value;
+  const days=+document.getElementById("backDays").value;
+  const end=Date.now(),start=end-days*86400000;
+  const [h1,m15,m5]=await Promise.all([
+   fetchHistory(symbol,"1h",start,end),
+   fetchHistory(symbol,"15m",start-2*86400000,end),
+   fetchHistory(symbol,"5m",start-2*86400000,end)
+  ]);
+  document.getElementById("backStatus").textContent="Running chronological simulation...";
+  const results=[];
+  let equity=START_BALANCE,peak=equity,maxDD=0;
+  let cursor=0;
+  const used=new Set();
+  for(let i=SWEEP_LOOKBACK;i<m15.length-SETUP_LIFETIME-1;i++){
+   if(m15[i].t<start||m15[i].t>end)continue;
+   const sweep=getSweep(m15,i);if(!sweep)continue;
+   const bias=trendAt(h1,m15[i].ct);if(bias!==sweep.side)continue;
+   const structure=findStructure(m15,sweep);if(!structure)continue;
+   const zone=findZone(m15,sweep,structure);if(!zone)continue;
+   const conf=backtestConfirm(m5,sweep.side,zone,m15[structure.index].ct+1);if(!conf)continue;
+   if(conf.t<start||conf.t>end||used.has(conf.t))continue;
+   const entry=conf.c,buffer=entry*.0005;
+   const sl=sweep.side==="BUY"?Math.min(sweep.extreme,zone.low)-buffer:Math.max(sweep.extreme,zone.high)+buffer;
+   const risk=Math.abs(entry-sl)/entry;
+   if(!risk||risk>.03)continue;
+   const tp=sweep.side==="BUY"?entry+(entry-sl)*R_MULTIPLE:entry-(sl-entry)*R_MULTIPLE;
+   if(conf.t<=cursor)continue;
+   const riskCash=equity*.01,qty=riskCash/Math.abs(entry-sl);
+   let exitPrice=null,exitReason="OPEN AT END",exitTime=end;
+   const future=m5.filter(x=>x.t>conf.t&&x.t<=end);
+   for(const c of future){
+    const slHit=sweep.side==="BUY"?c.l<=sl:c.h>=sl;
+    const tpHit=sweep.side==="BUY"?c.h>=tp:c.l<=tp;
+    if(slHit){exitPrice=sl;exitReason="SL";exitTime=c.t;break}
+    if(tpHit){exitPrice=tp;exitReason="TP";exitTime=c.t;break}
+   }
+   if(exitPrice===null){
+    const last=future.at(-1);
+    if(last){exitPrice=last.c;exitTime=last.t}
+    else {exitPrice=entry}
+   }
+   const gross=(sweep.side==="BUY"?(exitPrice-entry):(entry-exitPrice))*qty;
+   const fees=(entry*qty+exitPrice*qty)*FEE_RATE;
+   const pnl=gross-fees;
+   equity+=pnl;peak=Math.max(peak,equity);
+   maxDD=Math.max(maxDD,(peak-equity)/peak*100);
+   results.push({side:sweep.side,entry,sl,tp,exitPrice,exitReason,pnl,confTime:conf.t,exitTime});
+   used.add(conf.t);cursor=exitTime;
+   i=Math.max(i,structure.index);
+  }
+  const wins=results.filter(x=>x.pnl>0).length;
+  const total=results.reduce((s,x)=>s+x.pnl,0);
+  document.getElementById("btTrades").textContent=results.length;
+  document.getElementById("btWin").textContent=(results.length?wins/results.length*100:0).toFixed(1)+"%";
+  document.getElementById("btPnl").textContent=money(total);
+  document.getElementById("btDd").textContent=maxDD.toFixed(2)+"%";
+  document.getElementById("backStatus").textContent=`Backtest complete: ${symbol}, ${days} days.`;
+  document.getElementById("backDetails").innerHTML=
+   `Starting balance: ${money(START_BALANCE)} · Ending balance: ${money(equity)} · Wins: ${wins} · Losses: ${results.length-wins} · Fee assumption: 0.04% per side. If SL and TP are both touched in one 5M candle, SL is counted first. Trades are simulated sequentially without overlapping positions.`;
+  log(`Backtest completed for ${symbol}: ${results.length} trades, ${money(total)} net.`);
+ }catch(e){
+  document.getElementById("backStatus").textContent="Backtest error: "+e.message;
+  log("Backtest error: "+e.message);
+ }finally{btn.disabled=false}
+}
+async function fetchHistory(symbol,interval,start,end){
+ let out=[],cursor=start;
  while(cursor<end){
-  const batch=await api("/fapi/v1/klines?symbol="+symbol+
-   "&interval="+interval+"&startTime="+cursor+
-   "&endTime="+end+"&limit=1500");
+  const batch=await api(`/fapi/v1/klines?symbol=${symbol}&interval=${interval}&startTime=${cursor}&endTime=${end}&limit=1500`);
   if(!batch.length)break;
-  all=all.concat(batch);
-  cursor=Number(batch[batch.length-1][0])+1;
+  const parsed=batch.map(k=>({t:+k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5],ct:+k[6]})).filter(x=>x.ct<Date.now());
+  out.push(...parsed);
+  const next=+batch[batch.length-1][0]+1;
+  if(next<=cursor)break;
+  cursor=next;
   if(batch.length<1500)break;
   await sleep(120);
  }
- return candles(all);
+ return out;
 }
-
-// Each historical setup is evaluated with its own future confirmation.
-// The entry is the actual confirmation candle close.
-// Exit checking begins AFTER that confirmation candle.
-function backtestSignal(h1,m15,m5,i){
- const setup=findSetup(m15,i);
- if(!setup)return null;
- const bias=getBiasAt(h1,setup.closeTime);
- if(bias!==setup.dir)return null;
- const start=m5.findIndex(x=>x.t>=setup.closeTime);
- if(start<3)return null;
- const confirm=confirm5(m5,setup,start,start+3);
- if(!confirm)return null;
- const signal=makeSignal("BACKTEST",setup,confirm,bias);
- if(!signal)return null;
- return signal;
-}
-async function runBacktest(){
- const btn=$("backBtn");
- if(btn.disabled)return;
- btn.disabled=true;
- $("backStatus").textContent="Downloading historical candles...";
- try{
-  const symbol=$("backSymbol").value.trim().toUpperCase();
-  if(!/^[A-Z0-9]{4,20}$/.test(symbol))
-   throw Error("Enter a valid Binance trading symbol.");
-  const days=+$("backDays").value;
-  const end=Date.now()-60000;
-  const start=end-days*86400000;
-  const [h1,m15,m5]=await Promise.all([
-   historical(symbol,"1h",start-60*3600000,end),
-   historical(symbol,"15m",start-20*3600000,end),
-   historical(symbol,"5m",start-3600000,end)
-  ]);
-  if(h1.length<60||m15.length<30||m5.length<100)
-   throw Error("Not enough historical candles.");
-  h1.pop();m15.pop();m5.pop();
-
-  let trades=[],lastExit=-1;
-  let capital=+$("backCapital").value||1000;
-  const initial=capital;
-  let peak=capital,maxDD=0;
-  const fee=settings.fee/100;
-
-  for(let i=20;i<m15.length;i++){
-   if(m15[i].t<start||m15[i].t<=lastExit)continue;
-   const s=backtestSignal(h1,m15,m5,i);
-   if(!s)continue;
-
-   const risk=Math.abs(s.entry-s.sl);
-   if(!risk||risk/s.entry>.025)continue;
-
-   const qty=(capital*.01)/risk;
-   const entryFee=s.entry*qty*fee;
-
-   // IMPORTANT CORRECTION:
-   // Start checking exits after the actual confirmation candle.
-   const first=s.confirmIndex+1;
-   if(first<0||first>=m5.length)continue;
-
-   let exit=null,reason="",exitTime=0;
-   for(let j=first;j<m5.length;j++){
-    const c=m5[j];
-    const stop=s.dir==="BUY"?c.l<=s.sl:c.h>=s.sl;
-    const target=s.dir==="BUY"?c.h>=s.tp:c.l<=s.tp;
-    if(stop||target){
-     // Conservative assumption when both levels are hit.
-     exit=stop?s.sl:s.tp;
-     reason=stop?"SL":"TP";
-     exitTime=c.t;
-     break;
-    }
-   }
-   if(exit===null)continue;
-
-   const gross=(exit-s.entry)*qty*(s.dir==="BUY"?1:-1);
-   const net=gross-entryFee-Math.abs(exit*qty)*fee;
-   capital+=net;
-   peak=Math.max(peak,capital);
-   maxDD=Math.max(maxDD,(peak-capital)/peak*100);
-
-   trades.push({
-    time:m5[s.confirmIndex].t,
-    dir:s.dir,entry:s.entry,exit,net,reason
-   });
-   lastExit=exitTime;
-   if(capital<=0)break;
-  }
-
-  const wins=trades.filter(t=>t.net>0);
-  const losses=trades.filter(t=>t.net<=0);
-  const gp=wins.reduce((a,t)=>a+t.net,0);
-  const gl=Math.abs(losses.reduce((a,t)=>a+t.net,0));
-
-  $("btTrades").textContent=trades.length;
-  $("btWin").textContent=trades.length?
-   (wins.length/trades.length*100).toFixed(1)+"%":"0%";
-  $("btPF").textContent=gl?(gp/gl).toFixed(2):gp>0?"∞":"0";
-  $("btPnl").textContent=fmt(capital-initial,2);
-  $("btDD").textContent=maxDD.toFixed(2)+"%";
-  $("btEnd").textContent=fmt(capital,2);
-
-  $("btHistory").innerHTML=trades.slice(-100).reverse().map(t=>
-   `<tr><td>${new Date(t.time).toLocaleString()}</td>
-   <td class="${t.dir==="BUY"?"buy":"sell"}">${t.dir}</td>
-   <td>${fmt(t.entry)}</td><td>${fmt(t.exit)}</td>
-   <td>${t.reason}</td><td>${fmt(t.net,2)}</td></tr>`
-  ).join("")||'<tr><td colspan="6">No qualifying completed trades.</td></tr>';
-
-  $("backStatus").textContent=
-   "Completed "+symbol+" backtest. "+trades.length+
-   " completed trades. Historical simulation only.";
- }catch(e){
-  $("backStatus").textContent="Backtest error: "+e.message;
- }finally{
-  btn.disabled=false;
- }
-}
-
-load();
-setInterval(monitor,15000);
+document.getElementById("scanBtn").addEventListener("click",scan);
+document.getElementById("autoBtn").addEventListener("click",startAuto);
+document.getElementById("exportBtn").addEventListener("click",exportCSV);
+document.getElementById("resetBtn").addEventListener("click",resetPaper);
+document.getElementById("backBtn").addEventListener("click",runBacktest);
+renderTrades();
+priceTimer=setInterval(updatePrices,15000);
+updatePrices();
 </script>
 </body>
 </html>
