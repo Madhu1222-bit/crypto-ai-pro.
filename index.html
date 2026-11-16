@@ -5,747 +5,833 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#08111f">
-<title>Crypto AI Pro VIP V3.0</title>
+<title>Crypto AI Pro VIP V4.0</title>
 <style>
 :root{color-scheme:dark;font-family:Arial,sans-serif}
 *{box-sizing:border-box}
-body{margin:0;background:#08111f;color:#e8eef8;padding:14px}
-header{padding:18px 14px;background:#111f33;border:1px solid #263b58;border-radius:15px;margin-bottom:14px}
-h1{font-size:23px;margin:0 0 7px;color:#65d8ff}
-.sub{font-size:12px;color:#9aabc2}
-.panel{background:#101d30;border:1px solid #263b58;border-radius:13px;padding:14px;margin:12px 0}
-h2{font-size:16px;margin:0 0 12px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.stat{flex:1;min-width:100px;background:#172941;padding:12px;border-radius:10px}
-.stat small{display:block;color:#9aabc2;font-size:11px}
-.stat strong{display:block;font-size:20px;margin-top:6px}
-button{border:0;border-radius:9px;padding:11px 14px;font-weight:bold;background:#21b8a6;color:#06131d;cursor:pointer}
-button.secondary{background:#263b58;color:#e8eef8}
-button.danger{background:#9f3548;color:white}
+body{margin:0;background:#08111f;color:#e8eef8}
+header{padding:20px 15px;background:#101d30;border-bottom:1px solid #263952}
+h1{font-size:23px;margin:0;color:#54d6ff}
+header p{font-size:12px;color:#9db0c9;margin:7px 0 0}
+main{max-width:1100px;margin:auto;padding:14px}
+.card{background:#101d30;border:1px solid #263952;border-radius:13px;padding:14px;margin-bottom:13px}
+h2{font-size:16px;margin:0 0 12px;color:#65d5ff}
+h3{font-size:14px;margin:10px 0;color:#b9d8f4}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stat{background:#0a1627;padding:12px;border-radius:9px}
+.stat small{color:#91a7c2;font-size:11px}
+.stat strong{display:block;font-size:19px;margin-top:7px;overflow-wrap:anywhere}
+button,select,input{background:#162b43;color:white;border:1px solid #385371;border-radius:8px;padding:11px;font-size:13px}
+button{cursor:pointer;font-weight:bold}
+button.primary{background:#087eae;border:0}
+button.green{background:#087c56;border:0}
+button.red{background:#a83a4b;border:0}
 button:disabled{opacity:.5}
-input{background:#081523;color:white;border:1px solid #344b68;border-radius:8px;padding:9px;width:100%}
-label{font-size:12px;color:#a9bad0}
-.muted{color:#9aabc2;font-size:12px}
-.good{color:#42d9a2}
-.bad{color:#ff7182}
-.wait{color:#ffd16b}
-.signal{border:1px solid #344b68;border-radius:11px;padding:13px;margin:10px 0;background:#0c192a}
-.signal.buy{border-left:4px solid #26d69a}
-.signal.sell{border-left:4px solid #ff657a}
-.signal h3{margin:0 0 9px;font-size:17px}
-.signal .price{font-size:12px;line-height:1.9;color:#c4d2e5}
-.signal .price b{color:#fff}
-.tag{font-size:10px;border-radius:20px;padding:4px 8px;background:#263b58}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+.controls button{flex:1;min-width:100px}
 table{width:100%;border-collapse:collapse;font-size:12px}
-td,th{text-align:left;padding:9px 5px;border-bottom:1px solid #293c55}
-th{color:#9aabc2}
-.scroll{overflow-x:auto}
-.progress{height:7px;background:#263b58;border-radius:10px;overflow:hidden;margin-top:9px}
-.progress span{display:block;height:100%;background:#26d69a;width:0}
-#status{font-size:12px;color:#ffd16b;line-height:1.6}
-#diagnostics{line-height:1.9;font-size:12px;color:#c2d1e4}
-.tpbar{height:8px;background:#263b58;border-radius:10px;overflow:hidden;margin:8px 0}
-.tpbar span{display:block;height:100%;background:#26d69a}
-.tradegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
-.tradebox{background:#172941;border-radius:8px;padding:9px;font-size:11px;color:#9aabc2}
-.tradebox b{display:block;color:#e8eef8;font-size:14px;margin-top:5px}
-footer{text-align:center;color:#788da8;font-size:11px;padding:20px}
+th,td{padding:10px 7px;text-align:left;border-bottom:1px solid #263952;white-space:nowrap}
+th{color:#91b9dc}
+.tablewrap{overflow-x:auto}
+.buy{color:#35e49a;font-weight:bold}
+.sell{color:#ff7788;font-weight:bold}
+.wait{color:#ffcb68}
+.muted{color:#91a7c2}
+.good{color:#35e49a}
+.bad{color:#ff7788}
+.notice{font-size:12px;line-height:1.6;color:#a8bad0}
+.status{font-size:12px;color:#a9c3dc;margin-top:10px}
+.progress{height:5px;background:#243b55;border-radius:5px;overflow:hidden;margin:10px 0}
+.progress div{height:100%;width:0;background:#42c9ff}
+input{width:100%;margin:5px 0 10px}
+select{width:100%;margin:5px 0 10px}
+footer{text-align:center;color:#7189a5;font-size:11px;padding:15px}
+.badge{display:inline-block;background:#18364e;padding:5px 8px;border-radius:6px;font-size:11px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
 <body>
-
 <header>
-<h1>⚡ CRYPTO AI PRO VIP</h1>
-<div class="sub">V3.0 • Fibonacci 0.681 • Binance USDT Perpetuals</div>
-<div class="sub" style="margin-top:7px">15M ENTRY · 1H TREND · SMART PARTIAL PROFIT MANAGEMENT</div>
+<h1>⚡ CRYPTO AI PRO VIP V4.0</h1>
+<p>Fibonacci Strategy B · Medium Risk · Binance Futures · Paper Trading</p>
 </header>
 
-<div class="panel">
-<div class="row">
-<div class="stat"><small>Markets found</small><strong id="markets">0</strong></div>
-<div class="stat"><small>Signals found</small><strong id="signalCount">0</strong></div>
-<div class="stat"><small>Open trades</small><strong id="openCount">0</strong></div>
-<div class="stat"><small>Closed trades</small><strong id="closedCount">0</strong></div>
+<main>
+
+<div class="card">
+<h2>📡 Market Scanner</h2>
+<div class="grid">
+<div class="stat"><small>Strategy</small><strong>Fib 0.618</strong></div>
+<div class="stat"><small>Risk profile</small><strong>Medium</strong></div>
+<div class="stat"><small>Entry timeframe</small><strong>15M</strong></div>
+<div class="stat"><small>Trend timeframe</small><strong>1H</strong></div>
 </div>
-<div class="row" style="margin-top:14px">
-<button id="scanBtn" onclick="startScan()">🔍 SCAN NOW</button>
-<button class="secondary" onclick="toggleAuto()" id="autoBtn">Auto scan: ON</button>
-<button class="secondary" onclick="exportCSV()">Export CSV</button>
+<div class="controls" style="margin-top:13px">
+<button class="primary" id="scanBtn" onclick="startScan()">🔍 Scan Market</button>
+<button onclick="stopScan()">Stop Scan</button>
+<button onclick="toggleAuto()" id="autoBtn">▶ Auto Scan: OFF</button>
 </div>
-<p id="status">Ready. Press SCAN NOW to begin.</p>
-<div class="progress"><span id="progress"></span></div>
+<div class="progress"><div id="progress"></div></div>
+<div class="status" id="scanStatus">Ready to scan.</div>
+<p class="notice">Scans the 60 highest-volume eligible USDT perpetual contracts to limit API requests. Only closed candles are used for signals.</p>
 </div>
 
-<div class="panel">
-<h2>🎯 V3.0 Partial Profit Strategy</h2>
-<div class="muted">Automatic paper-trading position management.</div>
-<div class="tradegrid">
-<div class="tradebox">TP1 · CLOSE 50%<b class="good">50% position</b></div>
-<div class="tradebox">TP2 · CLOSE 25%<b class="good">25% position</b></div>
-<div class="tradebox">TP3 · CLOSE 25%<b class="good">25% position</b></div>
-<div class="tradebox">AFTER TP1 · STOP LOSS<b>Move to entry price</b></div>
-</div>
-<p class="muted">Profit is calculated using the original position allocation. Remaining quantity is protected by the updated stop loss.</p>
-</div>
-
-<div class="panel">
-<h2>📡 Live scanner</h2>
-<div class="muted">Signals require a completed 15-minute candle and 1-hour trend confirmation. WAIT conditions are hidden.</div>
-<div id="signals"><p class="muted">No signals yet. Start scanning.</p></div>
-</div>
-
-<div class="panel">
-<h2>📊 Scanner diagnostics</h2>
-<div id="diagnostics">Diagnostics will appear after the first scan.</div>
-</div>
-
-<div class="panel">
-<h2>📝 Paper trading</h2>
-<div class="muted">Paper trading only. No Binance orders are placed. Prices are monitored automatically.</div>
-<div id="trades"><p class="muted">No paper trades yet.</p></div>
-</div>
-
-<div class="panel">
-<h2>📚 Trade history</h2>
-<div class="scroll">
+<div class="card">
+<h2>📊 Signal Opportunities</h2>
+<div class="tablewrap">
 <table>
-<thead><tr><th>Coin</th><th>Side</th><th>Entry</th><th>Exit</th><th>Result</th><th>PNL</th></tr></thead>
-<tbody id="history"><tr><td colspan="6">No completed trades.</td></tr></tbody>
+<thead><tr><th>Coin</th><th>Signal</th><th>Entry</th><th>SL</th><th>TP</th><th>RR</th></tr></thead>
+<tbody id="signals">
+<tr><td colspan="6" class="muted">Press Scan Market to begin.</td></tr>
+</tbody>
 </table>
 </div>
-<div class="row" style="margin-top:12px">
-<button class="secondary" onclick="clearHistory()">Clear history</button>
-<button class="danger" onclick="resetPaper()">Reset all paper data</button>
+</div>
+
+<div class="card">
+<h2>🎯 Paper Trading</h2>
+<div class="grid">
+<div class="stat"><small>Starting balance</small><strong id="balance">100.00 USDT</strong></div>
+<div class="stat"><small>Closed trades</small><strong id="closed">0</strong></div>
+<div class="stat"><small>Win rate</small><strong id="winrate">0%</strong></div>
+<div class="stat"><small>Net PNL</small><strong id="pnl">0.00</strong></div>
+</div>
+<h3>Paper trade settings</h3>
+<label class="notice">Starting balance (USDT)</label>
+<input id="startBalance" type="number" min="1" value="100">
+<label class="notice">Risk per trade (%)</label>
+<select id="risk">
+<option value="0.5">0.5% - Conservative medium</option>
+<option value="1" selected>1% - Medium</option>
+<option value="1.5">1.5% - Higher medium</option>
+</select>
+<label class="notice">Maximum simultaneous trades</label>
+<select id="maxTrades">
+<option value="2">2 trades</option>
+<option value="3" selected>3 trades</option>
+<option value="5">5 trades</option>
+</select>
+<div class="controls">
+<button class="green" onclick="togglePaper()" id="paperBtn">▶ Start Paper Trading</button>
+<button class="red" onclick="resetPaper()">Reset Paper Account</button>
+</div>
+<p class="notice">Paper trading only. No real Binance orders are placed. Risk sizing is simulated and does not use leverage.</p>
+<div class="status" id="paperStatus">Paper trading is stopped.</div>
+</div>
+
+<div class="card">
+<h2>📈 Open Paper Positions</h2>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Coin</th><th>Side</th><th>Entry</th><th>Current</th><th>SL</th><th>TP</th><th>PNL</th></tr></thead>
+<tbody id="openTrades"><tr><td colspan="7" class="muted">No open trades.</td></tr></tbody>
+</table>
 </div>
 </div>
 
-<footer>
-Crypto AI Pro VIP V3.0<br>
-Educational paper-trading scanner. Signals are not guaranteed. Never assume simulated results predict live performance.
-</footer>
+<div class="card">
+<h2>📚 Historical Backtesting</h2>
+<p class="notice">Tests the same Fibonacci 0.618 setup against historical 15-minute candles. Results are simulations, not predictions.</p>
+<label class="notice">Coin</label>
+<select id="backSymbol"><option value="BTCUSDT">BTCUSDT</option><option value="ETHUSDT">ETHUSDT</option><option value="SOLUSDT">SOLUSDT</option><option value="BNBUSDT">BNBUSDT</option><option value="XRPUSDT">XRPUSDT</option></select>
+<label class="notice">Historical candles</label>
+<select id="backCount">
+<option value="200">200 candles</option>
+<option value="500" selected>500 candles</option>
+<option value="1000">1000 candles</option>
+</select>
+<button class="primary" onclick="runBacktest()" id="backBtn" style="width:100%">Run Historical Backtest</button>
+<div id="backResults" class="status">No backtest performed yet.</div>
+</div>
+
+<div class="card">
+<h2>📜 Paper Trade History</h2>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Coin</th><th>Side</th><th>Entry</th><th>Exit</th><th>Result</th><th>PNL</th></tr></thead>
+<tbody id="history"><tr><td colspan="6" class="muted">No completed trades.</td></tr></tbody>
+</table>
+</div>
+</div>
+
+<div class="card">
+<h2>⚙️ Strategy Information</h2>
+<p class="notice">
+<b>Strategy B – Fibonacci 0.618</b><br><br>
+1. Identify a recent swing high and swing low.<br>
+2. Calculate the 0.618 retracement level.<br>
+3. Confirm the 1-hour EMA trend.<br>
+4. Confirm the 15-minute EMA direction.<br>
+5. Check RSI and candle confirmation.<br>
+6. Require price to be near the Fibonacci entry zone.<br>
+7. Calculate stop loss and a 2R take profit.<br><br>
+Signals are generated only after candle closure. A signal does not guarantee a winning trade.
+</p>
+</div>
+
+<div class="card">
+<h2>🛡️ Safety & Connection</h2>
+<div class="badge">PUBLIC MARKET DATA ONLY</div>
+<p class="notice">
+• No API key required.<br>
+• No Binance login required.<br>
+• No real-money execution.<br>
+• Public Binance Futures market data.<br>
+• Paper account stored in this browser.<br>
+• Backtesting excludes trading fees and slippage; actual results may be worse.
+</p>
+<div class="status" id="connection">Connection not tested.</div>
+</div>
+
+</main>
+
+<footer>Crypto AI Pro VIP V4.0 · Educational paper trading software</footer>
 
 <script>
-const API="https://fapi.binance.com";
+"use strict";
 
-/* Keep V2.3 storage keys to preserve existing local data */
-const STORE="crypto_ai_pro_vip_v23";
-const SETTINGS="crypto_ai_pro_vip_v23_settings";
+/* ==============================
+   CONFIGURATION
+============================== */
 
-let data=loadData();
-let signals=[];
-let scanning=false;
-let monitoring=false;
-let autoScan=true;
-let scanTimer=null;
-let monitorTimer=null;
+const API = "https://fapi.binance.com";
+const STORE = "crypto-ai-pro-vip-v4";
+const STRATEGY = {
+  swing:40,
+  atrPeriod:14,
+  emaFast:20,
+  emaSlow:50,
+  rsiPeriod:14,
+  fib:0.618,
+  tolerance:0.35,
+  rewardRisk:2,
+  volumePeriod:20
+};
 
-function loadData(){
- try{
-  const d=JSON.parse(localStorage.getItem(STORE));
-  if(!d)return {open:[],history:[],seen:[]};
-  d.open=Array.isArray(d.open)?d.open:[];
-  d.history=Array.isArray(d.history)?d.history:[];
-  d.seen=Array.isArray(d.seen)?d.seen:[];
-  return d;
- }catch(e){
-  return {open:[],history:[],seen:[]};
- }
+let signals = [];
+let prices = {};
+let openTrades = [];
+let history = [];
+let autoScan = false;
+let paperRunning = false;
+let scanBusy = false;
+let autoTimer = null;
+let monitorTimer = null;
+let initialBalance = 100;
+let realizedPNL = 0;
+let lastSignalTime = {};
+let contracts = [];
+
+/* ==============================
+   HELPERS
+============================== */
+
+const $ = id => document.getElementById(id);
+
+function fmt(n,d=5){
+  if(!Number.isFinite(Number(n))) return "-";
+  return Number(n).toFixed(d);
 }
 
-function saveData(){
- localStorage.setItem(STORE,JSON.stringify(data));
+function sleep(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
 }
 
-function $(id){return document.getElementById(id);}
-
-function fmt(n){
- if(!Number.isFinite(Number(n)))return "-";
- return Number(n).toLocaleString("en-US",{maximumFractionDigits:8});
+function save(){
+  try{
+    localStorage.setItem(STORE,JSON.stringify({
+      openTrades,history,initialBalance,realizedPNL
+    }));
+  }catch(e){}
 }
 
-function setStatus(s){$("status").textContent=s;}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function load(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STORE)||"{}");
+    openTrades=Array.isArray(s.openTrades)?s.openTrades:[];
+    history=Array.isArray(s.history)?s.history:[];
+    initialBalance=Number(s.initialBalance)||100;
+    realizedPNL=Number(s.realizedPNL)||0;
+  }catch(e){}
+  $("startBalance").value=initialBalance;
+  renderAccount();
+}
+
+function setStatus(message){
+  $("scanStatus").textContent=message;
+}
 
 async function api(path){
- const controller=new AbortController();
- const timeout=setTimeout(()=>controller.abort(),12000);
- try{
-  const r=await fetch(API+path,{signal:controller.signal});
-  if(!r.ok)throw new Error("HTTP "+r.status);
-  return await r.json();
- }finally{
-  clearTimeout(timeout);
- }
+  const response=await fetch(API+path);
+  if(!response.ok) throw new Error("Binance API error: "+response.status);
+  return response.json();
 }
 
-/* V2.3 open trades are migrated without deleting their records */
-function migrateTrades(){
- let changed=false;
- data.open.forEach(t=>{
-  if(t.managementVersion===3)return;
-
-  t.managementVersion=3;
-  t.remainingPct=100;
-  t.realizedPnlPct=0;
-  t.tp1Hit=false;
-  t.tp2Hit=false;
-  t.tp3Hit=false;
-  t.slMovedToEntry=false;
-  t.originalSL=t.sl;
-  t.lastPrice=Number(t.lastPrice)||t.entry;
-  changed=true;
- });
- if(changed)saveData();
-}
-migrateTrades();
+/* ==============================
+   INDICATORS
+============================== */
 
 function ema(values,period){
- if(values.length<period)return null;
- const k=2/(period+1);
- let v=values.slice(0,period).reduce((a,b)=>a+b,0)/period;
- for(let i=period;i<values.length;i++)v=values[i]*k+v*(1-k);
- return v;
+  if(values.length<period) return null;
+  const k=2/(period+1);
+  let result=values.slice(0,period).reduce((a,b)=>a+b,0)/period;
+  for(let i=period;i<values.length;i++){
+    result=values[i]*k+result*(1-k);
+  }
+  return result;
 }
 
-function calcATR(bars,period=14){
- if(bars.length<period+1)return 0;
- const trs=[];
- for(let i=1;i<bars.length;i++){
-  const c=bars[i],p=bars[i-1];
-  trs.push(Math.max(c.h-c.l,Math.abs(c.h-p.c),Math.abs(c.l-p.c)));
- }
- return trs.slice(-period).reduce((a,b)=>a+b,0)/Math.min(period,trs.length);
+function rsi(values,period=14){
+  if(values.length<period+1) return null;
+  let gains=0,losses=0;
+  for(let i=values.length-period;i<values.length;i++){
+    const diff=values[i]-values[i-1];
+    if(diff>0) gains+=diff;
+    else losses-=diff;
+  }
+  const avgGain=gains/period;
+  const avgLoss=losses/period;
+  if(avgLoss===0) return 100;
+  return 100-(100/(1+avgGain/avgLoss));
 }
 
-function calcRSI(values,period=14){
- if(values.length<period+1)return 50;
- let gain=0,loss=0;
- for(let i=values.length-period;i<values.length;i++){
-  const d=values[i]-values[i-1];
-  if(d>0)gain+=d;
-  else loss-=d;
- }
- if(loss===0)return 100;
- return 100-(100/(1+gain/loss));
+function atr(candles,period=14){
+  if(candles.length<period+1) return null;
+  const trs=[];
+  for(let i=candles.length-period;i<candles.length;i++){
+    const c=candles[i],p=candles[i-1];
+    trs.push(Math.max(
+      c.high-c.low,
+      Math.abs(c.high-p.close),
+      Math.abs(c.low-p.close)
+    ));
+  }
+  return trs.reduce((a,b)=>a+b,0)/trs.length;
 }
 
-function parseBars(raw){
- return raw.map(x=>({
-  t:Number(x[0]),o:+x[1],h:+x[2],l:+x[3],c:+x[4],v:+x[5]
- }));
+function parseCandles(raw){
+  return raw.map(x=>({
+    time:x[0],
+    open:+x[1],
+    high:+x[2],
+    low:+x[3],
+    close:+x[4],
+    volume:+x[5],
+    closeTime:x[6]
+  }));
 }
 
-function candleCheck(c,side){
- const body=Math.max(Math.abs(c.c-c.o),c.h*0.000001);
- const lower=Math.min(c.o,c.c)-c.l;
- const upper=c.h-Math.max(c.o,c.c);
- const position=(c.c-c.l)/Math.max(c.h-c.l,c.h*0.000001);
- if(side==="BUY")return c.c>c.o&&lower>=body*.25&&position>=.55;
- return c.c<c.o&&upper>=body*.25&&position<=.45;
-}
+/* ==============================
+   FIBONACCI STRATEGY B
+============================== */
 
-async function analyzeSymbol(symbol){
- try{
-  const [raw15,raw1h]=await Promise.all([
-   api("/fapi/v1/klines?symbol="+symbol+"&interval=15m&limit=100"),
-   api("/fapi/v1/klines?symbol="+symbol+"&interval=1h&limit=240")
-  ]);
+function getSignal(c15,c1h){
+  if(c15.length<65 || c1h.length<55) return null;
 
-  const b=parseBars(raw15).slice(0,-1);
-  const h=parseBars(raw1h).slice(0,-1);
-  if(b.length<55||h.length<205)return {reason:"data"};
+  // Exclude currently forming candles.
+  const a=c15.slice(0,-1);
+  const h=c1h.slice(0,-1);
 
-  const closes1h=h.map(x=>x.c);
-  const e50=ema(closes1h,50);
-  const e200=ema(closes1h,200);
-  const trend=e50>e200?"BUY":e50<e200?"SELL":"NONE";
-  if(trend==="NONE")return {reason:"trend"};
+  const closes=a.map(c=>c.close);
+  const closes1h=h.map(c=>c.close);
+  const current=a[a.length-1];
+  const previous=a[a.length-2];
 
-  const side=trend;
-  const latest=b[b.length-1];
-  const atr=calcATR(b);
-  if(!atr||!Number.isFinite(atr))return {reason:"data"};
+  const fast15=ema(closes,20);
+  const slow15=ema(closes,50);
+  const fast1h=ema(closes1h,20);
+  const slow1h=ema(closes1h,50);
+  const currentRSI=rsi(closes,14);
+  const currentATR=atr(a,14);
 
-  const swing=b.slice(-51,-3);
-  if(swing.length<30)return {reason:"data"};
+  if(!fast15||!slow15||!fast1h||!slow1h||
+     currentRSI===null||!currentATR||currentATR<=0) return null;
 
-  const hi=Math.max(...swing.map(x=>x.h));
-  const lo=Math.min(...swing.map(x=>x.l));
-  const range=hi-lo;
-  if(range<=0)return {reason:"fib"};
+  const swing=a.slice(-STRATEGY.swing);
+  const high=Math.max(...swing.map(c=>c.high));
+  const low=Math.min(...swing.map(c=>c.low));
+  const range=high-low;
 
-  const fib=side==="BUY"
-   ? hi-range*.681
-   : lo+range*.681;
+  if(range<=0) return null;
 
-  const tolerance=Math.max(atr*.65,Math.abs(fib)*.0008);
-  const touched=b.slice(-3).some(c=>
-   c.l<=fib+tolerance&&c.h>=fib-tolerance
-  );
-  if(!touched)return {reason:"fib"};
+  const bullish=fast1h>slow1h && fast15>slow15;
+  const bearish=fast1h<slow1h && fast15<slow15;
 
-  if(!candleCheck(latest,side))return {reason:"candle"};
+  const longFib=low+range*STRATEGY.fib;
+  const shortFib=high-range*STRATEGY.fib;
 
-  if(side==="BUY"&&latest.c<fib-tolerance*.25)return {reason:"fib"};
-  if(side==="SELL"&&latest.c>fib+tolerance*.25)return {reason:"fib"};
+  const nearLong=Math.abs(current.close-longFib)<=currentATR*STRATEGY.tolerance;
+  const nearShort=Math.abs(current.close-shortFib)<=currentATR*STRATEGY.tolerance;
 
-  const rsi=calcRSI(b.map(x=>x.c));
-  if(side==="BUY"&&(rsi<45||rsi>76))return {reason:"rsi"};
-  if(side==="SELL"&&(rsi>55||rsi<24))return {reason:"rsi"};
+  const bullishCandle=current.close>current.open &&
+    current.close>previous.close;
 
-  const avgVol=b.slice(-21,-1).reduce((a,x)=>a+x.v,0)/20;
-  if(avgVol>0&&latest.v<avgVol*.60)return {reason:"volume"};
+  const bearishCandle=current.close<current.open &&
+    current.close<previous.close;
 
-  const entry=latest.c;
-  const sl=side==="BUY"
-   ?Math.min(latest.l,entry-atr*1.2)
-   :Math.max(latest.h,entry+atr*1.2);
+  const avgVol=a.slice(-21,-1).reduce((s,c)=>s+c.volume,0)/20;
+  const volumeOK=current.volume>=avgVol*0.8;
 
-  const risk=Math.abs(entry-sl);
-  if(!risk||risk/entry>.035)return {reason:"risk"};
+  let side=null,entry=current.close,sl,tp;
 
-  const sign=side==="BUY"?1:-1;
+  if(bullish && nearLong && bullishCandle &&
+     currentRSI>=40 && currentRSI<=68 && volumeOK){
+
+    side="BUY";
+    sl=Math.min(low,current.low)-currentATR*0.15;
+    const risk=entry-sl;
+    if(risk<=0 || risk>currentATR*2.5) return null;
+    tp=entry+risk*STRATEGY.rewardRisk;
+  }
+
+  if(bearish && nearShort && bearishCandle &&
+     currentRSI>=32 && currentRSI<=60 && volumeOK){
+
+    side="SELL";
+    sl=Math.max(high,current.high)+currentATR*0.15;
+    const risk=sl-entry;
+    if(risk<=0 || risk>currentATR*2.5) return null;
+    tp=entry-risk*STRATEGY.rewardRisk;
+  }
+
+  if(!side) return null;
 
   return {
-   reason:"signal",symbol,side,entry,sl,
-   tp1:entry+sign*risk*2,
-   tp2:entry+sign*risk*3,
-   tp3:entry+sign*risk*4,
-   fib,rsi,atr,candleTime:latest.t,trend,
-   volumeRatio:avgVol?latest.v/avgVol:0,
-   id:symbol+"_"+side+"_"+latest.t
+    side,entry,sl,tp,
+    fib:side==="BUY"?longFib:shortFib,
+    rsi:currentRSI,
+    atr:currentATR,
+    time:current.time,
+    risk:Math.abs(entry-sl),
+    rr:STRATEGY.rewardRisk
   };
- }catch(e){
-  return {reason:"request"};
- }
+}
+
+/* ==============================
+   MARKET SCANNER
+============================== */
+
+async function getContracts(){
+  if(contracts.length) return contracts;
+
+  const info=await api("/fapi/v1/exchangeInfo");
+  contracts=info.symbols
+    .filter(s=>s.status==="TRADING" &&
+      s.quoteAsset==="USDT" &&
+      s.contractType==="PERPETUAL")
+    .map(s=>s.symbol);
+
+  return contracts;
+}
+
+async function getTopSymbols(){
+  const [symbols,tickers]=await Promise.all([
+    getContracts(),
+    api("/fapi/v1/ticker/24hr")
+  ]);
+
+  const eligible=new Set(symbols);
+  return tickers
+    .filter(t=>eligible.has(t.symbol))
+    .sort((a,b)=>Number(b.quoteVolume)-Number(a.quoteVolume))
+    .slice(0,60)
+    .map(t=>t.symbol);
+}
+
+async function scanCoin(symbol){
+  try{
+    const [raw15,raw1h]=await Promise.all([
+      api(`/fapi/v1/klines?symbol=${symbol}&interval=15m&limit=100`),
+      api(`/fapi/v1/klines?symbol=${symbol}&interval=1h&limit=100`)
+    ]);
+
+    const c15=parseCandles(raw15);
+    const c1h=parseCandles(raw1h);
+    const signal=getSignal(c15,c1h);
+
+    const price=c15[c15.length-1].close;
+    prices[symbol]=price;
+
+    if(signal){
+      return {symbol,...signal};
+    }
+  }catch(e){
+    console.warn(symbol,e.message);
+  }
+  return null;
 }
 
 async function startScan(){
- if(scanning)return;
- scanning=true;
- $("scanBtn").disabled=true;
- $("progress").style.width="0%";
- signals=[];
+  if(scanBusy) return;
+  scanBusy=true;
+  $("scanBtn").disabled=true;
+  $("progress").style.width="0%";
+  signals=[];
+  $("signals").innerHTML='<tr><td colspan="6">Scanning market...</td></tr>';
 
- const reasons={
-  fib:0,candle:0,trend:0,rsi:0,volume:0,
-  risk:0,data:0,request:0,signal:0
- };
+  try{
+    $("connection").textContent="Connected to Binance public market data.";
+    const symbols=await getTopSymbols();
+    let done=0;
+    const found=[];
 
- let completed=0;
+    // Limited concurrency to reduce API pressure.
+    for(let i=0;i<symbols.length;i+=5){
+      const batch=symbols.slice(i,i+5);
+      const results=await Promise.all(batch.map(scanCoin));
+      found.push(...results.filter(Boolean));
+      done+=batch.length;
 
- try{
-  setStatus("Loading Binance USDT perpetual markets...");
-
-  const [info,tickers]=await Promise.all([
-   api("/fapi/v1/exchangeInfo"),
-   api("/fapi/v1/ticker/24hr")
-  ]);
-
-  const eligible=new Set(info.symbols
-   .filter(s=>s.contractType==="PERPETUAL"&&
-    s.quoteAsset==="USDT"&&s.status==="TRADING")
-   .map(s=>s.symbol));
-
-  const liquid=tickers
-   .filter(t=>eligible.has(t.symbol)&&Number(t.quoteVolume)>0)
-   .sort((a,b)=>Number(b.quoteVolume)-Number(a.quoteVolume));
-
-  const markets=liquid.map(t=>t.symbol);
-  $("markets").textContent=markets.length;
-
-  setStatus("Scanning "+markets.length+" USDT perpetual markets...");
-
-  const found=[];
-  const batchSize=6;
-
-  for(let i=0;i<markets.length;i+=batchSize){
-   if(!scanning)break;
-
-   const batch=markets.slice(i,i+batchSize);
-   const results=await Promise.all(batch.map(s=>analyzeSymbol(s)));
-
-   for(const r of results){
-    completed++;
-    if(reasons[r.reason]!==undefined)reasons[r.reason]++;
-    if(r.reason==="signal"){
-     found.push(r);
-     if(!data.seen.includes(r.id))data.seen.push(r.id);
+      $("progress").style.width=(done/symbols.length*100)+"%";
+      setStatus(`Scanning ${done}/${symbols.length} markets · ${found.length} signals`);
+      renderSignals(found);
+      await sleep(200);
     }
-   }
 
-   $("progress").style.width=(completed/markets.length*100)+"%";
-   setStatus("Scanned "+completed+" / "+markets.length+" markets...");
-   await sleep(120);
+    signals=found.sort((a,b)=>a.time-b.time);
+    renderSignals(signals);
+    setStatus(`Scan complete · ${symbols.length} markets · ${signals.length} signals found.`);
+    if(paperRunning) await enterSignals();
+  }catch(e){
+    setStatus("Scanner error: "+e.message);
+    $("connection").textContent="Connection problem. Check internet or API availability.";
+  }finally{
+    scanBusy=false;
+    $("scanBtn").disabled=false;
   }
-
-  signals=found.sort((a,b)=>b.volumeRatio-a.volumeRatio);
-  renderSignals();
-  renderDiagnostics(reasons,completed);
-  $("signalCount").textContent=signals.length;
-
-  saveData();
-  setStatus("Scan complete: "+completed+" markets checked. "+signals.length+" confirmed setups found.");
-
- }catch(e){
-  setStatus("Scanner error: "+e.message+". Please try again.");
- }finally{
-  scanning=false;
-  $("scanBtn").disabled=false;
-  $("progress").style.width="100%";
- }
 }
 
-function renderSignals(){
- const box=$("signals");
-
- if(!signals.length){
-  box.innerHTML='<p class="wait">No confirmed BUY or SELL signals in this scan. Check diagnostics below.</p>';
-  return;
- }
-
- box.innerHTML=signals.map(s=>{
-  const cls=s.side.toLowerCase();
-  const already=data.open.some(t=>t.id===s.id);
-
-  return `<div class="signal ${cls}">
-   <div class="row" style="justify-content:space-between">
-    <h3>${s.symbol} <span class="${cls==="buy"?"good":"bad"}">${s.side}</span></h3>
-    <span class="tag">15M / 1H</span>
-   </div>
-   <div class="price">
-    Entry: <b>${fmt(s.entry)}</b><br>
-    Fibonacci 0.681: <b>${fmt(s.fib)}</b><br>
-    Stop loss: <b class="bad">${fmt(s.sl)}</b><br>
-    TP1 (2R): <b class="good">${fmt(s.tp1)}</b><br>
-    TP2 (3R): <b class="good">${fmt(s.tp2)}</b><br>
-    TP3 (4R): <b class="good">${fmt(s.tp3)}</b><br>
-    RSI: <b>${s.rsi.toFixed(1)}</b> · Volume: <b>${s.volumeRatio.toFixed(2)}x</b>
-   </div>
-   <button style="margin-top:10px" ${already?"disabled":""}
-    onclick="openPaper('${s.id}')">
-    ${already?"Already added":"＋ Add paper trade"}
-   </button>
-  </div>`;
- }).join("");
-}
-
-function renderDiagnostics(r,n){
- const labels={
-  fib:"Fibonacci touch / price position",
-  candle:"Rejection candle confirmation",
-  trend:"1H trend",
-  rsi:"RSI filter",
-  volume:"Volume filter",
-  risk:"Risk too high",
-  data:"Insufficient market data",
-  request:"API request errors",
-  signal:"Confirmed setups"
- };
-
- $("diagnostics").innerHTML=Object.keys(labels).map(k=>
-  `<div>${labels[k]}: <b>${n[k]||0}</b></div>`
- ).join("")+
- '<p class="muted">First-failure counts. Each market is assigned to its first failed check.</p>';
-}
-
-function openPaper(id){
- const s=signals.find(x=>x.id===id);
- if(!s)return;
-
- if(data.open.some(t=>t.id===id)){
-  alert("This signal is already in your open paper trades.");
-  return;
- }
-
- data.open.push({
-  ...s,
-  openedAt:Date.now(),
-  status:"OPEN",
-  managementVersion:3,
-  remainingPct:100,
-  realizedPnlPct:0,
-  tp1Hit:false,
-  tp2Hit:false,
-  tp3Hit:false,
-  slMovedToEntry:false,
-  originalSL:s.sl,
-  lastPrice:s.entry
- });
-
- saveData();
- renderPaper();
- alert("V3.0 paper trade added. No real Binance order was placed.");
-}
-
-/* Weighted PNL: partial profits are measured against original position size */
-function bookPartial(t,target,allocation,targetName){
- const direction=t.side==="BUY"?1:-1;
- const priceReturn=(direction*(target-t.entry)/t.entry)*100;
-
- t.realizedPnlPct+=(allocation/100)*priceReturn;
- t.remainingPct=Math.max(0,t.remainingPct-allocation);
-
- if(targetName==="TP1"){
-  t.tp1Hit=true;
-  t.sl=t.entry;
-  t.slMovedToEntry=true;
- }
- if(targetName==="TP2")t.tp2Hit=true;
- if(targetName==="TP3")t.tp3Hit=true;
-
- t.lastEvent=targetName;
- t.lastEventAt=Date.now();
-}
-
-function finishTrade(t,result,price){
- const idx=data.open.findIndex(x=>x.id===t.id);
- if(idx<0)return;
-
- const trade=data.open.splice(idx,1)[0];
- const direction=trade.side==="BUY"?1:-1;
-
- /* Add PNL from whatever percentage remains */
- if(trade.remainingPct>0){
-  const remainingReturn=
-   direction*(price-trade.entry)/trade.entry*100;
-
-  trade.realizedPnlPct+=
-   (trade.remainingPct/100)*remainingReturn;
-
-  trade.remainingPct=0;
- }
-
- trade.exit=price;
- trade.result=result;
- trade.closedAt=Date.now();
- trade.pnlPct=trade.realizedPnlPct;
- trade.status="CLOSED";
-
- data.history.unshift(trade);
- data.history=data.history.slice(0,500);
- saveData();
-}
-
-/* Automatic TP1 -> TP2 -> TP3 -> stop management */
-function manageTrade(t,price){
- t.lastPrice=price;
-
- const buy=t.side==="BUY";
- const hit=(target)=>buy?price>=target:price<=target;
-
- let changed=false;
-
- if(!t.tp1Hit&&hit(t.tp1)){
-  bookPartial(t,t.tp1,50,"TP1");
-  changed=true;
- }
-
- if(!t.tp2Hit&&hit(t.tp2)){
-  bookPartial(t,t.tp2,25,"TP2");
-  changed=true;
- }
-
- if(!t.tp3Hit&&hit(t.tp3)){
-  bookPartial(t,t.tp3,25,"TP3");
-  t.realizedPnlPct=Number(t.realizedPnlPct)||0;
-  finishTrade(t,"TP3",t.tp3);
-  return true;
- }
-
- /* After TP1 the stop becomes entry price */
- if(buy?price<=t.sl:price>=t.sl){
-  const result=t.slMovedToEntry?"BREAKEVEN":"SL";
-  finishTrade(t,result,t.sl);
-  return true;
- }
-
- return changed;
-}
-
-async function monitor(){
- if(monitoring)return;
- if(!data.open.length){
-  renderPaper();
-  return;
- }
-
- monitoring=true;
-
- try{
-  const prices=await api("/fapi/v1/ticker/price");
-  const map=new Map(prices.map(p=>[p.symbol,Number(p.price)]));
-
-  let changed=false;
-
-  for(const t of [...data.open]){
-   const price=map.get(t.symbol);
-   if(!price)continue;
-
-   const before=data.open.some(x=>x.id===t.id);
-   const result=manageTrade(t,price);
-   if(result||before!==data.open.some(x=>x.id===t.id)){
-    changed=true;
-   }
-  }
-
-  saveData();
-  renderPaper();
-
-  if(changed)renderHistory();
-
- }catch(e){
-  /* Temporary price request error does not close trades */
- }finally{
-  monitoring=false;
- }
-}
-
-function renderPaper(){
- $("openCount").textContent=data.open.length;
- $("closedCount").textContent=data.history.length;
-
- if(!data.open.length){
-  $("trades").innerHTML='<p class="muted">No open paper trades.</p>';
-  return;
- }
-
- $("trades").innerHTML=data.open.map(t=>{
-  const direction=t.side==="BUY"?1:-1;
-  const currentReturn=direction*(t.lastPrice-t.entry)/t.entry*100;
-  const floating=(t.remainingPct/100)*currentReturn;
-  const totalPnl=t.realizedPnlPct+floating;
-
-  const progress=100-t.remainingPct;
-
-  return `<div class="signal ${t.side.toLowerCase()}">
-   <div class="row" style="justify-content:space-between">
-    <h3>${t.symbol} · ${t.side}</h3>
-    <span class="tag">${t.remainingPct}% remaining</span>
-   </div>
-
-   <div class="price">
-    Entry: <b>${fmt(t.entry)}</b><br>
-    Current price: <b>${fmt(t.lastPrice)}</b><br>
-    Original SL: <b class="bad">${fmt(t.originalSL||t.sl)}</b><br>
-    Active stop loss: <b class="bad">${fmt(t.sl)}</b><br>
-    TP1: <b class="${t.tp1Hit?"good":"wait"}">${t.tp1Hit?"✓ 50% BOOKED":"Waiting"}</b><br>
-    TP2: <b class="${t.tp2Hit?"good":"wait"}">${t.tp2Hit?"✓ 25% BOOKED":"Waiting"}</b><br>
-    TP3: <b class="${t.tp3Hit?"good":"wait"}">${t.tp3Hit?"✓ 25% BOOKED":"Waiting"}</b><br>
-    Stop protection: <b class="${t.slMovedToEntry?"good":"wait"}">${t.slMovedToEntry?"BREAKEVEN ACTIVE":"Original SL active"}</b>
-   </div>
-
-   <div class="tpbar"><span style="width:${progress}%"></span></div>
-
-   <div class="tradegrid">
-    <div class="tradebox">POSITION CLOSED<b>${progress}%</b></div>
-    <div class="tradebox">POSITION LEFT<b>${t.remainingPct}%</b></div>
-    <div class="tradebox">REALIZED PNL<b class="${t.realizedPnlPct>=0?"good":"bad"}">${t.realizedPnlPct.toFixed(3)}%</b></div>
-    <div class="tradebox">TOTAL EST. PNL<b class="${totalPnl>=0?"good":"bad"}">${totalPnl.toFixed(3)}%</b></div>
-   </div>
-  </div>`;
- }).join("");
-}
-
-function renderHistory(){
- $("closedCount").textContent=data.history.length;
-
- if(!data.history.length){
-  $("history").innerHTML='<tr><td colspan="6">No completed trades.</td></tr>';
-  return;
- }
-
- $("history").innerHTML=data.history.map(t=>{
-  const pnl=Number(t.pnlPct??t.realizedPnlPct??0);
-  return `<tr>
-   <td>${t.symbol}</td>
-   <td>${t.side}</td>
-   <td>${fmt(t.entry)}</td>
-   <td>${fmt(t.exit)}</td>
-   <td>${t.result}</td>
-   <td class="${pnl>=0?"good":"bad"}">${pnl.toFixed(3)}%</td>
-  </tr>`;
- }).join("");
-}
-
-function exportCSV(){
- const rows=[[
-  "Symbol","Side","Entry","Original SL","Final SL",
-  "TP1","TP2","TP3","Exit","Result",
-  "TP1 Hit","TP2 Hit","TP3 Hit","Realized PNL %"
- ]];
-
- data.history.forEach(t=>rows.push([
-  t.symbol,t.side,t.entry,t.originalSL||t.sl,t.sl,
-  t.tp1,t.tp2,t.tp3,t.exit,t.result,
-  t.tp1Hit,t.tp2Hit,t.tp3Hit,t.pnlPct??t.realizedPnlPct
- ]));
-
- data.open.forEach(t=>rows.push([
-  t.symbol,t.side,t.entry,t.originalSL||t.sl,t.sl,
-  t.tp1,t.tp2,t.tp3,"","OPEN",
-  t.tp1Hit,t.tp2Hit,t.tp3Hit,t.realizedPnlPct
- ]));
-
- const csv=rows.map(r=>r.map(x=>
-  '"'+String(x??"").replace(/"/g,'""')+'"'
- ).join(",")).join("\n");
-
- const blob=new Blob([csv],{type:"text/csv"});
- const url=URL.createObjectURL(blob);
- const a=document.createElement("a");
- a.href=url;
- a.download="crypto-ai-pro-vip-v3-trades.csv";
- a.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-function clearHistory(){
- if(!confirm("Delete completed paper trade history?"))return;
- data.history=[];
- saveData();
- renderHistory();
- renderPaper();
-}
-
-function resetPaper(){
- if(!confirm("Delete ALL open trades, history and seen signal records?"))return;
- data={open:[],history:[],seen:[]};
- saveData();
- renderPaper();
- renderHistory();
- $("openCount").textContent="0";
- $("closedCount").textContent="0";
+function stopScan(){
+  autoScan=false;
+  clearInterval(autoTimer);
+  $("autoBtn").textContent="▶ Auto Scan: OFF";
+  setStatus("Automatic scanning stopped.");
 }
 
 function toggleAuto(){
- autoScan=!autoScan;
- $("autoBtn").textContent="Auto scan: "+(autoScan?"ON":"OFF");
-
- if(autoScan){
-  scheduleScan();
- }else if(scanTimer){
-  clearInterval(scanTimer);
-  scanTimer=null;
- }
+  autoScan=!autoScan;
+  $("autoBtn").textContent=autoScan?"⏸ Auto Scan: ON":"▶ Auto Scan: OFF";
+  if(autoScan){
+    startScan();
+    autoTimer=setInterval(()=>{
+      if(!scanBusy) startScan();
+    },15*60*1000);
+  }else{
+    clearInterval(autoTimer);
+  }
 }
 
-function scheduleScan(){
- if(scanTimer)clearInterval(scanTimer);
- if(autoScan){
-  scanTimer=setInterval(()=>{
-   if(!scanning)startScan();
-  },15*60*1000);
- }
+function renderSignals(data){
+  $("signals").innerHTML=data.length?data.map(s=>`
+    <tr>
+      <td>${s.symbol}</td>
+      <td class="${s.side==="BUY"?"buy":"sell"}">${s.side}</td>
+      <td>${fmt(s.entry)}</td>
+      <td>${fmt(s.sl)}</td>
+      <td>${fmt(s.tp)}</td>
+      <td>1:${s.rr}</td>
+    </tr>`).join("") :
+    '<tr><td colspan="6" class="muted">No qualifying signals currently. Wait for the next scan.</td></tr>';
 }
 
-/* Restore saved paper trades and start monitoring */
-renderPaper();
-renderHistory();
-$("signalCount").textContent="0";
-monitorTimer=setInterval(monitor,15000);
-scheduleScan();
-startScan();
+/* ==============================
+   PAPER TRADING
+============================== */
+
+function togglePaper(){
+  paperRunning=!paperRunning;
+  $("paperBtn").textContent=paperRunning?
+    "⏸ Stop Paper Trading":"▶ Start Paper Trading";
+  $("paperStatus").textContent=paperRunning?
+    "Paper trading active. Waiting for signals.":
+    "Paper trading stopped.";
+
+  if(paperRunning){
+    startMonitor();
+    if(signals.length) enterSignals();
+  }else{
+    clearInterval(monitorTimer);
+  }
+}
+
+function getEquity(){
+  return initialBalance+realizedPNL;
+}
+
+async function enterSignals(){
+  if(!paperRunning) return;
+
+  const max=Number($("maxTrades").value);
+  const riskPct=Number($("risk").value)/100;
+
+  for(const s of signals){
+    if(openTrades.length>=max) break;
+    if(openTrades.some(t=>t.symbol===s.symbol)) continue;
+    if(lastSignalTime[s.symbol]===s.time) continue;
+
+    const riskAmount=getEquity()*riskPct;
+    const quantity=riskAmount/s.risk;
+
+    if(!Number.isFinite(quantity)||quantity<=0) continue;
+
+    const trade={
+      id:s.symbol+"-"+s.time,
+      symbol:s.symbol,
+      side:s.side,
+      entry:s.entry,
+      sl:s.sl,
+      tp:s.tp,
+      qty:quantity,
+      riskAmount,
+      time:s.time,
+      current:s.entry
+    };
+
+    openTrades.push(trade);
+    lastSignalTime[s.symbol]=s.time;
+  }
+
+  save();
+  renderAccount();
+}
+
+async function startMonitor(){
+  clearInterval(monitorTimer);
+  monitorTimer=setInterval(monitorTrades,10000);
+  await monitorTrades();
+}
+
+async function monitorTrades(){
+  if(!openTrades.length){
+    renderAccount();
+    return;
+  }
+
+  const symbols=[...new Set(openTrades.map(t=>t.symbol))];
+
+  for(let i=0;i<symbols.length;i+=5){
+    const batch=symbols.slice(i,i+5);
+    await Promise.all(batch.map(async symbol=>{
+      try{
+        const data=await api(`/fapi/v1/ticker/price?symbol=${symbol}`);
+        prices[symbol]=Number(data.price);
+      }catch(e){}
+    }));
+  }
+
+  for(const trade of [...openTrades]){
+    const price=prices[trade.symbol];
+    if(!Number.isFinite(price)) continue;
+
+    trade.current=price;
+    const hitSL=trade.side==="BUY"?price<=trade.sl:price>=trade.sl;
+    const hitTP=trade.side==="BUY"?price>=trade.tp:price<=trade.tp;
+
+    if(hitSL || hitTP){
+      // Conservative assumption: if both levels are crossed
+      // between checks, count the stop loss first.
+      const exit=hitSL?trade.sl:trade.tp;
+      closeTrade(trade,exit,hitSL?"STOP LOSS":"TAKE PROFIT");
+    }
+  }
+
+  save();
+  renderAccount();
+}
+
+function closeTrade(trade,exit,result){
+  const direction=trade.side==="BUY"?1:-1;
+  const pnl=(exit-trade.entry)*direction*trade.qty;
+
+  realizedPNL+=pnl;
+
+  history.unshift({
+    symbol:trade.symbol,
+    side:trade.side,
+    entry:trade.entry,
+    exit,
+    pnl,
+    result,
+    time:Date.now()
+  });
+
+  openTrades=openTrades.filter(t=>t.id!==trade.id);
+}
+
+function renderAccount(){
+  const wins=history.filter(t=>t.pnl>0).length;
+  const closed=history.length;
+  const rate=closed?wins/closed*100:0;
+
+  $("balance").textContent=fmt(getEquity(),2)+" USDT";
+  $("closed").textContent=closed;
+  $("winrate").textContent=fmt(rate,1)+"%";
+  $("pnl").textContent=(realizedPNL>=0?"+":"")+fmt(realizedPNL,2);
+  $("pnl").className=realizedPNL>=0?"good":"bad";
+
+  $("openTrades").innerHTML=openTrades.length?
+    openTrades.map(t=>{
+      const p=prices[t.symbol]||t.current||t.entry;
+      const pnl=(p-t.entry)*(t.side==="BUY"?1:-1)*t.qty;
+      return `<tr>
+        <td>${t.symbol}</td>
+        <td class="${t.side==="BUY"?"buy":"sell"}">${t.side}</td>
+        <td>${fmt(t.entry)}</td>
+        <td>${fmt(p)}</td>
+        <td>${fmt(t.sl)}</td>
+        <td>${fmt(t.tp)}</td>
+        <td class="${pnl>=0?"good":"bad"}">${fmt(pnl,2)}</td>
+      </tr>`;
+    }).join("") :
+    '<tr><td colspan="7" class="muted">No open trades.</td></tr>';
+
+  $("history").innerHTML=history.length?
+    history.slice(0,100).map(t=>`
+      <tr>
+        <td>${t.symbol}</td>
+        <td>${t.side}</td>
+        <td>${fmt(t.entry)}</td>
+        <td>${fmt(t.exit)}</td>
+        <td class="${t.pnl>=0?"good":"bad"}">${t.result}</td>
+        <td class="${t.pnl>=0?"good":"bad"}">${fmt(t.pnl,2)}</td>
+      </tr>`).join("") :
+    '<tr><td colspan="6" class="muted">No completed trades.</td></tr>';
+}
+
+function resetPaper(){
+  if(!confirm("Delete all paper trades and reset your account?")) return;
+  openTrades=[];
+  history=[];
+  realizedPNL=0;
+  initialBalance=Math.max(1,Number($("startBalance").value)||100);
+  save();
+  renderAccount();
+}
+
+/* ==============================
+   HISTORICAL BACKTEST
+============================== */
+
+async function runBacktest(){
+  const symbol=$("backSymbol").value;
+  const count=Number($("backCount").value);
+  $("backBtn").disabled=true;
+  $("backResults").textContent="Downloading historical candles...";
+
+  try{
+    const [raw15,raw1h]=await Promise.all([
+      api(`/fapi/v1/klines?symbol=${symbol}&interval=15m&limit=${count}`),
+      api(`/fapi/v1/klines?symbol=${symbol}&interval=1h&limit=500`)
+    ]);
+
+    const c15=parseCandles(raw15);
+    const c1h=parseCandles(raw1h);
+
+    let trades=[];
+    let balance=100;
+    let wins=0,losses=0;
+    let equity=100;
+    let peak=100;
+    let maxDD=0;
+
+    // Only test entries when the matching 1H candle has closed.
+    for(let i=70;i<c15.length-1;i++){
+      const candle=c15[i];
+      const completed15=c15.slice(0,i+1);
+
+      const completed1h=c1h.filter(x=>
+        x.closeTime<candle.time+15*60*1000
+      );
+
+      if(completed1h.length<55) continue;
+
+      const sig=getSignal(
+        [...completed15,{...c15[i+1]}],
+        [...completed1h,{...completed1h[completed1h.length-1]}]
+      );
+
+      if(!sig) continue;
+
+      const entry=c15[i+1].open;
+      const risk=Math.abs(entry-sig.sl);
+      if(!risk||!Number.isFinite(risk)) continue;
+
+      const side=sig.side;
+      let exit=null,result="";
+
+      // Simulate the next 48 candles.
+      for(let j=i+1;j<Math.min(i+49,c15.length);j++){
+        const bar=c15[j];
+        const slHit=side==="BUY"?bar.low<=sig.sl:bar.high>=sig.sl;
+        const tpHit=side==="BUY"?bar.high>=sig.tp:bar.low<=sig.tp;
+
+        if(slHit){
+          exit=sig.sl;
+          result="LOSS";
+          break;
+        }
+        if(tpHit){
+          exit=sig.tp;
+          result="WIN";
+          break;
+        }
+      }
+
+      if(exit===null) continue;
+
+      const direction=side==="BUY"?1:-1;
+      const rr=(exit-entry)*direction/risk;
+      const tradeRisk=balance*0.01;
+      const pnl=tradeRisk*rr;
+
+      balance+=pnl;
+      equity=balance;
+      peak=Math.max(peak,equity);
+      maxDD=Math.max(maxDD,(peak-equity)/peak*100);
+
+      if(pnl>0) wins++;
+      else losses++;
+
+      trades.push({side,entry,exit,pnl,result});
+      i+=2;
+    }
+
+    const total=wins+losses;
+    const rate=total?wins/total*100:0;
+    const net=balance-100;
+
+    $("backResults").innerHTML=`
+      <div class="grid" style="margin-top:12px">
+        <div class="stat"><small>Total trades</small><strong>${total}</strong></div>
+        <div class="stat"><small>Win rate</small><strong>${fmt(rate,1)}%</strong></div>
+        <div class="stat"><small>Wins / Losses</small><strong>${wins} / ${losses}</strong></div>
+        <div class="stat"><small>Net PNL</small><strong class="${net>=0?"good":"bad"}">${fmt(net,2)} USDT</strong></div>
+        <div class="stat"><small>Final balance</small><strong>${fmt(balance,2)}</strong></div>
+        <div class="stat"><small>Max drawdown</small><strong>${fmt(maxDD,2)}%</strong></div>
+      </div>
+      <p class="notice">Symbol: ${symbol} · 15M candles: ${c15.length}<br>
+      Risk: 1% per trade · Reward/risk: 1:2<br>
+      Fees and slippage are not included. Trades with no SL/TP hit within 48 candles are excluded. Same-candle SL/TP ambiguity is resolved in favor of the stop loss.</p>
+    `;
+
+  }catch(e){
+    $("backResults").textContent="Backtest error: "+e.message;
+  }finally{
+    $("backBtn").disabled=false;
+  }
+}
+
+/* ==============================
+   INITIALIZATION
+============================== */
+
+load();
+
+$("connection").textContent="Ready. Connects to Binance public Futures data when scanning.";
+
+window.addEventListener("beforeunload",()=>{
+  save();
+});
 
 </script>
 </body>
